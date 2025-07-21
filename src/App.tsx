@@ -6,6 +6,7 @@ import Map from './pages/map'
 import MapPage from './pages/map_ai'
 import MaintenanceCards from './pages/maintenance'
 import ModelsPage from './pages/models'
+import BiznestForm from './pages/biznest/form'
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path="/maps/ai" element={<MapPage />} />
           <Route path="/maintenance" element={<MaintenanceCards />} />
           <Route path="/models" element={<ModelsPage />} />
+          <Route path="/biznest/form" element={<BiznestForm />} />
           {/* inside */}
           {/* Add more routes as needed */}
         </Routes>

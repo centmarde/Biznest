@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import {  MapPinned, Home,  Settings, Users, ChevronDown, ChevronUp } from "lucide-react"
+import {  MapPinned, Home,  Settings, Users, ChevronDown, ChevronUp, Building2 } from "lucide-react"
 import { useTheme } from "@/theme/theme"
 import { useNavigate } from "react-router-dom"
 
@@ -27,6 +27,12 @@ export const navItems: NavItem[] = [
     icon: Home,
     href: "/home",
   },
+  {
+    id: "biznest-form",
+    label: "Business Setup",
+    icon: Building2,
+    href: "/biznest/form",
+  },
   /* {
     id: "packages",
     label: "Packages",
@@ -39,11 +45,6 @@ export const navItems: NavItem[] = [
     icon: MapPinned,
     href: "#",
     children: [
-      {
-        id: "maps-biznests",
-        label: "Biznests",
-        href: "/maps/biznests",
-      },
       {
         id: "maps-view",
         label: "View Map",

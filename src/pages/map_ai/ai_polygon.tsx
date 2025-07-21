@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React/* , { useState } */ from 'react';
 import { useTheme } from '../../theme/theme';
 
 interface AIPolygonCreatorProps {
@@ -9,7 +9,7 @@ interface AIPolygonCreatorProps {
 }
 
 const AIPolygonCreator: React.FC<AIPolygonCreatorProps> = ({
-  onPolygonComplete,
+  // onPolygonComplete,
   onCancel,
   onStartDrawing,
   isDrawing

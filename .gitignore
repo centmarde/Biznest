@@ -1,4 +1,6 @@
 # Logs
+
+.env
 logs
 *.log
 npm-debug.log*
@@ -13,6 +15,7 @@ dist-ssr
 *.local
 
 # Editor directories and files
+/android
 .vscode/*
 !.vscode/extensions.json
 .idea
