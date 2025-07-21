@@ -1,7 +1,7 @@
 "use client"
 
 import { MapPin, MoreHorizontal, Star, Users } from "lucide-react"
-import theme from "@/theme/theme"
+import { useTheme } from "@/theme/theme"
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -55,6 +55,7 @@ const tourismData = [
 ]
 
 export function TourismSpots() {
+  const theme = useTheme();
   const cardStyle = {
     ...theme.components.card,
   }

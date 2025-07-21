@@ -3,7 +3,7 @@
 import * as React from "react"
 import { Bell, LogOut, Menu, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import theme from "@/theme/theme"
+import { useTheme } from "@/theme/theme"
 import Logo from "@/components/ui/logo"
 import NotificationsComponent from "@/components/navbar/notifications"
 import NavItems, { getActiveItem } from "@/components/navbar/navitems"
@@ -18,9 +18,9 @@ interface MainSidebarProps extends React.ComponentPropsWithoutRef<"div"> {
 export function MainSidebar({ isMobile = false, className, ...props }: MainSidebarProps) {
   const [activeTab, setActiveTab] = React.useState("dashboard")
   const [notificationCount, setNotificationCount] = React.useState(3)
-  const [isOpen, setIsOpen] = React.useState(false)
   const [showNotifications, setShowNotifications] = React.useState(false)
   const navigate = useNavigate()
+  const theme = useTheme()
   
   // Mobile drawer state
   const [drawerOpen, setDrawerOpen] = React.useState(false)
@@ -223,3 +223,13 @@ export function MainSidebar({ isMobile = false, className, ...props }: MainSideb
 }
 
 export default MainSidebar;
+
+function setIsOpen(isOpen: boolean) {
+  // This function should be using setDrawerOpen instead
+  // since that's what controls the mobile sidebar visibility
+  setDrawerOpen(isOpen);
+}
+function setDrawerOpen(isOpen: boolean) {
+  throw new Error("Function not implemented.")
+}
+

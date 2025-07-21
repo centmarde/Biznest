@@ -3,7 +3,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { useEffect, useState } from "react"
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts"
-import theme from "@/theme/theme"
+import { useTheme } from "@/theme/theme"
 
 const data = [
   { day: "Mon", visitors: 420 },
@@ -16,6 +16,7 @@ const data = [
 ]
 
 export function TouristActivity() {
+  const theme = useTheme();
   // Use client-side rendering for charts to avoid SSR issues
   const [isMounted, setIsMounted] = useState(false)
 

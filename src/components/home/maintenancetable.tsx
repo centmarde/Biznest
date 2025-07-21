@@ -1,7 +1,7 @@
 "use client"
 
 import { AlertTriangle, ArrowUpDown, Building, Clock, MoreHorizontal } from "lucide-react"
-import theme from "@/theme/theme"
+import { useTheme } from "@/theme/theme"
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -60,6 +60,7 @@ const maintenanceData = [
 ]
 
 export function MaintenanceTable() {
+  const theme = useTheme();
   const cardStyle = {
     ...theme.components.card,
   }

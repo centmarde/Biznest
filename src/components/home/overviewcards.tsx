@@ -1,11 +1,12 @@
 "use client"
 
 import { AlertTriangle, Landmark, MapPin, Users } from "lucide-react"
-import theme from "@/theme/theme"
+import { useTheme } from "@/theme/theme"
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
 export function OverviewCards() {
+  const theme = useTheme();
   const cardStyle = {
     ...theme.components.card,
   }

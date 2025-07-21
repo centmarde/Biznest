@@ -1,7 +1,7 @@
 import React from "react";
 import { Bell, CheckSquare, CheckCircle, AlertCircle, InfoIcon, ChevronDown, ChevronUp, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import theme from "@/theme/theme";
+import { useTheme } from "@/theme/theme";
 
 type NotificationType = "info" | "warning" | "success";
 
@@ -19,6 +19,7 @@ interface NotificationsProps {
 }
 
 const NotificationsComponent: React.FC<NotificationsProps> = ({ onClose }) => {
+  const theme = useTheme();
   const [notifications, setNotifications] = React.useState<Notification[]>([
     {
       id: "1",

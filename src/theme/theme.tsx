@@ -1,13 +1,23 @@
-import React, { createContext, useContext, ReactNode } from 'react';
+import React, { createContext, useContext, ReactNode, useState } from 'react';
 
-// Color palette
-const colors = {
-    primary: '#113F67',
-    secondary: '#34699A',
-    tertiary: '#58A0C8',
-    background: '#FDF5AA',
-    text:'#113F67',
-    mutedText: '#58A0C8',
+// Light theme colors
+const lightColors = {
+    primary: '#151515',
+    secondary: '#151515',
+    tertiary: '#151515',
+    background: '#ffffff',
+    text:'#151515',
+    mutedText: '#151515',
+};
+
+// Dark theme colors
+const darkColors = {
+    primary: '#ffffff',
+    secondary: '#e5e5e5',
+    tertiary: '#d1d1d1',
+    background: '#151515',
+    text: '#ffffff',
+    mutedText: '#e5e5e5',
 };
 
 // Custom style interfaces with hover states
@@ -24,7 +34,7 @@ interface TextStyles {
 
 // Theme interface
 interface ThemeType {
-  colors: typeof colors;
+  colors: typeof lightColors;
   components: {
     button: {
       primary: StyleWithHover;
@@ -35,11 +45,15 @@ interface ThemeType {
     input: StyleWithHover;
     text: TextStyles;
   };
+  isDark: boolean;
+  toggleTheme: () => void;
 }
 
-// Define the theme
-const theme: ThemeType = {
+// Create a function to generate theme based on colors
+const createTheme = (colors: typeof lightColors, isDark: boolean, toggleTheme: () => void): ThemeType => ({
   colors,
+  isDark,
+  toggleTheme,
   components: {
     button: {
       primary: {
@@ -124,13 +138,19 @@ const theme: ThemeType = {
       },
     },
   },
-};
+});
 
 // Create context
-const ThemeContext = createContext<ThemeType>(theme);
+const ThemeContext = createContext<ThemeType | undefined>(undefined);
 
 // Custom hook for using the theme
-export const useTheme = () => useContext(ThemeContext);
+export const useTheme = () => {
+  const context = useContext(ThemeContext);
+  if (!context) {
+    throw new Error('useTheme must be used within a ThemeProvider');
+  }
+  return context;
+};
 
 // Theme provider component
 interface ThemeProviderProps {
@@ -138,12 +158,33 @@ interface ThemeProviderProps {
 }
 
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
+  // Initialize theme from localStorage or default to light mode
+  const [isDark, setIsDark] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const savedTheme = localStorage.getItem('theme');
+      return savedTheme === 'dark';
+    }
+    return false;
+  });
+
+  const toggleTheme = () => {
+    const newTheme = !isDark;
+    setIsDark(newTheme);
+    
+    // Save to localStorage
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('theme', newTheme ? 'dark' : 'light');
+    }
+  };
+
+  const currentTheme = createTheme(isDark ? darkColors : lightColors, isDark, toggleTheme);
+
   return (
-    <ThemeContext.Provider value={theme}>
+    <ThemeContext.Provider value={currentTheme}>
       {children}
     </ThemeContext.Provider>
   );
 };
 
 // Export the theme
-export default theme;
+export default lightColors;
