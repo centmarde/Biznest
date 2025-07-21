@@ -5,6 +5,7 @@ import { SiteAnalytics } from "@/components/home/siteanalytics"
 import { TourismSpots } from "@/components/home/tourismspots"
 import { TouristActivity } from "@/components/home/touristactivity"
 import DefaultLayout from "@/layout/default"
+import ChatButton from "@/components/AIrelated/ChatButton"
 import { Suspense } from "react"
 
 export default function DashboardPage() {
@@ -33,6 +34,7 @@ export default function DashboardPage() {
           </DashboardShell>
         </div>
       </div>
+      <ChatButton />
     </DefaultLayout>
   )
 }

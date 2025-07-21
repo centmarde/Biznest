@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Info, Camera, Sun, History, Layers, Landmark } from "lucide-react"
 import { useTheme } from "@/theme/theme"
 import DefaultLayout from "@/layout/default"
+import ChatButton from "@/components/AIrelated/ChatButton"
 
 function HeritageModelViewer() {
   const theme = useTheme();
@@ -186,6 +187,7 @@ export default function ModelsPage() {
   return (
     <DefaultLayout>
       <HeritageModelViewer />
+      <ChatButton />
     </DefaultLayout>
   );
 }

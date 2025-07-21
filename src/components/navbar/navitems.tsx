@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { Gift, MapPinned, Home,  Settings, Users, ChevronDown, ChevronUp } from "lucide-react"
+import {  MapPinned, Home,  Settings, Users, ChevronDown, ChevronUp } from "lucide-react"
 import theme from "@/theme/theme"
 import { useNavigate } from "react-router-dom"
 
@@ -27,12 +27,12 @@ export const navItems: NavItem[] = [
     icon: Home,
     href: "/home",
   },
-  {
+  /* {
     id: "packages",
     label: "Packages",
     icon: Gift,
     href: "/packages",
-  },
+  }, */
   {
     id: "maps",
     label: "Maps",

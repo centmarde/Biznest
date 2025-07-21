@@ -5,6 +5,7 @@ import PolygonControls from './maps/polygon_controls';
 import MapTabs, { MapType } from './maps/tabs';
 import HelpDialog from './maps/dialogs/help_dialog';
 import AddBiznestDialog from './maps/dialogs/add_biznest';
+import ChatButton from '@/components/AIrelated/ChatButton';
 import { ThemeProvider } from '../theme/theme';
 import theme from '../theme/theme';
 import axios from 'axios';
@@ -499,6 +500,7 @@ const MapPage: React.FC = () => {
             polygonPaths={selectedPolygon?.paths}
           />
         </div>
+        <ChatButton />
       </DefaultLayout>
     </ThemeProvider>
   );

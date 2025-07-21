@@ -12,13 +12,18 @@ function App() {
     <>
       <Router>
         <Routes>
+          {/* outside pages */}
           <Route path="/" element={<Hero />} />
+          {/*  end of outside  pages*/}
+
+          {/* inside  pages*/}
           <Route path="/more-info" element={<MoreInfo />} />
           <Route path="/home" element={<Home />} />
           <Route path="/maps/view" element={<Map />} />
           <Route path="/maps/ai" element={<MapPage />} />
           <Route path="/maintenance" element={<MaintenanceCards />} />
           <Route path="/models" element={<ModelsPage />} />
+          {/* inside */}
           {/* Add more routes as needed */}
         </Routes>
       </Router>

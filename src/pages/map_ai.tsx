@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import DefaultLayout from '../layout/default';
 import MapPreview from './maps/map_preview';
 import HelpDialog from './maps/dialogs/help_dialog';
+import ChatButton from '@/components/AIrelated/ChatButton';
 import { ThemeProvider } from '../theme/theme';
 import theme from '../theme/theme';
 import axios from 'axios';
@@ -339,6 +340,7 @@ const MapAIPage: React.FC = () => {
             onClose={() => setHelpDialogOpen(false)} 
           />
         </div>
+        <ChatButton />
       </DefaultLayout>
     </ThemeProvider>
   );

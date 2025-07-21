@@ -13,6 +13,7 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination"
 import DefaultLayout from "@/layout/default"
+import ChatButton from "@/components/AIrelated/ChatButton"
 import theme from "@/theme/theme"
 import MaintenanceTabs from "./maintenance/tabs"
 // import { Input } from "@/components/ui/input"
@@ -42,6 +43,7 @@ export default function BiznestMaintenancePage() {
           addBiznestComponent={<BiznestPreservationForm />}
         />
       </div>
+      <ChatButton />
     </DefaultLayout>
   )
 }

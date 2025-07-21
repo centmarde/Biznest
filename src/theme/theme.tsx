@@ -2,12 +2,12 @@ import React, { createContext, useContext, ReactNode } from 'react';
 
 // Color palette
 const colors = {
-    primary: '#205781',
-    secondary: '#4F959D',
-    tertiary: '#98D2C0',
-    background: '#F6F8D5',
-    text:'#205781',
-    mutedText: '#4F959D',
+    primary: '#113F67',
+    secondary: '#34699A',
+    tertiary: '#58A0C8',
+    background: '#FDF5AA',
+    text:'#113F67',
+    mutedText: '#58A0C8',
 };
 
 // Custom style interfaces with hover states
