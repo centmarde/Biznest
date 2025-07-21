@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Badge } from "@/components/ui/badge"
-import theme from "@/theme/theme"
+import { useTheme } from "@/theme/theme"
 
 export default function BiznestPreservationForm() {
   const [materials, setMaterials] = useState("")
@@ -17,6 +17,7 @@ export default function BiznestPreservationForm() {
   const [age, setAge] = useState("")
   const [issue, setIssue] = useState("")
   const [others, setOthers] = useState("")
+  const theme = useTheme();
   const { colors } = theme
 
   const materialSuggestions = ["Stone", "Wood", "Brick", "Metal", "Concrete", "Ceramic", "Glass"]

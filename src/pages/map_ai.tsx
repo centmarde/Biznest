@@ -3,13 +3,13 @@ import DefaultLayout from '../layout/default';
 import MapPreview from './maps/map_preview';
 import HelpDialog from './maps/dialogs/help_dialog';
 import ChatButton from '@/components/AIrelated/ChatButton';
-import { ThemeProvider } from '../theme/theme';
-import theme from '../theme/theme';
+import { ThemeProvider, useTheme } from '../theme/theme';
 import axios from 'axios';
 import MapAITabs from './map_ai/tabs_ai';
 import AIPolygonCreator from './map_ai/ai_polygon';
 
 const MapAIPage: React.FC = () => {
+  const theme = useTheme();
   const { colors } = theme;
   const mapRef = useRef<any>(null);
   
@@ -151,9 +151,9 @@ const MapAIPage: React.FC = () => {
       name: `AI Generated Polygon ${heritagePolygons.length + 1}`,
       paths,
       options: {
-        fillColor: '#98D2C0',
+        fillColor: colors.tertiary,
         fillOpacity: 0.5,
-        strokeColor: '#98D2C0',
+        strokeColor: colors.tertiary,
         strokeWeight: 2
       },
       type: 'heritage'
@@ -284,7 +284,7 @@ const MapAIPage: React.FC = () => {
               <div className="flex items-center gap-2">
                 <div 
                   className="w-5 h-5 border border-gray-300"
-                  style={{ backgroundColor: "#2ecc71" }}
+                  style={{ backgroundColor: colors.secondary }}
                 />
                 <span style={{ color: colors.text }}>
                   Heritage Sites ({heritagePolygons.length})
@@ -296,7 +296,7 @@ const MapAIPage: React.FC = () => {
               <div className="flex items-center gap-2">
                 <div 
                   className="w-5 h-5 border border-gray-300"
-                  style={{ backgroundColor: "#ff5252" }}
+                  style={{ backgroundColor: colors.primary }}
                 />
                 <span style={{ color: colors.text }}>
                   Flood Zones ({floodPolygons.length})
@@ -308,7 +308,7 @@ const MapAIPage: React.FC = () => {
             <div className="flex items-center gap-2">
               <div 
                 className="w-5 h-5 border border-gray-300"
-                style={{ backgroundColor: "#98D2C0" }}
+                style={{ backgroundColor: colors.tertiary }}
               />
               <span style={{ color: colors.text }}>
                 AI-Generated Polygons

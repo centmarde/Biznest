@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import theme from '../../theme/theme';
+import { useTheme } from '../../theme/theme';
 import { PlusSquare, HelpCircle } from 'lucide-react';
 import AddHeritageDialog from '../maps/dialogs/add_heritage';
 import HelpDialog from '../maps/dialogs/help_dialog';
@@ -14,6 +14,7 @@ const MapAITabs: React.FC<MapAITabsProps> = ({
   /* onAddHeritage, */
   onHelp,
 }) => {
+  const theme = useTheme();
   const { colors } = theme;
   const [isHeritageDialogOpen, setIsHeritageDialogOpen] = useState(false);
   const [isHelpDialogOpen, setIsHelpDialogOpen] = useState(false);

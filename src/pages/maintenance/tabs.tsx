@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import theme from "@/theme/theme"
+import { useTheme } from "@/theme/theme"
 
 interface TabsProps {
   biznestMaintenanceComponent: React.ReactNode;
@@ -13,6 +13,7 @@ export default function MaintenanceTabs({
   biznestMaintenanceComponent, 
   addBiznestComponent 
 }: TabsProps) {
+  const theme = useTheme();
   const { colors } = theme;
   const [activeTab, setActiveTab] = useState<'biznest-maintenance' | 'add-biznest'>('biznest-maintenance');
   

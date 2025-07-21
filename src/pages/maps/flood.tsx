@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import DefaultLayout from '../../layout/default';
 import MapPreview from './map_preview';
-import { ThemeProvider } from '../../theme/theme';
-import theme from '../../theme/theme';
+import { ThemeProvider, useTheme } from '../../theme/theme';
 import axios from 'axios';
 
 const FloodMap: React.FC = () => {
@@ -33,8 +32,8 @@ const FloodMap: React.FC = () => {
           const floodData = response.data.polygons.map((polygon: any) => ({
             ...polygon,
             options: {
-              fillColor: "#ff5252",
-              strokeColor: "#d32f2f",
+              fillColor: colors.primary,
+              strokeColor: colors.secondary,
               fillOpacity: 0.3,
               strokeWeight: 2
             }
@@ -51,6 +50,7 @@ const FloodMap: React.FC = () => {
     fetchFloodPolygons();
   }, []);
 
+  const theme = useTheme();
   const { colors } = theme;
 
   return (
@@ -107,7 +107,7 @@ const FloodMap: React.FC = () => {
             <div className="flex items-center gap-2">
               <div 
                 className="w-5 h-5 border border-gray-300"
-                style={{ backgroundColor: "#ff5252" }}
+                style={{ backgroundColor: colors.primary }}
               />
               <span style={{ color: colors.text }}>
                 Flood Zones

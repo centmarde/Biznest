@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/pagination"
 import DefaultLayout from "@/layout/default"
 import ChatButton from "@/components/AIrelated/ChatButton"
-import theme from "@/theme/theme"
+import { useTheme } from "@/theme/theme"
 import MaintenanceTabs from "./maintenance/tabs"
 // import { Input } from "@/components/ui/input"
 // import { Label } from "@/components/ui/label"
@@ -32,6 +32,8 @@ interface BiznestService {
 const CARDS_PER_PAGE = 6
 
 export default function BiznestMaintenancePage() {
+  const theme = useTheme();
+  
   return (
     <DefaultLayout>
       <div className="space-y-8">
@@ -52,6 +54,7 @@ function BiznestMaintenanceCards() {
   const [biznestServices, setBiznestServices] = useState<BiznestService[]>([])
   const [loading, setLoading] = useState(true)
   const [currentPage, setCurrentPage] = useState(1)
+  const theme = useTheme();
   const { colors } = theme
 
   useEffect(() => {

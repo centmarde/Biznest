@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import theme from '../../theme/theme';
+import { useTheme } from '../../theme/theme';
 
 interface AIPolygonCreatorProps {
   onPolygonComplete?: (polygon: any) => void;
@@ -14,6 +14,7 @@ const AIPolygonCreator: React.FC<AIPolygonCreatorProps> = ({
   onStartDrawing,
   isDrawing
 }) => {
+  const theme = useTheme();
   const { colors } = theme;
 
   const handleStartDrawing = () => {
@@ -42,7 +43,7 @@ const AIPolygonCreator: React.FC<AIPolygonCreatorProps> = ({
         <button
           className="px-4 py-2 rounded-md transition-all duration-200"
           style={{
-            backgroundColor: isDrawing ? '#f44336' : colors.tertiary,
+            backgroundColor: isDrawing ? colors.primary : colors.tertiary,
             color: isDrawing ? 'white' : colors.primary,
           }}
           onClick={isDrawing ? handleCancelDrawing : handleStartDrawing}
