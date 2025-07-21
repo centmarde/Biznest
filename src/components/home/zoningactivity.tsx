@@ -6,16 +6,16 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 import { useTheme } from "@/theme/theme"
 
 const data = [
-  { day: "Mon", visitors: 420 },
-  { day: "Tue", visitors: 380 },
-  { day: "Wed", visitors: 450 },
-  { day: "Thu", visitors: 520 },
-  { day: "Fri", visitors: 780 },
-  { day: "Sat", visitors: 1200 },
-  { day: "Sun", visitors: 980 },
+  { day: "Mon", permits: 12 },
+  { day: "Tue", permits: 8 },
+  { day: "Wed", permits: 15 },
+  { day: "Thu", permits: 18 },
+  { day: "Fri", permits: 25 },
+  { day: "Sat", permits: 5 },
+  { day: "Sun", permits: 2 },
 ]
 
-export function TouristActivity() {
+export function ZoningActivity() {
   const theme = useTheme();
   // Use client-side rendering for charts to avoid SSR issues
   const [isMounted, setIsMounted] = useState(false)
@@ -40,8 +40,8 @@ export function TouristActivity() {
     return (
       <Card style={cardStyle}>
         <CardHeader>
-          <CardTitle style={textStyle}>Tourist Activity</CardTitle>
-          <CardDescription style={mutedTextStyle}>Daily visitor count for the current week</CardDescription>
+          <CardTitle style={textStyle}>Permit Processing Activity</CardTitle>
+          <CardDescription style={mutedTextStyle}>Daily business permit approvals for the current week</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="h-[300px] w-full flex items-center justify-center" style={mutedTextStyle}>Loading chart...</div>
@@ -53,8 +53,8 @@ export function TouristActivity() {
   return (
     <Card style={cardStyle}>
       <CardHeader>
-        <CardTitle style={textStyle}>Tourist Activity</CardTitle>
-        <CardDescription style={mutedTextStyle}>Daily visitor count for the current week</CardDescription>
+        <CardTitle style={textStyle}>Permit Processing Activity</CardTitle>
+        <CardDescription style={mutedTextStyle}>Daily business permit approvals for the current week</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="h-[300px] w-full">
@@ -70,7 +70,7 @@ export function TouristActivity() {
                   color: theme.colors.text 
                 }} 
               />
-              <Bar dataKey="visitors" fill={theme.colors.secondary} radius={[4, 4, 0, 0]} />
+              <Bar dataKey="permits" fill={theme.colors.secondary} radius={[4, 4, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>

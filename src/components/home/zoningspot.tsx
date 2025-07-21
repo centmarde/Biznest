@@ -15,46 +15,51 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Progress } from "@/components/ui/progress"
 
-const tourismData = [
+// Function to generate random images using Picsum Photos API
+const getRandomBusinessImage = (seed: string, width: number = 120, height: number = 80) => {
+  // Convert seed to a number for consistent randomization
+  const seedNumber = Math.abs(seed.split('').reduce((a, b) => a + b.charCodeAt(0), 0));
+  // Use a range of IDs that tend to have good business/architectural photos
+  const imageId = (seedNumber % 900) + 100; // IDs between 100-999
+  return `https://picsum.photos/id/${imageId}/${width}/${height}`;
+}
+
+const businessData = [
   {
-    id: "T001",
-    name: "Ancient Temple of Ankor",
-    location: "Siem Reap, Cambodia",
-    visitors: 12500,
-    rating: 4.8,
-    popularity: 92,
-    image: "/images/buena.jpg?height=80&width=120",
+    id: "BZ001",
+    name: "Downtown Commercial District",
+    location: "Central Business District",
+    businesses: 245,
+    zoneType: "Commercial",
+    occupancy: 92,
   },
   {
-    id: "T002",
-    name: "Machu Picchu",
-    location: "Cusco Region, Peru",
-    visitors: 10200,
-    rating: 4.9,
-    popularity: 95,
-    image: "/images/buena.jpg?height=80&width=120",
+    id: "BZ002",
+    name: "Tech Innovation Hub",
+    location: "North Industrial Park",
+    businesses: 89,
+    zoneType: "Mixed-Use",
+    occupancy: 85,
   },
   {
-    id: "T003",
-    name: "Colosseum",
-    location: "Rome, Italy",
-    visitors: 9800,
-    rating: 4.7,
-    popularity: 88,
-    image: "/images/buena.jpg?height=80&width=120",
+    id: "BZ003",
+    name: "Riverside Business Park",
+    location: "Waterfront District",
+    businesses: 156,
+    zoneType: "Office",
+    occupancy: 78,
   },
   {
-    id: "T004",
-    name: "Taj Mahal",
-    location: "Agra, India",
-    visitors: 8900,
-    rating: 4.8,
-    popularity: 90,
-    image: "/images/buena.jpg?height=80&width=120",
+    id: "BZ004",
+    name: "Market Square Shopping Center",
+    location: "Old Town",
+    businesses: 203,
+    zoneType: "Retail",
+    occupancy: 95,
   },
 ]
 
-export function TourismSpots() {
+export function BusinessZones() {
   const theme = useTheme();
   const cardStyle = {
     ...theme.components.card,
@@ -79,8 +84,8 @@ export function TourismSpots() {
     <Card style={cardStyle}>
       <CardHeader className="flex flex-row items-center">
         <div className="grid gap-2">
-          <CardTitle className="text-xl" style={textStyle}>Top Tourism Spots</CardTitle>
-          <CardDescription style={mutedTextStyle}>Most popular biznest sites by visitor count</CardDescription>
+          <CardTitle className="text-xl" style={textStyle}>Active Business Zones</CardTitle>
+          <CardDescription style={mutedTextStyle}>Key commercial and business districts by activity</CardDescription>
         </div>
         <Button className="ml-auto gap-1" style={buttonStyle}>
           <MapPin className="h-4 w-4" />
@@ -89,17 +94,21 @@ export function TourismSpots() {
       </CardHeader>
       <CardContent>
         <div className="grid gap-6">
-          {tourismData.map((spot) => (
-            <div key={spot.id} className="flex items-center gap-4">
+          {businessData.map((zone) => (
+            <div key={zone.id} className="flex items-center gap-4">
               <img
-                src={spot.image || "/placeholder.svg"}
-                alt={spot.name}
+                src={getRandomBusinessImage(zone.id)}
+                alt={zone.name}
                 className="rounded-md object-cover"
                 style={{ width: '120px', height: '80px' }}
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.src = `https://via.placeholder.com/120x80/6B7280/FFFFFF?text=${zone.zoneType}`;
+                }}
               />
               <div className="grid flex-1 gap-1">
                 <div className="flex items-center justify-between">
-                  <div className="font-semibold" style={textStyle}>{spot.name}</div>
+                  <div className="font-semibold" style={textStyle}>{zone.name}</div>
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <Button variant="ghost" size="icon">
@@ -109,31 +118,31 @@ export function TourismSpots() {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" style={{ backgroundColor: theme.colors.background, color: theme.colors.text }}>
                       <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                      <DropdownMenuItem>View details</DropdownMenuItem>
-                      <DropdownMenuItem>View analytics</DropdownMenuItem>
+                      <DropdownMenuItem>View zone details</DropdownMenuItem>
+                      <DropdownMenuItem>View business analytics</DropdownMenuItem>
                       <DropdownMenuSeparator />
-                      <DropdownMenuItem>Manage site</DropdownMenuItem>
+                      <DropdownMenuItem>Manage zoning</DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </div>
                 <div className="text-sm text-muted-foreground flex items-center" style={mutedTextStyle}>
-                  <MapPin className="mr-1 h-3 w-3" /> {spot.location}
+                  <MapPin className="mr-1 h-3 w-3" /> {zone.location}
                 </div>
                 <div className="flex items-center justify-between text-sm">
                   <div className="flex items-center gap-4">
                     <div className="flex items-center" style={textStyle}>
                       <Users className="mr-1 h-4 w-4" style={mutedTextStyle} />
-                      <span>{spot.visitors.toLocaleString()}</span>
+                      <span>{zone.businesses} businesses</span>
                     </div>
                     <div className="flex items-center" style={textStyle}>
                       <Star className="mr-1 h-4 w-4" style={{ color: theme.colors.tertiary }} />
-                      <span>{spot.rating}</span>
+                      <span>{zone.zoneType}</span>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-xs" style={mutedTextStyle}>Popularity</span>
-                    <Progress value={spot.popularity} className="h-2 w-20" style={{ backgroundColor: theme.colors.tertiary }} />
-                    <span className="text-xs" style={textStyle}>{spot.popularity}%</span>
+                    <span className="text-xs" style={mutedTextStyle}>Occupancy</span>
+                    <Progress value={zone.occupancy} className="h-2 w-20" style={{ backgroundColor: theme.colors.tertiary }} />
+                    <span className="text-xs" style={textStyle}>{zone.occupancy}%</span>
                   </div>
                 </div>
               </div>

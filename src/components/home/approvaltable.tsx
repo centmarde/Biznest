@@ -16,50 +16,50 @@ import {
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
 
-const maintenanceData = [
+const approvalData = [
   {
-    id: "M001",
-    site: "Ancient Temple of Ankor",
-    issue: "Structural damage to east wall",
+    id: "BP001",
+    business: "Tech Startup Hub",
+    type: "Commercial License",
     priority: "High",
-    status: "Pending",
-    dueDate: "2023-09-15",
+    status: "Under Review",
+    dueDate: "2024-08-15",
   },
   {
-    id: "M002",
-    site: "Historic Castle Ruins",
-    issue: "Water damage to foundation",
+    id: "ZA002",
+    business: "Riverside Shopping Mall",
+    type: "Zoning Change",
     priority: "Critical",
-    status: "In Progress",
-    dueDate: "2023-09-10",
+    status: "Pending Approval",
+    dueDate: "2024-08-10",
   },
   {
-    id: "M003",
-    site: "Colonial Museum",
-    issue: "Roof leakage in main hall",
+    id: "BP003",
+    business: "Local Coffee Chain",
+    type: "Business Permit",
     priority: "Medium",
-    status: "Scheduled",
-    dueDate: "2023-09-22",
+    status: "Approved",
+    dueDate: "2024-08-22",
   },
   {
-    id: "M004",
-    site: "Ancient Lighthouse",
-    issue: "Erosion of base structure",
+    id: "ZA004",
+    business: "Industrial Warehouse",
+    type: "Zoning Variance",
     priority: "Critical",
-    status: "Pending",
-    dueDate: "2023-09-08",
+    status: "Under Review",
+    dueDate: "2024-08-08",
   },
   {
-    id: "M005",
-    site: "Indigenous Rock Art Site",
-    issue: "Vandalism protection needed",
+    id: "BP005",
+    business: "Downtown Restaurant",
+    type: "Liquor License",
     priority: "High",
-    status: "In Progress",
-    dueDate: "2023-09-18",
+    status: "Pending Approval",
+    dueDate: "2024-08-18",
   },
 ]
 
-export function MaintenanceTable() {
+export function ApprovalTable() {
   const theme = useTheme();
   const cardStyle = {
     ...theme.components.card,
@@ -91,16 +91,16 @@ interface BadgeStyleProps {
 }
 
 // Define a type for the priority and status values
-type MaintenancePriorityType = "Critical" | "High" | "Medium" | "Low";
-type MaintenanceStatusType = "In Progress" | "Pending" | "Scheduled" | "Completed";
+type ApprovalPriorityType = "Critical" | "High" | "Medium" | "Low";
+type ApprovalStatusType = "Pending Approval" | "Under Review" | "Approved" | "Rejected";
 
-const getBadgeStyle = (type: MaintenancePriorityType | MaintenanceStatusType): BadgeStyleProps => {
+const getBadgeStyle = (type: ApprovalPriorityType | ApprovalStatusType): BadgeStyleProps => {
     if (type === "Critical" || type === "High") {
         return { backgroundColor: theme.colors.primary, color: theme.colors.background };
-    } else if (type === "In Progress") {
+    } else if (type === "Under Review") {
         return { backgroundColor: theme.colors.secondary, color: theme.colors.background };
-    } else if (type === "Scheduled") {
-        return { backgroundColor: theme.colors.tertiary, color: theme.colors.text };
+    } else if (type === "Approved") {
+        return { backgroundColor: '#151515', color: '#ffffff' }; // Green background with white text for approved items
     } else {
         return { 
             backgroundColor: 'transparent', 
@@ -114,8 +114,8 @@ const getBadgeStyle = (type: MaintenancePriorityType | MaintenanceStatusType): B
     <Card style={cardStyle}>
       <CardHeader className="flex flex-row items-center">
         <div className="grid gap-2">
-          <CardTitle className="text-xl" style={textStyle}>Urgent Maintenance</CardTitle>
-          <CardDescription style={mutedTextStyle}>Descreption Here</CardDescription>
+          <CardTitle className="text-xl" style={textStyle}>Pending Approvals</CardTitle>
+          <CardDescription style={mutedTextStyle}>Business permits and zoning applications awaiting approval</CardDescription>
         </div>
         <Button className="ml-auto gap-1" style={buttonStyle}>
           <Building className="h-4 w-4" />
@@ -127,8 +127,8 @@ const getBadgeStyle = (type: MaintenancePriorityType | MaintenanceStatusType): B
           <TableHeader>
             <TableRow style={tableStyles}>
               <TableHead className="w-[100px]">ID</TableHead>
-              <TableHead>Site</TableHead>
-              <TableHead>Issue</TableHead>
+              <TableHead>Business</TableHead>
+              <TableHead>Application Type</TableHead>
               <TableHead>
                 <div className="flex items-center gap-1">
                   Priority
@@ -150,14 +150,14 @@ const getBadgeStyle = (type: MaintenancePriorityType | MaintenanceStatusType): B
             </TableRow>
           </TableHeader>
           <TableBody>
-            {maintenanceData.map((item) => (
+            {approvalData.map((item) => (
               <TableRow key={item.id} style={tableStyles}>
                 <TableCell className="font-medium">{item.id}</TableCell>
-                <TableCell>{item.site}</TableCell>
-                <TableCell>{item.issue}</TableCell>
+                <TableCell>{item.business}</TableCell>
+                <TableCell>{item.type}</TableCell>
                 <TableCell>
                   <Badge
-                    style={getBadgeStyle(item.priority as MaintenancePriorityType)}
+                    style={getBadgeStyle(item.priority as ApprovalPriorityType)}
                   >
                     {item.priority === "Critical" && <AlertTriangle className="mr-1 h-3 w-3" />}
                     {item.priority}
@@ -165,9 +165,9 @@ const getBadgeStyle = (type: MaintenancePriorityType | MaintenanceStatusType): B
                 </TableCell>
                 <TableCell>
                   <Badge
-                    style={getBadgeStyle(item.status as MaintenanceStatusType)}
+                    style={getBadgeStyle(item.status as ApprovalStatusType)}
                   >
-                    {item.status === "Scheduled" && <Clock className="mr-1 h-3 w-3" />}
+                    {item.status === "Approved" && <Clock className="mr-1 h-3 w-3" />}
                     {item.status}
                   </Badge>
                 </TableCell>
@@ -182,10 +182,10 @@ const getBadgeStyle = (type: MaintenancePriorityType | MaintenanceStatusType): B
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" style={{ backgroundColor: theme.colors.background, color: theme.colors.text }}>
                       <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                      <DropdownMenuItem>View details</DropdownMenuItem>
+                      <DropdownMenuItem>Review application</DropdownMenuItem>
                       <DropdownMenuItem>Update status</DropdownMenuItem>
                       <DropdownMenuSeparator />
-                      <DropdownMenuItem>Assign team</DropdownMenuItem>
+                      <DropdownMenuItem>Schedule meeting</DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </TableCell>

@@ -1,4 +1,4 @@
-import  { useState } from 'react'
+import  { useState, useEffect } from 'react'
 // import { useNavigate } from 'react-router-dom'
 import LoginPage from '../components/login'
 import RegisterPage from '../components/register'
@@ -12,6 +12,34 @@ const ThemedHero = () => {
   // const navigate = useNavigate();
   const [showLogin, setShowLogin] = useState(true);
   const [isPageLoading, setIsPageLoading] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(1);
+  
+  // Array of available background images
+  const backgroundImages = [
+    '/images/1.jpg',
+    '/images/2.jpg',
+    '/images/3.jpg',
+    '/images/4.jpg',
+    '/images/5.jpg'
+  ];
+  
+  // Auto-carousel effect with random intervals
+  useEffect(() => {
+    const startCarousel = () => {
+      // Random interval between 3-8 seconds
+      const randomInterval = Math.floor(Math.random() * 5000) + 3000;
+      
+      setTimeout(() => {
+        setCurrentImageIndex((prevIndex) => {
+          const nextIndex = prevIndex >= backgroundImages.length ? 1 : prevIndex + 1;
+          return nextIndex;
+        });
+        startCarousel(); // Restart with new random interval
+      }, randomInterval);
+    };
+    
+    startCarousel();
+  }, [backgroundImages.length]);
   
   const handleSwitchToRegister = () => {
     setShowLogin(false);
@@ -31,10 +59,13 @@ const ThemedHero = () => {
       )}
       
       <div className="relative flex-3 bg-cover bg-center hidden md:block" 
-           style={{ backgroundImage: "url('/images/1.jpg')" }}
+           style={{ 
+             backgroundImage: `url('${backgroundImages[currentImageIndex - 1]}')`,
+             transition: 'background-image 1s ease-in-out'
+           }}
            aria-label="Background Image">
         {/* Overlay */}
-        <div className="absolute inset-0 bg-[rgba(32,87,129,0.3)]"></div>
+        <div className="absolute inset-0 bg-[rgba(0,0,0,0.3)]"></div>
         
         {/* Logo */}
         <div className="absolute top-5 left-5 z-10">
