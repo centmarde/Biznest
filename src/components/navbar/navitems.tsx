@@ -1,9 +1,9 @@
 "use client"
 
 import * as React from "react"
-import { Gift, MapPinned, Home, PenToolIcon as Tool, Settings, Users, ChevronDown, ChevronUp, Box as Box3d } from "lucide-react"
-import theme from "@/theme/theme"
-import { Link, useNavigate } from "react-router-dom"
+import {  MapPinned, Home,  Settings, Users, ChevronDown, ChevronUp } from "lucide-react"
+import { useTheme } from "@/theme/theme"
+import { useNavigate } from "react-router-dom"
 
 interface NavItemsProps {
   activeTab: string;
@@ -27,12 +27,12 @@ export const navItems: NavItem[] = [
     icon: Home,
     href: "/home",
   },
-  {
+  /* {
     id: "packages",
     label: "Packages",
     icon: Gift,
     href: "/packages",
-  },
+  }, */
   {
     id: "maps",
     label: "Maps",
@@ -56,7 +56,7 @@ export const navItems: NavItem[] = [
       },
     ],
   },
-  {
+ /*  {
     id: "maintenance",
     label: "Maintenance",
     icon: Tool,
@@ -67,7 +67,7 @@ export const navItems: NavItem[] = [
     label: "3dModels",
     icon: Box3d,
     href: "/models",
-  },
+  }, */
   {
     id: "users",
     label: "Users",
@@ -102,6 +102,7 @@ export const navItems: NavItem[] = [
 export default function NavItems({ activeTab, onTabClick, className = "", padding = "px-2" }: NavItemsProps) {
   const [expandedItems, setExpandedItems] = React.useState<string[]>([]);
   const navigate = useNavigate();
+  const theme = useTheme();
 
   const toggleExpand = (itemId: string) => {
     setExpandedItems(prev => 
@@ -153,7 +154,7 @@ export default function NavItems({ activeTab, onTabClick, className = "", paddin
           </div>
           
           {item.children && isExpanded(item.id) && (
-            <div className="ml-4 pl-4 border-l border-gray-300 mt-1">
+            <div className="ml-4 pl-4 mt-1" style={{ borderLeft: `1px solid ${theme.colors.tertiary}` }}>
               {item.children.map((child) => (
                 <div 
                   key={child.id}

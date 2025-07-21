@@ -1,10 +1,11 @@
 import { DashboardShell } from "@/components/home/dashboardshell"
-import { MaintenanceTable } from "@/components/home/maintenancetable"
+import { ApprovalTable } from "@/components/home/approvaltable"
 import { OverviewCards } from "@/components/home/overviewcards"
 import { SiteAnalytics } from "@/components/home/siteanalytics"
-import { TourismSpots } from "@/components/home/tourismspots"
-import { TouristActivity } from "@/components/home/touristactivity"
+import { BusinessZones } from "@/components/home/zoningspot"
+import { ZoningActivity } from "@/components/home/zoningactivity"
 import DefaultLayout from "@/layout/default"
+import ChatButton from "@/components/AIrelated/ChatButton"
 import { Suspense } from "react"
 
 export default function DashboardPage() {
@@ -24,15 +25,16 @@ export default function DashboardPage() {
                 <Suspense
                   fallback={<div className="h-[300px] flex items-center justify-center">Loading activity...</div>}
                 >
-                  <TouristActivity />
+                  <ZoningActivity />
                 </Suspense>
               </div>
-              <MaintenanceTable />
-              <TourismSpots />
+              <ApprovalTable/>
+              <BusinessZones />
             </div>
           </DashboardShell>
         </div>
       </div>
+      <ChatButton />
     </DefaultLayout>
   )
 }

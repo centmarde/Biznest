@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import DefaultLayout from '../../layout/default';
 import MapPreview from './map_preview';
-import { ThemeProvider } from '../../theme/theme';
-import theme from '../../theme/theme';
+import { ThemeProvider, useTheme } from '../../theme/theme';
 import axios from 'axios';
 
 const OriginMap: React.FC = () => {
@@ -33,8 +32,8 @@ const OriginMap: React.FC = () => {
           const biznestData = response.data.polygons.map((polygon: any) => ({
             ...polygon,
             options: {
-              fillColor: "#2ecc71",
-              strokeColor: "#27ae60",
+              fillColor: colors.secondary,
+              strokeColor: colors.primary,
               fillOpacity: 0.3,
               strokeWeight: 2
             }
@@ -51,6 +50,7 @@ const OriginMap: React.FC = () => {
     fetchBiznestPolygons();
   }, []);
 
+  const theme = useTheme();
   const { colors } = theme;
 
   return (
@@ -105,7 +105,7 @@ const OriginMap: React.FC = () => {
             <div className="flex items-center gap-2">
               <div 
                 className="w-5 h-5 border border-gray-300"
-                style={{ backgroundColor: "#2ecc71" }}
+                style={{ backgroundColor: colors.secondary }}
               />
               <span style={{ color: colors.text }}>
                 Biznest Sites

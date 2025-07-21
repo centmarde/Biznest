@@ -5,18 +5,19 @@ import PolygonControls from './maps/polygon_controls';
 import MapTabs, { MapType } from './maps/tabs';
 import HelpDialog from './maps/dialogs/help_dialog';
 import AddBiznestDialog from './maps/dialogs/add_biznest';
-import { ThemeProvider } from '../theme/theme';
-import theme from '../theme/theme';
+import ChatButton from '@/components/AIrelated/ChatButton';
+import { ThemeProvider, useTheme } from '../theme/theme';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const MapPage: React.FC = () => {
+  const theme = useTheme();
   const { colors } = theme;
   const navigate = useNavigate();
   // Updated coordinates to 8°58′N 125°25′E (Philippines)
-  const [location, setLocation] = useState({ lat: 8.97, lng: 125.42 });
-  const [zoom, setZoom] = useState(16); // Increased zoom level for better view of smaller polygons
-  const [markers, setMarkers] = useState([
+  const [location/* , setLocation */] = useState({ lat: 8.97, lng: 125.42 });
+  const [zoom/* , setZoom */] = useState(16); // Increased zoom level for better view of smaller polygons
+  const [markers/* , setMarkers */] = useState([
     { lat: 8.97, lng: 125.42, title: 'Philippine Location (8°58′N 125°25′E)' },
   ]);
   
@@ -156,8 +157,8 @@ const MapPage: React.FC = () => {
     const newPolygon = {
       paths,
       options: {
-        fillColor: "#2ecc71",
-        strokeColor: "#27ae60",
+        fillColor: colors.secondary,
+        strokeColor: colors.primary,
         fillOpacity: 0.3,
         strokeWeight: 2
       }
@@ -379,7 +380,7 @@ const MapPage: React.FC = () => {
                   <div className="flex items-center gap-2">
                     <div 
                       className="w-5 h-5 border border-gray-300"
-                      style={{ backgroundColor: "#2ecc71" }}
+                      style={{ backgroundColor: colors.secondary }}
                     />
                     <span style={{ color: colors.text }}>
                       Biznest Sites
@@ -390,7 +391,7 @@ const MapPage: React.FC = () => {
                   <div className="flex items-center gap-2">
                     <div 
                       className="w-5 h-5 border border-gray-300"
-                      style={{ backgroundColor: "#ff5252" }}
+                      style={{ backgroundColor: colors.primary }}
                     />
                     <span style={{ color: colors.text }}>
                       Flood Zones
@@ -400,7 +401,7 @@ const MapPage: React.FC = () => {
                 <div className="flex items-center gap-2">
                   <div 
                     className="w-5 h-5 border border-gray-300"
-                    style={{ backgroundColor: "#2ecc71" }}
+                    style={{ backgroundColor: colors.secondary }}
                   />
                   <span style={{ color: colors.text }}>
                     Custom Polygons
@@ -412,7 +413,7 @@ const MapPage: React.FC = () => {
               <div className="flex items-center gap-2">
                 <div 
                   className="w-5 h-5 border border-gray-300"
-                  style={{ backgroundColor: "#2ecc71" }}
+                  style={{ backgroundColor: colors.secondary }}
                 />
                 <span style={{ color: colors.text }}>
                   Biznest Sites
@@ -423,7 +424,7 @@ const MapPage: React.FC = () => {
               <div className="flex items-center gap-2">
                 <div 
                   className="w-5 h-5 border border-gray-300"
-                  style={{ backgroundColor: "#ff5252" }}
+                  style={{ backgroundColor: colors.primary }}
                 />
                 <span style={{ color: colors.text }}>
                   Flood Zones
@@ -499,6 +500,7 @@ const MapPage: React.FC = () => {
             polygonPaths={selectedPolygon?.paths}
           />
         </div>
+        <ChatButton />
       </DefaultLayout>
     </ThemeProvider>
   );

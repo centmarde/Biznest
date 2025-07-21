@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-import { useState, useEffect } from "react"
+import { useState/* , useEffect */ } from "react"
 import { useNavigate } from "react-router-dom"
 import { Github, Facebook, Instagram } from "lucide-react"
 import { ThemeProvider, useTheme } from "@/theme/theme"
@@ -58,13 +58,13 @@ const LoginContent = ({ onSwitchToRegister, setIsPageLoading }: LoginProps) => {
           Welcome! We're glad you're here 👋🏻
         </WelcomeGreeting>
         
-        <Card className="w-full max-w-[80%] bg-[#F6F8D5] border border-[#98D2C0] rounded-lg shadow-md text-sm">
+        <Card className="w-full max-w-[80%] rounded-lg shadow-md text-sm" style={theme.components.card}>
           <CardHeader className="space-y-1 text-center">
             <CardTitle className="text-2xl font-bold" style={theme.components.text.heading}>
-              Title here
+              Biznest
             </CardTitle>
             <CardDescription style={theme.components.text.small}>
-              Sign in to access the preservation system
+              Sign in to access the City Planner system
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -83,7 +83,7 @@ const LoginContent = ({ onSwitchToRegister, setIsPageLoading }: LoginProps) => {
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
                   <Label htmlFor="password" style={theme.components.text.body}>Password</Label>
-                  <a href="/forgot-password" className="text-sm text-[#205781] hover:text-[#4F959D] hover:underline transition-colors duration-300">
+                  <a href="/forgot-password" className="text-sm hover:underline transition-colors duration-300" style={{ color: theme.colors.secondary, ...theme.components.text.small }}>
                     Forgot password?
                   </a>
                 </div>
@@ -97,7 +97,8 @@ const LoginContent = ({ onSwitchToRegister, setIsPageLoading }: LoginProps) => {
               </div>
               <Button 
                 type="submit" 
-                className="w-full bg-[#205781] text-[#F6F8D5] rounded-md py-2.5 px-5 font-bold hover:bg-[#4F959D] transition-colors duration-300"
+                className="w-full rounded-md py-2.5 px-5 font-bold transition-colors duration-300"
+                style={theme.components.button.primary.base}
               >
                 Sign in
               </Button>
@@ -109,7 +110,7 @@ const LoginContent = ({ onSwitchToRegister, setIsPageLoading }: LoginProps) => {
                   <Separator className="w-full" />
                 </div>
                 <div className="relative flex justify-center text-xs uppercase">
-                  <span className="bg-white px-2" style={theme.components.text.small}>Or continue with</span>
+                  <span className="px-2" style={{ backgroundColor: theme.colors.background, ...theme.components.text.small }}>Or continue with</span>
                 </div>
               </div>
 
@@ -117,23 +118,35 @@ const LoginContent = ({ onSwitchToRegister, setIsPageLoading }: LoginProps) => {
                 <Button 
                   type="button" 
                   aria-label="Sign in with Facebook"
-                  className="bg-transparent border border-[#98D2C0] rounded-full w-10 h-10 p-0 flex items-center justify-center hover:bg-[rgba(152,210,192,0.1)] hover:transform hover:-translate-y-0.5 transition-all duration-300"
+                  className="rounded-full w-10 h-10 p-0 flex items-center justify-center hover:transform hover:-translate-y-0.5 transition-all duration-300"
+                  style={{ 
+                    backgroundColor: 'transparent', 
+                    border: `1px solid ${theme.colors.tertiary}` 
+                  }}
                 >
-                  <Facebook className="h-5 w-5 text-[#205781]" />
+                  <Facebook className="h-5 w-5" style={{ color: theme.colors.primary }} />
                 </Button>
                 <Button 
                   type="button" 
                   aria-label="Sign in with Instagram"
-                  className="bg-transparent border border-[#98D2C0] rounded-full w-10 h-10 p-0 flex items-center justify-center hover:bg-[rgba(152,210,192,0.1)] hover:transform hover:-translate-y-0.5 transition-all duration-300"
+                  className="rounded-full w-10 h-10 p-0 flex items-center justify-center hover:transform hover:-translate-y-0.5 transition-all duration-300"
+                  style={{ 
+                    backgroundColor: 'transparent', 
+                    border: `1px solid ${theme.colors.tertiary}` 
+                  }}
                 >
-                  <Instagram className="h-5 w-5 text-[#205781]" />
+                  <Instagram className="h-5 w-5" style={{ color: theme.colors.primary }} />
                 </Button>
                 <Button 
                   type="button" 
                   aria-label="Sign in with GitHub"
-                  className="bg-transparent border border-[#98D2C0] rounded-full w-10 h-10 p-0 flex items-center justify-center hover:bg-[rgba(152,210,192,0.1)] hover:transform hover:-translate-y-0.5 transition-all duration-300"
+                  className="rounded-full w-10 h-10 p-0 flex items-center justify-center hover:transform hover:-translate-y-0.5 transition-all duration-300"
+                  style={{ 
+                    backgroundColor: 'transparent', 
+                    border: `1px solid ${theme.colors.tertiary}` 
+                  }}
                 >
-                  <Github className="h-5 w-5 text-[#205781]" />
+                  <Github className="h-5 w-5" style={{ color: theme.colors.primary }} />
                 </Button>
               </div>
             </div>
@@ -143,7 +156,8 @@ const LoginContent = ({ onSwitchToRegister, setIsPageLoading }: LoginProps) => {
               Don&apos;t have an account?{" "}
               <a 
                 onClick={onSwitchToRegister} 
-                className="font-medium text-[#205781] hover:text-[#4F959D] hover:underline transition-colors duration-300 cursor-pointer"
+                className="font-medium hover:underline transition-colors duration-300 cursor-pointer"
+                style={{ color: theme.colors.secondary }}
               >
                 Create one
               </a>

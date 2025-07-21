@@ -1,5 +1,5 @@
 import React from 'react';
-import theme from '../../../theme/theme';
+import { useTheme } from '../../../theme/theme';
 
 interface AddHeritageDialogProps {
   isOpen: boolean;
@@ -16,6 +16,7 @@ const AddHeritageDialog: React.FC<AddHeritageDialogProps> = ({
   polygonId,
   polygonPaths
 }) => {
+  const theme = useTheme();
   const { colors } = theme;
 
   if (!isOpen) return null;

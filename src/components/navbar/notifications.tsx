@@ -1,7 +1,7 @@
 import React from "react";
 import { Bell, CheckSquare, CheckCircle, AlertCircle, InfoIcon, ChevronDown, ChevronUp, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import theme from "@/theme/theme";
+import { useTheme } from "@/theme/theme";
 
 type NotificationType = "info" | "warning" | "success";
 
@@ -19,6 +19,7 @@ interface NotificationsProps {
 }
 
 const NotificationsComponent: React.FC<NotificationsProps> = ({ onClose }) => {
+  const theme = useTheme();
   const [notifications, setNotifications] = React.useState<Notification[]>([
     {
       id: "1",
@@ -60,11 +61,11 @@ const NotificationsComponent: React.FC<NotificationsProps> = ({ onClose }) => {
   const getTypeIcon = (type: NotificationType) => {
     switch (type) {
       case "info":
-        return <InfoIcon className="h-5 w-5 text-blue-500" />;
+        return <InfoIcon className="h-5 w-5" style={{ color: theme.colors.primary }} />;
       case "warning":
-        return <AlertCircle className="h-5 w-5 text-amber-500" />;
+        return <AlertCircle className="h-5 w-5" style={{ color: theme.colors.secondary }} />;
       case "success":
-        return <CheckCircle className="h-5 w-5 text-green-500" />;
+        return <CheckCircle className="h-5 w-5" style={{ color: theme.colors.tertiary }} />;
     }
   };
 
@@ -106,7 +107,13 @@ const NotificationsComponent: React.FC<NotificationsProps> = ({ onClose }) => {
             Notifications
           </h3>
           {unreadCount > 0 && (
-            <span className="bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
+            <span 
+              className="text-xs font-bold px-2 py-0.5 rounded-full"
+              style={{ 
+                backgroundColor: theme.colors.primary,
+                color: theme.colors.background
+              }}
+            >
               {unreadCount}
             </span>
           )}
@@ -138,15 +145,10 @@ const NotificationsComponent: React.FC<NotificationsProps> = ({ onClose }) => {
               className="p-3 rounded-md cursor-pointer"
               style={{
                 backgroundColor: notification.read
-                  ? theme.colors.tertiary
-                  : theme.colors.secondary + "30",
-                borderLeft: `3px solid ${
-                  notification.type === "info"
-                    ? "#3b82f6"
-                    : notification.type === "warning"
-                    ? "#f59e0b"
-                    : "#10b981"
-                }`,
+                  ? `${theme.colors.tertiary}20`
+                  : `${theme.colors.secondary}30`,
+                borderLeft: `3px solid ${theme.colors.primary}`,
+                transition: 'background-color 0.2s ease',
               }}
               onClick={() => markAsRead(notification.id)}
             >
@@ -159,7 +161,10 @@ const NotificationsComponent: React.FC<NotificationsProps> = ({ onClose }) => {
                   >
                     {notification.title}
                     {!notification.read && (
-                      <span className="inline-block ml-2 w-2 h-2 rounded-full bg-blue-500"></span>
+                      <span 
+                        className="inline-block ml-2 w-2 h-2 rounded-full"
+                        style={{ backgroundColor: theme.colors.primary }}
+                      ></span>
                     )}
                   </div>
                   <p
@@ -195,6 +200,7 @@ const NotificationsComponent: React.FC<NotificationsProps> = ({ onClose }) => {
             variant="ghost"
             size="sm"
             className="text-xs flex items-center gap-1"
+            style={{ color: theme.colors.text }}
             onClick={() => setIsExpanded(!isExpanded)}
           >
             {isExpanded ? (

@@ -1,5 +1,5 @@
 import React from 'react';
-import theme from '../../../theme/theme';
+import { useTheme } from '../../../theme/theme';
 
 interface HelpDialogProps {
   isOpen: boolean;
@@ -7,6 +7,7 @@ interface HelpDialogProps {
 }
 
 const HelpDialog: React.FC<HelpDialogProps> = ({ isOpen, onClose }) => {
+  const theme = useTheme();
   const { colors } = theme;
 
   if (!isOpen) return null;

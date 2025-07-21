@@ -51,7 +51,7 @@ const MoreInfoFormContent = () => {
       </div>
           <CardHeader className="space-y-1 text-center relative">
             <CardTitle className="text-2xl font-bold mt-6" style={theme.components.text.heading}>
-              Title Here
+             Biznest
             </CardTitle>
             <CardDescription style={theme.components.text.small}>
               Please provide additional information about yourself

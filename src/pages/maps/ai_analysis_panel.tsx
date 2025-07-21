@@ -1,5 +1,5 @@
 import React from 'react';
-import theme from '../../theme/theme';
+import { useTheme } from '../../theme/theme';
 
 interface AIAnalysisPanelProps {
   biznestCount: number;
@@ -14,14 +14,15 @@ const AIAnalysisPanel: React.FC<AIAnalysisPanelProps> = ({
   overlappingAreas = 0,
   riskLevel = 'medium'
 }) => {
+  const theme = useTheme();
   const { colors } = theme;
   
   const getRiskColor = () => {
     switch(riskLevel) {
-      case 'low': return '#2ecc71';
-      case 'medium': return '#f39c12';
-      case 'high': return '#e74c3c';
-      default: return '#f39c12';
+      case 'low': return colors.secondary;
+      case 'medium': return colors.tertiary;
+      case 'high': return colors.primary;
+      default: return colors.tertiary;
     }
   };
 
@@ -40,13 +41,13 @@ const AIAnalysisPanel: React.FC<AIAnalysisPanelProps> = ({
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
         <div className="p-3 rounded-lg" style={{ backgroundColor: 'rgba(46, 204, 113, 0.15)' }}>
-          <h3 className="font-bold mb-1" style={{ color: '#2ecc71' }}>Biznest Sites</h3>
+          <h3 className="font-bold mb-1" style={{ color: colors.secondary }}>Biznest Sites</h3>
           <p className="text-2xl font-bold" style={{ color: colors.text }}>{biznestCount}</p>
           <p className="text-sm" style={{ color: colors.text }}>Cultural areas identified</p>
         </div>
         
         <div className="p-3 rounded-lg" style={{ backgroundColor: 'rgba(255, 82, 82, 0.15)' }}>
-          <h3 className="font-bold mb-1" style={{ color: '#ff5252' }}>Flood Zones</h3>
+          <h3 className="font-bold mb-1" style={{ color: colors.primary }}>Flood Zones</h3>
           <p className="text-2xl font-bold" style={{ color: colors.text }}>{floodCount}</p>
           <p className="text-sm" style={{ color: colors.text }}>Potential flood risk areas</p>
         </div>

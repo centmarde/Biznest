@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Badge } from "@/components/ui/badge"
-import theme from "@/theme/theme"
+import { useTheme } from "@/theme/theme"
 
 export default function BiznestPreservationForm() {
   const [materials, setMaterials] = useState("")
@@ -17,6 +17,7 @@ export default function BiznestPreservationForm() {
   const [age, setAge] = useState("")
   const [issue, setIssue] = useState("")
   const [others, setOthers] = useState("")
+  const theme = useTheme();
   const { colors } = theme
 
   const materialSuggestions = ["Stone", "Wood", "Brick", "Metal", "Concrete", "Ceramic", "Glass"]
@@ -44,7 +45,7 @@ export default function BiznestPreservationForm() {
       boxShadow: `0 4px 8px rgba(76, 88, 91, 0.1)`,
     }}>
       <CardHeader>
-        <CardTitle style={{ color: colors.primary }}>Biznest Preservation Assessment</CardTitle>
+        <CardTitle style={{ color: colors.primary }}>Biznest Assessment</CardTitle>
         <CardDescription style={{ color: colors.mutedText }}>
           Please provide details about the biznest site or artifact that needs preservation.
         </CardDescription>
@@ -147,7 +148,7 @@ export default function BiznestPreservationForm() {
                   id="issue"
                   value={issue}
                   onChange={(e) => setIssue(e.target.value)}
-                  placeholder="Describe any specific preservation issues"
+                  placeholder="Describe any specific assessment issues"
                   className="min-h-[120px]"
                   style={{ borderColor: colors.tertiary }}
                 />

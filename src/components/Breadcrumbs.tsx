@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { ChevronRight, ChevronDown } from "lucide-react"
-import theme from "@/theme/theme"
+import { useTheme } from "@/theme/theme"
 
 export interface BreadcrumbItem {
   name: string
@@ -16,6 +16,7 @@ interface BreadcrumbsProps {
 
 export default function Breadcrumbs({ items, className = "" }: BreadcrumbsProps) {
   const [isExpanded, setIsExpanded] = React.useState(false)
+  const theme = useTheme();
 
   if (!items || items.length === 0) return null
 

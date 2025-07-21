@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import theme from '../../theme/theme';
+import { useTheme } from '../../theme/theme';
 import { Map, Landmark, Droplets, PlusSquare, HelpCircle } from 'lucide-react';
 import AddBiznestDialog from './dialogs/add_biznest';
 import HelpDialog from './dialogs/help_dialog';
@@ -27,6 +27,7 @@ const MapTabs: React.FC<MapTabsProps> = ({
   onAddBiznest,
   onHelp,
 }) => {
+  const theme = useTheme();
   const { colors } = theme;
   const [isBiznestDialogOpen, setIsBiznestDialogOpen] = useState(false);
   const [isHelpDialogOpen, setIsHelpDialogOpen] = useState(false);

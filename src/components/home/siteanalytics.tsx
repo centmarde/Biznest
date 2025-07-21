@@ -3,24 +3,25 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { useEffect, useState } from "react"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts"
-import theme from "@/theme/theme"
+import { useTheme } from "@/theme/theme"
 
 const data = [
-  { month: "Jan", maintenance: 12 },
-  { month: "Feb", maintenance: 18 },
-  { month: "Mar", maintenance: 15 },
-  { month: "Apr", maintenance: 22 },
-  { month: "May", maintenance: 26 },
-  { month: "Jun", maintenance: 24 },
-  { month: "Jul", maintenance: 28 },
-  { month: "Aug", maintenance: 36 },
-  { month: "Sep", maintenance: 32 },
-  { month: "Oct", maintenance: 30 },
-  { month: "Nov", maintenance: 25 },
-  { month: "Dec", maintenance: 20 },
+  { month: "Jan", permits: 85 },
+  { month: "Feb", permits: 92 },
+  { month: "Mar", permits: 78 },
+  { month: "Apr", permits: 105 },
+  { month: "May", permits: 118 },
+  { month: "Jun", permits: 125 },
+  { month: "Jul", permits: 132 },
+  { month: "Aug", permits: 145 },
+  { month: "Sep", permits: 138 },
+  { month: "Oct", permits: 142 },
+  { month: "Nov", permits: 128 },
+  { month: "Dec", permits: 95 },
 ]
 
 export function SiteAnalytics() {
+  const theme = useTheme();
   // Use client-side rendering for charts to avoid SSR issues
   const [isMounted, setIsMounted] = useState(false)
 
@@ -44,8 +45,8 @@ export function SiteAnalytics() {
     return (
       <Card style={cardStyle}>
         <CardHeader>
-          <CardTitle style={textStyle}>Maintenance Requests</CardTitle>
-          <CardDescription style={mutedTextStyle}>Monthly maintenance requests over the past year</CardDescription>
+          <CardTitle style={textStyle}>Business Permit Applications</CardTitle>
+          <CardDescription style={mutedTextStyle}>Monthly business permit applications over the past year</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="h-[300px] w-full flex items-center justify-center" style={mutedTextStyle}>Loading chart...</div>
@@ -57,8 +58,8 @@ export function SiteAnalytics() {
   return (
     <Card style={cardStyle}>
       <CardHeader>
-        <CardTitle style={textStyle}>Maintenance Requests</CardTitle>
-        <CardDescription style={mutedTextStyle}>Monthly maintenance requests over the past year</CardDescription>
+        <CardTitle style={textStyle}>Business Permit Applications</CardTitle>
+        <CardDescription style={mutedTextStyle}>Monthly business permit applications over the past year</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="h-[300px] w-full">
@@ -76,7 +77,7 @@ export function SiteAnalytics() {
               />
               <Line 
                 type="monotone" 
-                dataKey="maintenance" 
+                dataKey="permits" 
                 stroke={theme.colors.primary} 
                 strokeWidth={2} 
                 dot={{ fill: theme.colors.primary }} 

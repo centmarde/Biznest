@@ -1,5 +1,5 @@
 import React from 'react';
-import theme from '../../theme/theme';
+import { useTheme } from '../../theme/theme';
 
 interface PolygonControlsProps {
   polygonCount: number;
@@ -10,6 +10,7 @@ const PolygonControls: React.FC<PolygonControlsProps> = ({
   polygonCount,
   isPredefinedCount = 0
 }) => {
+  const theme = useTheme();
   const { colors } = theme;
   
   return (

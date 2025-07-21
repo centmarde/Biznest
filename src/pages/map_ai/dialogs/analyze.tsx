@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import theme from '../../../theme/theme';
+import { useTheme } from '../../../theme/theme';
 import { X, PlusCircle, AlertTriangle, Sun, Moon } from 'lucide-react';
 import axios from 'axios';
 
@@ -31,6 +31,7 @@ const AnalyzeDialog: React.FC<AnalyzeDialogProps> = ({
   onAddToAnalytics,
   imageUrl
 }) => {
+  const theme = useTheme();
   const { colors } = theme;
   const [analysis, setAnalysis] = useState<Analysis | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
