@@ -1,0 +1,64 @@
+{
+  "analyses": [
+    {
+      "id": 1,
+      "title": "Downtown Business District Analysis",
+      "imageUrl": "/images/map.png",
+      "insights": "This area shows high foot traffic with 68% commercial occupancy. The surrounding infrastructure supports business activities with excellent connectivity to public transportation.",
+      "riskLevel": "Low",
+      "timestamp": "2023-08-17T10:23:18Z",
+      "origin": "business",
+      "businessPotential": "Excellent opportunity for retail and food service businesses. AI predicts 87% success rate for cafés and boutique stores in this block based on demographic analysis and current foot traffic patterns."
+    },
+    {
+      "id": 2,
+      "title": "Suburban Residential Zone Assessment",
+      "imageUrl": "/images/map.png",
+      "insights": "Predominantly residential area with 92% family occupancy. Green spaces and recreational facilities nearby suggest family-oriented community.",
+      "riskLevel": "Medium",
+      "timestamp": "2023-09-05T14:12:30Z",
+      "origin": "residential",
+      "businessPotential": "Limited business potential for large operations, but favorable conditions for small convenience stores or service-based businesses like daycares or local clinics. Community would benefit from essential services within walking distance."
+    },
+    {
+      "id": 3,
+      "title": "Mixed-Use Development Zone",
+      "imageUrl": "/images/map.png",
+      "insights": "This block features a 60/40 split between residential and commercial properties. Recent infrastructure improvements have increased accessibility.",
+      "riskLevel": "Medium-High",
+      "timestamp": "2023-10-12T09:45:22Z",
+      "origin": "business",
+      "businessPotential": "Strong potential for co-working spaces and hybrid retail/service businesses. AI predicts sustainable growth for businesses that cater to local residents while attracting visitors from adjacent neighborhoods."
+    },
+    {
+      "id": 4,
+      "title": "High-Density Urban Corridor",
+      "imageUrl": "/images/map.png",
+      "insights": "Major transportation hub with high pedestrian volume. Current business diversity is limited with opportunity for expansion and diversification.",
+      "riskLevel": "High",
+      "timestamp": "2023-07-29T16:33:40Z",
+      "origin": "business",
+      "businessPotential": "Prime location for high-turnover businesses such as fast-casual dining or convenience-oriented services. AI analysis suggests focusing on quick-service options with efficient operations due to the transient nature of foot traffic."
+    },
+    {
+      "id": 5,
+      "title": "Emerging Residential Community",
+      "imageUrl": "/images/map.png",
+      "insights": "Recently developed residential area with young professional demographic. Limited commercial services currently available within walking distance.",
+      "riskLevel": "Low",
+      "timestamp": "2023-11-03T11:28:55Z",
+      "origin": "residential",
+      "businessPotential": "Excellent opportunity for first-mover advantage with specialty grocery stores, fitness centers, or trendy dining options. AI predicts 73% growth in demand for local amenities within the next 2 years as population density increases."
+    },
+    {
+      "id": 6,
+      "title": "Riverside Floodplain Analysis",
+      "imageUrl": "/images/map.png",
+      "insights": "This area is located within a designated floodplain with historical flooding incidents. Properties show 45% commercial and 55% residential usage with mandatory flood insurance requirements.",
+      "riskLevel": "High",
+      "timestamp": "2023-12-01T08:15:33Z",
+      "origin": "flood",
+      "businessPotential": "Limited business development potential due to flood risks. Insurance costs are 230% higher than city average. Businesses focused on flood mitigation services, elevated construction, or seasonal operations could be viable with proper risk management strategies."
+    }
+  ]
+}

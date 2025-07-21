@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "title": "Historic Building Restoration",
+    "description": "Specialized restoration services for historic buildings, preserving architectural integrity while ensuring structural stability.",
+    "image": "/images/buena.jpg"
+  },
+  {
+    "id": 2,
+    "title": "Monument Conservation",
+    "description": "Expert conservation techniques for monuments and statues, protecting them from environmental damage and deterioration.",
+    "image": "/images/buena.jpg"
+  },
+  {
+    "id": 3,
+    "title": "Artifact Preservation",
+    "description": "Careful preservation of historical artifacts using climate-controlled environments and specialized handling techniques.",
+    "image": "/images/buena.jpg"
+  },
+  {
+    "id": 4,
+    "title": "Cultural Landscape Management",
+    "description": "Maintenance of cultural landscapes and heritage gardens, preserving their historical significance and beauty.",
+    "image": "/images/buena.jpg"
+  },
+  {
+    "id": 5,
+    "title": "Traditional Craftsmanship",
+    "description": "Preservation of traditional craftsmanship techniques, ensuring these skills continue for future generations.",
+    "image": "/images/buena.jpg"
+  },
+  {
+    "id": 6,
+    "title": "Heritage Documentation",
+    "description": "Comprehensive documentation services for heritage sites, creating detailed records for future reference and restoration.",
+    "image": "/images/buena.jpg"
+  }
+]
