@@ -2,22 +2,22 @@ import React, { createContext, useContext, ReactNode, useState } from 'react';
 
 // Light theme colors
 const lightColors = {
-    primary: '#151515',
-    secondary: '#151515',
-    tertiary: '#151515',
-    background: '#ffffff',
-    text:'#151515',
-    mutedText: '#151515',
+    primary: '#205781',      // Deep blue for primary actions and headers
+    secondary: '#4F959D',    // Teal for secondary elements and hover states
+    tertiary: '#98D2C0',     // Light teal for borders and subtle accents
+    background: '#ffffff',   // White background
+    text: '#151515',         // Dark text for good readability
+    mutedText: '#6b7280',    // Gray for secondary text and descriptions
 };
 
 // Dark theme colors
 const darkColors = {
-    primary: '#ffffff',
-    secondary: '#e5e5e5',
-    tertiary: '#d1d1d1',
-    background: '#151515',
-    text: '#ffffff',
-    mutedText: '#e5e5e5',
+    primary: '#98D2C0',      // Light teal for primary elements in dark mode
+    secondary: '#4F959D',    // Medium teal for secondary elements
+    tertiary: '#374151',     // Dark gray for borders and subtle elements
+    background: '#151515',   // Dark background
+    text: '#ffffff',         // White text for contrast
+    mutedText: '#9ca3af',    // Light gray for secondary text
 };
 
 // Custom style interfaces with hover states
@@ -167,9 +167,23 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
     return false;
   });
 
+  // Apply initial background color immediately
+  React.useEffect(() => {
+    const colors = isDark ? darkColors : lightColors;
+    document.body.style.backgroundColor = colors.background;
+    document.documentElement.style.backgroundColor = colors.background;
+    document.body.style.transition = 'background-color 0.3s ease';
+    document.documentElement.style.transition = 'background-color 0.3s ease';
+  }, [isDark]);
+
   const toggleTheme = () => {
     const newTheme = !isDark;
     setIsDark(newTheme);
+    
+    // Immediately apply background color change to avoid delay
+    const newColors = newTheme ? darkColors : lightColors;
+    document.body.style.backgroundColor = newColors.background;
+    document.documentElement.style.backgroundColor = newColors.background;
     
     // Save to localStorage
     if (typeof window !== 'undefined') {

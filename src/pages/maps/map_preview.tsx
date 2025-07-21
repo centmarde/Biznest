@@ -29,6 +29,8 @@ interface MapPreviewProps {
   onMapInit?: (mapInstance: any, drawingManager: any) => void;
   showDrawingTools?: boolean;
   mapRef?: React.RefObject<any>;
+  enableSearch?: boolean; // Add search functionality toggle
+  onLocationSelect?: (location: { lat: number; lng: number; address: string }) => void;
 }
 
 declare global {
@@ -56,11 +58,15 @@ const MapPreview: React.FC<MapPreviewProps> = ({
   onMapInit,
   showDrawingTools = false,
   mapRef: externalMapRef,
+  enableSearch = false,
+  onLocationSelect,
 }) => {
   const mapRef = useRef<HTMLDivElement>(null);
+  const searchInputRef = useRef<HTMLInputElement>(null);
   const [mapLoaded, setMapLoaded] = useState(false);
   const [map, setMap] = useState<any>(null);
   const drawingManagerRef = useRef<any>(null);
+  const autocompleteRef = useRef<any>(null);
   
   useEffect(() => {
     // If the Google Maps script is already loaded
@@ -183,6 +189,56 @@ const MapPreview: React.FC<MapPreviewProps> = ({
         }
       );
     }
+
+    // Initialize search functionality if enabled
+    if (enableSearch && searchInputRef.current) {
+      const autocomplete = new window.google.maps.places.Autocomplete(searchInputRef.current);
+      autocomplete.bindTo('bounds', newMap);
+      
+      autocompleteRef.current = autocomplete;
+      
+      // Add listener for place selection
+      autocomplete.addListener('place_changed', () => {
+        const place = autocomplete.getPlace();
+        
+        if (!place.geometry || !place.geometry.location) {
+          console.log("No details available for input: '" + place.name + "'");
+          return;
+        }
+
+        // Get the place location
+        const location = {
+          lat: place.geometry.location.lat(),
+          lng: place.geometry.location.lng()
+        };
+
+        // Center map on the selected location
+        newMap.setCenter(location);
+        newMap.setZoom(15);
+
+        // Add a marker for the selected location
+        new window.google.maps.Marker({
+          position: location,
+          map: newMap,
+          title: place.name || 'Selected Location',
+          animation: window.google.maps.Animation.DROP
+        });
+
+        // Call the callback if provided
+        if (onLocationSelect) {
+          onLocationSelect({
+            lat: location.lat,
+            lng: location.lng,
+            address: place.formatted_address || place.name || 'Unknown location'
+          });
+        }
+
+        // Clear the search input
+        if (searchInputRef.current) {
+          searchInputRef.current.value = '';
+        }
+      });
+    }
   };
 
   const renderMarkers = () => {
@@ -213,14 +269,39 @@ const MapPreview: React.FC<MapPreviewProps> = ({
   };
 
   return (
-    <div
-      ref={mapRef}
-      className="rounded-lg overflow-hidden shadow-md"
-      style={{
-        height,
-        width,
-      }}
-    />
+    <div className="relative">
+      {/* Search Input - positioned in bottom left corner of the map */}
+      {enableSearch && (
+        <div className="absolute bottom-4 left-4 z-10">
+          <div className="bg-white rounded-full shadow-lg border border-gray-200 hover:shadow-xl transition-all duration-300">
+            <div className="flex items-center px-4 py-3">
+              <div className="h-5 w-5 text-gray-400 mr-3">
+                🔍
+              </div>
+              <input
+                ref={searchInputRef}
+                type="text"
+                placeholder="Search places..."
+                className="outline-none bg-transparent text-gray-800 placeholder-gray-400 text-sm w-64"
+                style={{
+                  fontFamily: 'system-ui, -apple-system, sans-serif'
+                }}
+              />
+            </div>
+          </div>
+        </div>
+      )}
+      
+      {/* Map Container */}
+      <div
+        ref={mapRef}
+        className="rounded-lg overflow-hidden shadow-md"
+        style={{
+          height,
+          width,
+        }}
+      />
+    </div>
   );
 };
 

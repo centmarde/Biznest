@@ -6,17 +6,10 @@ import Map from './pages/map'
 import MapPage from './pages/map_ai'
 import MaintenanceCards from './pages/maintenance'
 import ModelsPage from './pages/models'
-import { useTheme } from './theme/theme'
 
 function App() {
-  const theme = useTheme();
-
   return (
-    <div style={{ 
-      backgroundColor: theme.colors.background, 
-      minHeight: '100vh',
-      transition: 'background-color 0.3s ease'
-    }}>
+    <>
       <Router>
         <Routes>
           {/* outside pages */}
@@ -34,7 +27,7 @@ function App() {
           {/* Add more routes as needed */}
         </Routes>
       </Router>
-    </div>
+    </>
   )
 }
 

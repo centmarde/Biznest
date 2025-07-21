@@ -14,10 +14,10 @@ const MapAIPage: React.FC = () => {
   const mapRef = useRef<any>(null);
   
   // Map configuration
-  const [location/* , setLocation */] = useState({ lat: 8.97, lng: 125.42 });
-  const [zoom/* , setZoom */] = useState(16);
-  const [markers/* , setMarkers */] = useState([
-    { lat: 8.97, lng: 125.42, title: 'Philippine Location (8°58′N 125°25′E)' },
+  const [location, setLocation] = useState({ lat: 8.947538, lng: 125.540623 });
+  const [zoom, setZoom] = useState(16);
+  const [markers, setMarkers] = useState([
+    { lat: 8.947538, lng: 125.540623, title: 'Current Location (8°56′51″N 125°32′26″E)' },
   ]);
   
   // Polygon states for different map types
@@ -128,6 +128,19 @@ const MapAIPage: React.FC = () => {
     setHelpDialogOpen(true);
   };
 
+  // Handle location selection from search
+  const handleLocationSelect = (locationData: { lat: number; lng: number; address: string }) => {
+    console.log('Location selected:', locationData);
+    // Update the map center to the selected location
+    setLocation({ lat: locationData.lat, lng: locationData.lng });
+    // Update zoom for better view of the selected location
+    setZoom(16);
+    // Replace current markers with the selected location
+    setMarkers([
+      { lat: locationData.lat, lng: locationData.lng, title: `📍 ${locationData.address}` }
+    ]);
+  };
+
   // Start polygon drawing
   const startDrawing = () => {
     setDrawingEnabled(true);
@@ -235,6 +248,8 @@ const MapAIPage: React.FC = () => {
                 onPolygonComplete={handlePolygonComplete}
                 onMapInit={handleMapInit}
                 showDrawingTools={drawingEnabled}
+                enableSearch={true} // Enable search functionality
+                onLocationSelect={handleLocationSelect} // Handle location selection
               />
             </div>
             
@@ -326,7 +341,7 @@ const MapAIPage: React.FC = () => {
             }}
           >
             <p style={{ color: colors.text, lineHeight: '1.5' }}>
-              Viewing location: 8°58′N 125°25′E (Philippines)
+              Viewing location: 8°56′51″N 125°32′26″E (Philippines)
               <br />
               AI Analysis has identified {floodPolygons.length} flood risk zones and {heritagePolygons.length} heritage sites in this region.
               {floodPolygons.length > 0 && heritagePolygons.length > 0 && 

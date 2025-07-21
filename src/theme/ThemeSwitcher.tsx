@@ -37,11 +37,17 @@ export function ThemeSwitcher() {
         <Button 
           variant="ghost" 
           size="icon" 
-          className="h-8 w-8 rounded-full relative"
+          className="h-8 w-8 rounded-full relative hover:bg-opacity-10"
           style={{
             backgroundColor: 'transparent',
             color: theme?.colors?.text || '#000',
             border: 'none'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.backgroundColor = `${theme?.colors?.tertiary || '#eee'}40`;
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.backgroundColor = 'transparent';
           }}
         >
           {theme.isDark ? (
@@ -64,7 +70,14 @@ export function ThemeSwitcher() {
           onClick={handleLightMode}
           style={{
             color: theme?.colors?.text || '#000',
-            cursor: 'pointer'
+            cursor: 'pointer',
+            transition: 'background-color 0.2s ease'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.backgroundColor = `${theme?.colors?.tertiary || '#eee'}30`;
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.backgroundColor = 'transparent';
           }}
         >
           <Sun className="mr-2 h-4 w-4" />
@@ -74,7 +87,14 @@ export function ThemeSwitcher() {
           onClick={handleDarkMode}
           style={{
             color: theme?.colors?.text || '#000',
-            cursor: 'pointer'
+            cursor: 'pointer',
+            transition: 'background-color 0.2s ease'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.backgroundColor = `${theme?.colors?.tertiary || '#eee'}30`;
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.backgroundColor = 'transparent';
           }}
         >
           <Moon className="mr-2 h-4 w-4" />
@@ -84,7 +104,14 @@ export function ThemeSwitcher() {
           onClick={handleSystemMode}
           style={{
             color: theme?.colors?.text || '#000',
-            cursor: 'pointer'
+            cursor: 'pointer',
+            transition: 'background-color 0.2s ease'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.backgroundColor = `${theme?.colors?.tertiary || '#eee'}30`;
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.backgroundColor = 'transparent';
           }}
         >
           <Monitor className="mr-2 h-4 w-4" />
