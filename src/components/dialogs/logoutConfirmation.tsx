@@ -1,5 +1,5 @@
 import React from "react";
-import theme from "@/theme/theme";
+import { useTheme } from "@/theme/theme";
 import { Button } from "@/components/ui/button";
 
 interface LogoutConfirmationProps {
@@ -13,6 +13,8 @@ const LogoutConfirmation: React.FC<LogoutConfirmationProps> = ({
   onConfirm,
   onCancel,
 }) => {
+  const theme = useTheme();
+  
   if (!isOpen) return null;
 
   return (

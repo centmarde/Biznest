@@ -83,7 +83,7 @@ export function MainSidebar({ isMobile = false, className, ...props }: MainSideb
 
   const handleTabClick = (tab: string) => {
     setActiveTab(tab)
-    if (isMobile) setIsOpen(false)
+    if (isMobile) setDrawerOpen(false)
   }
 
   const handleNotificationClick = () => {
@@ -126,7 +126,13 @@ export function MainSidebar({ isMobile = false, className, ...props }: MainSideb
             <div className="relative">
               <Bell className="h-5 w-5" />
               {notificationCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full px-1.5 py-0.5 text-xs font-bold">
+                <span 
+                  className="absolute -top-1 -right-1 rounded-full px-1.5 py-0.5 text-xs font-bold"
+                  style={{
+                    backgroundColor: theme.colors.primary,
+                    color: theme.colors.background
+                  }}
+                >
                   {notificationCount}
                 </span>
               )}
@@ -137,7 +143,8 @@ export function MainSidebar({ isMobile = false, className, ...props }: MainSideb
         {/* Mobile drawer overlay */}
         {drawerOpen && (
           <div 
-            className="fixed inset-0 backdrop-blur-sm bg-white/30 dark:bg-black/30 z-30"
+            className="fixed inset-0 backdrop-blur-sm z-30"
+            style={{ backgroundColor: theme.colors.background + '30' }}
             onClick={() => setDrawerOpen(false)}
           />
         )}
@@ -211,8 +218,18 @@ export function MainSidebar({ isMobile = false, className, ...props }: MainSideb
         </div>
       </div>
       
+       {/* Logout button at bottom */}
       <div className="p-4" style={{ borderTop: `1px solid ${theme.colors.tertiary}` }}>
-        <Button variant="outline" className="w-full justify-start gap-2" onClick={handleLogoutClick}>
+        <Button 
+          variant="outline" 
+          className="w-full justify-start gap-2" 
+          onClick={handleLogoutClick}
+          style={{
+            borderColor: theme.colors.tertiary,
+            color: theme.colors.text,
+            backgroundColor: 'transparent'
+          }}
+        >
           <LogOut className="h-4 w-4" />
           <span>Logout</span>
         </Button>
@@ -223,13 +240,4 @@ export function MainSidebar({ isMobile = false, className, ...props }: MainSideb
 }
 
 export default MainSidebar;
-
-function setIsOpen(isOpen: boolean) {
-  // This function should be using setDrawerOpen instead
-  // since that's what controls the mobile sidebar visibility
-  setDrawerOpen(isOpen);
-}
-function setDrawerOpen(isOpen: boolean) {
-  throw new Error("Function not implemented.")
-}
 
