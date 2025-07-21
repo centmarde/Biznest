@@ -11,20 +11,13 @@ interface MapAITabsProps {
 }
 
 const MapAITabs: React.FC<MapAITabsProps> = ({
-  onAddHeritage,
+  /* onAddHeritage, */
   onHelp,
 }) => {
   const { colors } = theme;
   const [isHeritageDialogOpen, setIsHeritageDialogOpen] = useState(false);
   const [isHelpDialogOpen, setIsHelpDialogOpen] = useState(false);
   const [isAnalyzeDialogOpen, setIsAnalyzeDialogOpen] = useState(false);
-
-  const handleAddHeritage = () => {
-    if (onAddHeritage) {
-      onAddHeritage();
-    }
-    setIsHeritageDialogOpen(true);
-  };
 
   const handleHelp = () => {
     if (onHelp) {

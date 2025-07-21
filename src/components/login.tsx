@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-import { useState, useEffect } from "react"
+import { useState/* , useEffect */ } from "react"
 import { useNavigate } from "react-router-dom"
 import { Github, Facebook, Instagram } from "lucide-react"
 import { ThemeProvider, useTheme } from "@/theme/theme"
@@ -61,10 +61,10 @@ const LoginContent = ({ onSwitchToRegister, setIsPageLoading }: LoginProps) => {
         <Card className="w-full max-w-[80%] bg-[#F6F8D5] border border-[#98D2C0] rounded-lg shadow-md text-sm">
           <CardHeader className="space-y-1 text-center">
             <CardTitle className="text-2xl font-bold" style={theme.components.text.heading}>
-              Title here
+              Biznest
             </CardTitle>
             <CardDescription style={theme.components.text.small}>
-              Sign in to access the preservation system
+              Sign in to access the City Planner system
             </CardDescription>
           </CardHeader>
           <CardContent>

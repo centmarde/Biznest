@@ -15,8 +15,8 @@ import {
 import DefaultLayout from "@/layout/default"
 import theme from "@/theme/theme"
 import MaintenanceTabs from "./maintenance/tabs"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+// import { Input } from "@/components/ui/input"
+// import { Label } from "@/components/ui/label"
 import BiznestPreservationForm from "./maintenance/input"
 
 // Define the type for biznest services

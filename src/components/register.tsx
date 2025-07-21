@@ -10,7 +10,7 @@ import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { useNavigate } from "react-router-dom"
-import Loader from "../components/loader"
+// import Loader from "../components/loader"
 
 
 interface RegisterProps {
@@ -48,7 +48,7 @@ const RegisterContent = ({ onSwitchToLogin, setIsPageLoading }: RegisterProps) =
       <Card className="w-full max-w-[80%] bg-[#F6F8D5] border border-[#98D2C0] rounded-lg shadow-md text-sm">
         <CardHeader className="space-y-1 text-center">
           <CardTitle className="text-2xl font-bold" style={theme.components.text.heading}>
-            Title here
+            Biznest
           </CardTitle>
           <CardDescription style={theme.components.text.small}>
             Create an account to join the preservation system

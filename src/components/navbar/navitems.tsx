@@ -1,9 +1,9 @@
 "use client"
 
 import * as React from "react"
-import { Gift, MapPinned, Home, PenToolIcon as Tool, Settings, Users, ChevronDown, ChevronUp, Box as Box3d } from "lucide-react"
+import { Gift, MapPinned, Home,  Settings, Users, ChevronDown, ChevronUp } from "lucide-react"
 import theme from "@/theme/theme"
-import { Link, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 
 interface NavItemsProps {
   activeTab: string;
@@ -56,7 +56,7 @@ export const navItems: NavItem[] = [
       },
     ],
   },
-  {
+ /*  {
     id: "maintenance",
     label: "Maintenance",
     icon: Tool,
@@ -67,7 +67,7 @@ export const navItems: NavItem[] = [
     label: "3dModels",
     icon: Box3d,
     href: "/models",
-  },
+  }, */
   {
     id: "users",
     label: "Users",
