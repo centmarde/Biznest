@@ -20,7 +20,7 @@ const Logo: React.FC<LogoProps> = ({ size = 'default', hideTagline = false }) =>
     <div className={`flex items-center ${gap}`}>
       <img 
        /*  src="/icons/icon.png" */ 
-        alt="Scout Sphere Logo"
+        alt="Biznest Logo"
         className={`${iconSize} object-contain`} 
       />
       <div className="relative">

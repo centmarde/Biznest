@@ -14,9 +14,9 @@ const MapPage: React.FC = () => {
   const { colors } = theme;
   const navigate = useNavigate();
   // Updated coordinates to 8°58′N 125°25′E (Philippines)
-  const [location, setLocation] = useState({ lat: 8.97, lng: 125.42 });
-  const [zoom, setZoom] = useState(16); // Increased zoom level for better view of smaller polygons
-  const [markers, setMarkers] = useState([
+  const [location/* , setLocation */] = useState({ lat: 8.97, lng: 125.42 });
+  const [zoom/* , setZoom */] = useState(16); // Increased zoom level for better view of smaller polygons
+  const [markers/* , setMarkers */] = useState([
     { lat: 8.97, lng: 125.42, title: 'Philippine Location (8°58′N 125°25′E)' },
   ]);
   

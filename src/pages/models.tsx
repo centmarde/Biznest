@@ -6,7 +6,7 @@ import { Slider } from "@/components/ui/slider"
 import { Switch } from "@/components/ui/switch"
 import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Info, Camera, Sun, History, Layers, Landmark, Image as ImageIcon } from "lucide-react"
+import { Info, Camera, Sun, History, Layers, Landmark } from "lucide-react"
 import { useTheme } from "@/theme/theme"
 import DefaultLayout from "@/layout/default"
 

@@ -13,9 +13,9 @@ const MapAIPage: React.FC = () => {
   const mapRef = useRef<any>(null);
   
   // Map configuration
-  const [location, setLocation] = useState({ lat: 8.97, lng: 125.42 });
-  const [zoom, setZoom] = useState(16);
-  const [markers, setMarkers] = useState([
+  const [location/* , setLocation */] = useState({ lat: 8.97, lng: 125.42 });
+  const [zoom/* , setZoom */] = useState(16);
+  const [markers/* , setMarkers */] = useState([
     { lat: 8.97, lng: 125.42, title: 'Philippine Location (8°58′N 125°25′E)' },
   ]);
   
@@ -43,8 +43,8 @@ const MapAIPage: React.FC = () => {
   }>>([]);
 
   // UI states
-  const [heritageVisible, setHeritageVisible] = useState<boolean>(true);
-  const [floodVisible, setFloodVisible] = useState<boolean>(true);
+  const [heritageVisible/* , setHeritageVisible */] = useState<boolean>(true);
+  const [floodVisible/* , setFloodVisible */] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
   const [helpDialogOpen, setHelpDialogOpen] = useState<boolean>(false);
   const [drawingEnabled, setDrawingEnabled] = useState<boolean>(false);
