@@ -82,36 +82,35 @@ export function BusinessZones() {
 
   return (
     <Card style={cardStyle}>
-      <CardHeader className="flex flex-row items-center">
-        <div className="grid gap-2">
-          <CardTitle className="text-xl" style={textStyle}>Active Business Zones</CardTitle>
+      <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+        <div className="grid gap-2 flex-1">
+          <CardTitle className="text-lg sm:text-xl" style={textStyle}>Active Business Zones</CardTitle>
           <CardDescription style={mutedTextStyle}>Key commercial and business districts by activity</CardDescription>
         </div>
-        <Button className="ml-auto gap-1" style={buttonStyle}>
+        <Button className="w-full sm:w-auto gap-1 my-2" style={buttonStyle}>
           <MapPin className="h-4 w-4" />
           View All
         </Button>
       </CardHeader>
       <CardContent>
-        <div className="grid gap-6">
+        <div className="grid gap-4 sm:gap-6">
           {businessData.map((zone) => (
-            <div key={zone.id} className="flex items-center gap-4">
+            <div key={zone.id} className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
               <img
                 src={getRandomBusinessImage(zone.id)}
                 alt={zone.name}
-                className="rounded-md object-cover"
-                style={{ width: '120px', height: '80px' }}
+                className="rounded-md object-cover w-full sm:w-[120px] h-[200px] sm:h-[80px] shrink-0"
                 onError={(e) => {
                   const target = e.target as HTMLImageElement;
                   target.src = `https://via.placeholder.com/120x80/6B7280/FFFFFF?text=${zone.zoneType}`;
                 }}
               />
-              <div className="grid flex-1 gap-1">
-                <div className="flex items-center justify-between">
-                  <div className="font-semibold" style={textStyle}>{zone.name}</div>
+              <div className="grid flex-1 gap-2 sm:gap-1 w-full">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                  <div className="font-semibold text-lg sm:text-base" style={textStyle}>{zone.name}</div>
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="icon">
+                      <Button variant="ghost" size="icon" className="self-end sm:self-auto">
                         <MoreHorizontal className="h-4 w-4" />
                         <span className="sr-only">Open menu</span>
                       </Button>
@@ -128,8 +127,8 @@ export function BusinessZones() {
                 <div className="text-sm text-muted-foreground flex items-center" style={mutedTextStyle}>
                   <MapPin className="mr-1 h-3 w-3" /> {zone.location}
                 </div>
-                <div className="flex items-center justify-between text-sm">
-                  <div className="flex items-center gap-4">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-0 text-sm">
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
                     <div className="flex items-center" style={textStyle}>
                       <Users className="mr-1 h-4 w-4" style={mutedTextStyle} />
                       <span>{zone.businesses} businesses</span>
@@ -141,7 +140,7 @@ export function BusinessZones() {
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="text-xs" style={mutedTextStyle}>Occupancy</span>
-                    <Progress value={zone.occupancy} className="h-2 w-20" style={{ backgroundColor: theme.colors.tertiary }} />
+                    <Progress value={zone.occupancy} className="h-2 w-20 sm:w-20" style={{ backgroundColor: theme.colors.tertiary }} />
                     <span className="text-xs" style={textStyle}>{zone.occupancy}%</span>
                   </div>
                 </div>
