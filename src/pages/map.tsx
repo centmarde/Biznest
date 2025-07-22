@@ -15,10 +15,10 @@ const MapPage: React.FC = () => {
   const { colors } = theme;
   const navigate = useNavigate();
   // Updated coordinates to 8°58′N 125°25′E (Philippines)
-  const [location/* , setLocation */] = useState({ lat: 8.97, lng: 125.42 });
-  const [zoom/* , setZoom */] = useState(16); // Increased zoom level for better view of smaller polygons
-  const [markers/* , setMarkers */] = useState([
-    { lat: 8.97, lng: 125.42, title: 'Philippine Location (8°58′N 125°25′E)' },
+  const [location, setLocation] = useState({ lat:  8.947538, lng: 125.540623 });
+  const [zoom, setZoom] = useState(16); // Increased zoom level for better view of smaller polygons
+  const [markers, setMarkers] = useState([
+    { lat: 8.947538, lng: 125.540623, title: 'Current Location (8°56′51″N 125°32′26″E)' },
   ]);
   
   // State to store predefined and user-created polygons
@@ -310,6 +310,19 @@ const MapPage: React.FC = () => {
     setSelectedPolygon(null);
   };
 
+  // Handle location selection from search
+  const handleLocationSelect = (locationData: { lat: number; lng: number; address: string }) => {
+    console.log('Location selected:', locationData);
+    // Update the map center to the selected location
+    setLocation({ lat: locationData.lat, lng: locationData.lng });
+    // Update zoom for better view of the selected location
+    setZoom(16);
+    // Replace current markers with the selected location
+    setMarkers([
+      { lat: locationData.lat, lng: locationData.lng, title: `📍 ${locationData.address}` }
+    ]);
+  };
+
   return (
     <ThemeProvider>
       <DefaultLayout>
@@ -347,6 +360,8 @@ const MapPage: React.FC = () => {
                 polygons={displayedPolygons}
                 onPolygonComplete={handleNewPolygon}
                 enableDrawing={currentMapType === 'standard'} // Only enable drawing in standard mode
+                enableSearch={true} // Enable search functionality
+                onLocationSelect={handleLocationSelect} // Handle location selection
               />
             </div>
             
@@ -500,6 +515,9 @@ const MapPage: React.FC = () => {
             polygonPaths={selectedPolygon?.paths}
           />
         </div>
+        
+      
+        
         <ChatButton />
       </DefaultLayout>
     </ThemeProvider>

@@ -42,26 +42,44 @@ const MapAITabs: React.FC<MapAITabsProps> = ({
       <div className="flex mb-4 justify-end">
         <div className="flex gap-2">
           <button
-            className="px-4 py-2 rounded-md transition-all duration-200 flex items-center gap-2"
+            className="px-4 py-2 rounded-md transition-all duration-200 flex items-center gap-2 hover:shadow-md"
             style={{
               backgroundColor: colors.secondary,
-              color: 'white',
-              border: `1px solid ${colors.tertiary}`
+              color: colors.background,
+              border: `1px solid ${colors.secondary}`,
+              fontWeight: '500'
             }}
             onClick={handleAnalyze}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = colors.primary;
+              e.currentTarget.style.borderColor = colors.primary;
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = colors.secondary;
+              e.currentTarget.style.borderColor = colors.secondary;
+            }}
           >
             <PlusSquare size={18} />
             Analyze
           </button>
           
           <button
-            className="px-4 py-2 rounded-md transition-all duration-200 flex items-center gap-2"
+            className="px-4 py-2 rounded-md transition-all duration-200 flex items-center gap-2 hover:shadow-md"
             style={{
-              backgroundColor: 'white',
+              backgroundColor: colors.background,
               color: colors.text,
-              border: `1px solid ${colors.tertiary}`
+              border: `1px solid ${colors.tertiary}`,
+              fontWeight: '500'
             }}
             onClick={handleHelp}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = colors.tertiary;
+              e.currentTarget.style.color = colors.primary;
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = colors.background;
+              e.currentTarget.style.color = colors.text;
+            }}
           >
             <HelpCircle size={18} />
             Help

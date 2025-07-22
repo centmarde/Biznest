@@ -2,9 +2,10 @@ import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { MessageCircle, X, Send } from 'lucide-react';
+import { MessageCircle, X, Send, Maximize2, Minimize2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useTheme } from '@/theme/theme';
+import { Response, formatAIResponse } from './response';
 
 // Define message type
 interface ChatMessage {
@@ -15,10 +16,13 @@ interface ChatMessage {
 
 const ChatButton = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<null | HTMLDivElement>(null);
   const theme = useTheme(); // kuhaa ang theme colors para sa consistent styling
+  const responseHandler = Response(); // Initialize the AI response handler
 
   const handleOpen = () => {
     setIsOpen(true);
@@ -28,7 +32,11 @@ const ChatButton = () => {
     setIsOpen(false);
   };
 
-  const handleSend = () => {
+  const toggleExpand = () => {
+    setIsExpanded(!isExpanded);
+  };
+
+  const handleSend = async () => {
     if (message.trim()) {
       // Add user message to chat
       const userMessage: ChatMessage = {
@@ -38,17 +46,31 @@ const ChatButton = () => {
       };
       
       setMessages((prev) => [...prev, userMessage]);
+      const userQuery = message.trim();
       setMessage('');
+      setIsLoading(true);
       
-      // Simulate reply after a short delay - todo: mag integrate sa actual AI response
-      setTimeout(() => {
+      try {
+        // Get AI response for business zoning questions
+        const aiResponse = await responseHandler.getResponse(userQuery);
+        
         const systemReply: ChatMessage = {
-          text: "Thank you for your message. We've sent you an email with further information. Our team will get back to you shortly.",
+          text: aiResponse || "I apologize, but I couldn't process your request at the moment. Please try again or contact our support team for assistance with your business zoning inquiry.",
           sender: 'system',
           timestamp: new Date(),
         };
         setMessages((prev) => [...prev, systemReply]);
-      }, 800);
+      } catch (error) {
+        console.error('Error getting AI response:', error);
+        const errorReply: ChatMessage = {
+          text: "I'm sorry, there was an error processing your request. Please try again later or contact our support team for help with your business zoning questions.",
+          sender: 'system',
+          timestamp: new Date(),
+        };
+        setMessages((prev) => [...prev, errorReply]);
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
 
@@ -68,7 +90,10 @@ const ChatButton = () => {
     <div className="fixed bottom-5 right-5 z-50">
       {/* Chat interface - transition effects using Tailwind */}
       <div className={cn(
-        "absolute bottom-16 right-0 w-80 h-96 transition-all duration-300 ease-in-out",
+        "absolute transition-all duration-300 ease-in-out",
+        isExpanded 
+          ? "bottom-5 right-5 w-[500px] h-[700px] md:w-[600px] md:h-[750px] lg:w-[700px] lg:h-[800px] max-w-[90vw] max-h-[90vh]" 
+          : "bottom-16 right-0 w-80 h-96",
         isOpen ? "opacity-100 scale-100 translate-y-0" : "opacity-0 scale-95 translate-y-4 pointer-events-none"
       )}>
         <Card className="h-full flex flex-col shadow-lg border border-border">
@@ -77,15 +102,27 @@ const ChatButton = () => {
             className="text-white p-4 flex flex-row justify-between items-center rounded-t-lg"
             style={{ backgroundColor: theme.colors.primary }}
           >
-            <CardTitle className="text-lg font-semibold">Message Us</CardTitle>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={handleClose}
-              className="h-8 w-8 p-0 text-white hover:bg-white/20 transition-colors duration-200"
-            >
-              <X className="h-4 w-4" />
-            </Button>
+            <CardTitle className="text-lg font-semibold">Zoning Assistant</CardTitle>
+            <div className="flex gap-2">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={toggleExpand}
+                className="h-8 w-8 p-0 text-white hover:bg-white/20 transition-colors duration-200"
+                title={isExpanded ? "Minimize" : "Expand"}
+              >
+                {isExpanded ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleClose}
+                className="h-8 w-8 p-0 text-white hover:bg-white/20 transition-colors duration-200"
+                title="Close"
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
           </CardHeader>
           
           {/* Chat messages area - gamit ang theme background */}
@@ -97,7 +134,7 @@ const ChatButton = () => {
               className="text-sm mb-4"
               style={{ color: theme.colors.mutedText }}
             >
-              How can we help you today?
+              Ask me about business zoning regulations, permits, and guidelines for Butuan City!
             </p>
             
             {/* Messages display - theme colors para sa message bubbles */}
@@ -105,55 +142,88 @@ const ChatButton = () => {
               <div 
                 key={index} 
                 className={cn(
-                  "mb-2 flex",
+                  "mb-3 flex",
                   msg.sender === 'user' ? 'justify-end' : 'justify-start'
                 )}
               >
                 <div 
-                  className="max-w-[80%] p-2 rounded-lg text-sm"
+                  className={cn(
+                    "max-w-[85%] rounded-lg",
+                    isExpanded ? "p-4 text-base" : "p-2 text-sm"
+                  )}
                   style={{
                     backgroundColor: msg.sender === 'user' ? theme.colors.primary : theme.colors.tertiary,
                     color: msg.sender === 'user' ? theme.colors.background : theme.colors.text
                   }}
                 >
-                  <p>{msg.text}</p>
+                  <p dangerouslySetInnerHTML={{ 
+                    __html: msg.sender === 'system' ? formatAIResponse(msg.text) : msg.text 
+                  }} />
                 </div>
               </div>
             ))}
+            
+            {/* Loading indicator */}
+            {isLoading && (
+              <div className="flex justify-start mb-3">
+                <div 
+                  className={cn(
+                    "max-w-[85%] rounded-lg",
+                    isExpanded ? "p-4 text-base" : "p-2 text-sm"
+                  )}
+                  style={{
+                    backgroundColor: theme.colors.tertiary,
+                    color: theme.colors.text
+                  }}
+                >
+                  <p>Thinking...</p>
+                </div>
+              </div>
+            )}
             <div ref={messagesEndRef} />
           </CardContent>
           
           {/* Message input area - theme colors para sa input ug button */}
           <div 
-            className="p-4 border-t flex gap-2"
+            className={cn(
+              "border-t flex gap-2",
+              isExpanded ? "p-6" : "p-4"
+            )}
             style={{ 
               backgroundColor: theme.colors.background,
               borderTopColor: theme.colors.tertiary 
             }}
           >
             <Input
-              placeholder="Type your message..."
+              placeholder={isExpanded ? "Ask detailed questions about business permits, zoning laws, and regulations in Butuan City..." : "Ask about business zoning in Butuan City..."}
               value={message}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => setMessage(e.target.value)}
               onKeyPress={handleKeyPress}
-              className="flex-1 border-2 focus:ring-2 transition-all duration-200"
+              disabled={isLoading}
+              className={cn(
+                "flex-1 border-2 focus:ring-2 transition-all duration-200",
+                isExpanded ? "h-12 text-base" : "h-10 text-sm"
+              )}
               style={{ 
                 borderColor: theme.colors.tertiary,
-                backgroundColor: 'white',
+                backgroundColor: theme.colors.background,
                 color: theme.colors.text
               }}
             />
             <Button 
               size="sm"
               onClick={handleSend} 
-              disabled={!message.trim()}
-              className="h-10 w-10 p-0 transition-all duration-200 disabled:opacity-50"
+              disabled={!message.trim() || isLoading}
+              className={cn(
+                "p-0 transition-all duration-200 disabled:opacity-50",
+                isExpanded ? "h-12 w-12" : "h-10 w-10"
+              )}
               style={{
-                backgroundColor: message.trim() ? theme.colors.secondary : theme.colors.mutedText,
+                backgroundColor: (message.trim() && !isLoading) ? theme.colors.secondary : theme.colors.mutedText,
                 color: theme.colors.background
               }}
             >
-              <Send className="h-4 w-4" />
+              <Send className={isExpanded ? "h-5 w-5" : "h-4 w-4"} />
             </Button>
           </div>
         </Card>
