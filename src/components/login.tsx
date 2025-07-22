@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader } from "@/components/ui/card"
 
 interface LoginProps {
   onSwitchToRegister?: () => void;
@@ -20,8 +20,12 @@ interface LoginProps {
 // WelcomeGreeting component
 const WelcomeGreeting = ({ children }: { children: React.ReactNode }) => {
   const theme = useTheme();
+  // Responsive style: shrink on mobile
   return (
-    <h2 className="text-xl font-semibold mb-4" style={theme.components.text.heading}>
+    <h2
+      className="font-semibold mb-2 text-xl sm:text-xl md:text-2xl lg:text-2xl"
+      style={{ ...theme.components.text.heading, fontSize: 'clamp(1rem, 4vw, 1.25rem)', marginBottom: 8 }}
+    >
       {children}
     </h2>
   );
@@ -52,17 +56,15 @@ const LoginContent = ({ onSwitchToRegister, setIsPageLoading }: LoginProps) => {
 
   return (
     
-    <div className="flex items-center justify-center p-4 w-full max-w-[90%] mx-auto">
+    <div className="flex items-center justify-center  w-full max-w-[90%] mx-auto">
       <div className="flex flex-col w-full items-center">
         <WelcomeGreeting>
           Welcome! We're glad you're here 👋🏻
         </WelcomeGreeting>
         
-        <Card className="w-full max-w-[80%] rounded-lg shadow-md text-sm" style={theme.components.card}>
+        <Card className="w-full max-w-[100%] rounded-lg shadow-md text-sm" style={theme.components.card}>
           <CardHeader className="space-y-1 text-center">
-            <CardTitle className="text-2xl font-bold" style={theme.components.text.heading}>
-              Biznest
-            </CardTitle>
+         
             <CardDescription style={theme.components.text.small}>
               Sign in to access the City Planner system
             </CardDescription>
@@ -81,12 +83,7 @@ const LoginContent = ({ onSwitchToRegister, setIsPageLoading }: LoginProps) => {
                 />
               </div>
               <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <Label htmlFor="password" style={theme.components.text.body}>Password</Label>
-                  <a href="/forgot-password" className="text-sm hover:underline transition-colors duration-300" style={{ color: theme.colors.secondary, ...theme.components.text.small }}>
-                    Forgot password?
-                  </a>
-                </div>
+                <Label htmlFor="password" style={theme.components.text.body}>Password</Label>
                 <Input
                   id="password"
                   type="password"
@@ -94,6 +91,11 @@ const LoginContent = ({ onSwitchToRegister, setIsPageLoading }: LoginProps) => {
                   onChange={(e) => setPassword(e.target.value)}
                   style={theme.components.input.base}
                 />
+                <div className="flex justify-end mt-1">
+                  <a href="/forgot-password" className="text-sm hover:underline transition-colors duration-300" style={{ color: theme.colors.secondary, ...theme.components.text.small }}>
+                    Forgot password?
+                  </a>
+                </div>
               </div>
               <Button 
                 type="submit" 
