@@ -138,6 +138,7 @@ function BiznestMaintenanceCards() {
               onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
               className={currentPage === 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
               style={{ color: colors.primary }}
+              size="default"
             />
           </PaginationItem>
 
@@ -146,6 +147,7 @@ function BiznestMaintenanceCards() {
               <PaginationLink 
                 onClick={() => setCurrentPage(index + 1)} 
                 isActive={currentPage === index + 1}
+                size="default"
                 style={{ 
                   color: currentPage === index + 1 ? colors.background : colors.primary,
                   backgroundColor: currentPage === index + 1 ? colors.primary : 'transparent',
@@ -161,6 +163,7 @@ function BiznestMaintenanceCards() {
               onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
               className={currentPage === totalPages ? "pointer-events-none opacity-50" : "cursor-pointer"}
               style={{ color: colors.primary }}
+              size="default"
             />
           </PaginationItem>
         </PaginationContent>

@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { /* ChevronRight, */ ChevronDown } from "lucide-react"
+import { ChevronDown } from "lucide-react"
 import { useTheme } from "@/theme/theme"
 
 export interface BreadcrumbItem {
