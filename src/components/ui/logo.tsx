@@ -19,7 +19,7 @@ const Logo: React.FC<LogoProps> = ({ size = 'default', hideTagline = false }) =>
   return (
     <div className={`flex items-center ${gap}`}>
       <img 
-       /*  src="/icons/icon.png" */ 
+        src="/icons/biznest.png" 
         alt="Biznest Logo"
         className={`${iconSize} object-contain`} 
       />

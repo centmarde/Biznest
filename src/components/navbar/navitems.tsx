@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import {  MapPinned, Home,  Settings, Users, ChevronDown, ChevronUp, Building2 } from "lucide-react"
+import { ThemeSwitcher } from "@/theme/ThemeSwitcher"
 import { useTheme } from "@/theme/theme"
 import { useNavigate } from "react-router-dom"
 
@@ -50,11 +51,11 @@ export const navItems: NavItem[] = [
         label: "View Map",
         href: "/maps/view",
       },
-      {
+     /*  {
         id: "maps-ai",
         label: "Map with AI",
         href: "/maps/ai",
-      },
+      }, */
     ],
   },
  /*  {
@@ -153,22 +154,48 @@ export default function NavItems({ activeTab, onTabClick, className = "", paddin
               isExpanded(item.id) ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />
             )}
           </div>
-          
+
+          {/* Settings children: inject ThemeSwitcher for Theme */}
           {item.children && isExpanded(item.id) && (
             <div className="ml-4 pl-4 mt-1" style={{ borderLeft: `1px solid ${theme.colors.tertiary}` }}>
-              {item.children.map((child) => (
-                <div 
-                  key={child.id}
-                  className="flex items-center gap-3 px-4 py-2 rounded-lg cursor-pointer transition-colors my-1"
-                  style={{
-                    backgroundColor: activeTab === child.id ? theme.colors.primary : 'transparent',
-                    color: activeTab === child.id ? theme.colors.background : theme.colors.text
-                  }}
-                  onClick={() => handleChildClick(child)}
-                >
-                  <span>{child.label}</span>
-                </div>
-              ))}
+              {item.id === "settings" ? (
+                <>
+                  {item.children.map((child) => (
+                    child.id === "settings-theme" ? (
+                      <div key={child.id} className="flex items-center gap-3 px-4 py-2 my-1">
+                        <ThemeSwitcher />
+                        <span>{child.label}</span>
+                      </div>
+                    ) : (
+                      <div 
+                        key={child.id}
+                        className="flex items-center gap-3 px-4 py-2 rounded-lg cursor-pointer transition-colors my-1"
+                        style={{
+                          backgroundColor: activeTab === child.id ? theme.colors.primary : 'transparent',
+                          color: activeTab === child.id ? theme.colors.background : theme.colors.text
+                        }}
+                        onClick={() => handleChildClick(child)}
+                      >
+                        <span>{child.label}</span>
+                      </div>
+                    )
+                  ))}
+                </>
+              ) : (
+                item.children.map((child) => (
+                  <div 
+                    key={child.id}
+                    className="flex items-center gap-3 px-4 py-2 rounded-lg cursor-pointer transition-colors my-1"
+                    style={{
+                      backgroundColor: activeTab === child.id ? theme.colors.primary : 'transparent',
+                      color: activeTab === child.id ? theme.colors.background : theme.colors.text
+                    }}
+                    onClick={() => handleChildClick(child)}
+                  >
+                    <span>{child.label}</span>
+                  </div>
+                ))
+              )}
             </div>
           )}
         </div>
