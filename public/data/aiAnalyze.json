@@ -1,0 +1,54 @@
+{
+  "analyses": [
+    {
+      "id": 9999,
+      "title": "Smart Supplier Directory with AI Matching",
+      "imageUrl": "/images/map.png",
+      "insights": "Leverage AI to search and match suppliers based on industry, business needs, and location. The system intelligently recommends suppliers that best fit your requirements, streamlining procurement and partnership processes.",
+      "riskLevel": "Low",
+      "timestamp": "2025-07-22T00:00:00.000Z",
+      "origin": "business",
+      "businessPotential": "This feature can significantly enhance business efficiency by reducing the time and effort required to find suitable suppliers. It also opens up new opportunities for businesses to discover partners they might not have found otherwise."
+    },
+    {
+      "id": 1001,
+      "title": "Residential Area Growth Forecast",
+      "imageUrl":  "/images/map.png",
+      "insights": "AI predicts a 15% increase in residential development in the next 2 years, with high demand for green spaces and schools.",
+      "riskLevel": "Medium-High",
+      "timestamp": "2025-07-20T10:15:00.000Z",
+      "origin": "residential",
+      "businessPotential": "Potential for new housing projects and local businesses to serve the growing population."
+    },
+    {
+      "id": 1002,
+      "title": "Business District Revitalization",
+      "imageUrl":  "/images/map.png",
+      "insights": "Vacancy rates in the business district have dropped by 8% after recent infrastructure upgrades. AI recommends further investment in public transport.",
+      "riskLevel": "Medium",
+      "timestamp": "2025-07-18T14:30:00.000Z",
+      "origin": "business",
+      "businessPotential": "Increased business activity and property values expected. Good opportunity for retail and service providers."
+    },
+    {
+      "id": 1003,
+      "title": "Traffic-Prone Zone Detection",
+      "imageUrl": "/images/map.png",
+      "insights": "AI has identified a new traffic-prone area during peak hours. Suggested interventions: smart traffic lights and alternate routes.",
+      "riskLevel": "High",
+      "timestamp": "2025-07-21T08:00:00.000Z",
+      "origin": "traffic",
+      "businessPotential": "Smart mobility solutions and logistics businesses can benefit from addressing these bottlenecks."
+    },
+    {
+      "id": 1004,
+      "title": "Retail Hotspot Analysis",
+      "imageUrl":  "/images/map.png",
+      "insights": "Foot traffic analysis shows a 20% increase in retail activity near the new metro station. AI suggests pop-up stores and food trucks.",
+      "riskLevel": "Medium",
+      "timestamp": "2025-07-19T16:45:00.000Z",
+      "origin": "business",
+      "businessPotential": "Short-term retail and F&B ventures can capitalize on the increased footfall."
+    }
+  ]
+}

@@ -9,17 +9,17 @@ type LogoProps = {
 const Logo: React.FC<LogoProps> = ({ size = 'default', hideTagline = false }) => {
   const theme = useTheme();
   
-  // Responsive sizes based on the size prop
-  const iconSize = size === 'small' ? 'w-7 h-7' : 'w-10 h-10';
-  const titleSize = size === 'small' ? 'text-lg' : 'text-2xl';
-  const taglineSize = size === 'small' ? 'text-xs' : 'text-sm';
+  // Responsive sizes based on the size prop (increased for bigger logo)
+  const iconSize = size === 'small' ? 'w-12 h-12' : 'w-20 h-20';
+  const titleSize = size === 'small' ? 'text-2xl' : 'text-4xl';
+  const taglineSize = size === 'small' ? 'text-base' : 'text-lg';
   // const taglineTop = size === 'small' ? 'top-[65%]' : 'top-[70%]';
-  const gap = size === 'small' ? 'gap-1.5' : 'gap-2';
+  const gap = size === 'small' ? 'gap-2' : 'gap-4';
   
   return (
     <div className={`flex items-center ${gap}`}>
       <img 
-       /*  src="/icons/icon.png" */ 
+        src="/icons/biznest.png" 
         alt="Biznest Logo"
         className={`${iconSize} object-contain`} 
       />

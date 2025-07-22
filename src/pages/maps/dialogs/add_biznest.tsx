@@ -1,5 +1,6 @@
 import React from 'react';
 import { useTheme } from '../../../theme/theme';
+import { useNavigate } from 'react-router-dom';
 
 interface AddBiznestDialogProps {
   isOpen: boolean;
@@ -9,15 +10,21 @@ interface AddBiznestDialogProps {
   polygonPaths?: Array<{ lat: number; lng: number }>;
 }
 
+
 const AddBiznestDialog: React.FC<AddBiznestDialogProps> = ({ 
   isOpen, 
   onClose, 
   onConfirm, 
-  polygonId,
   polygonPaths
 }) => {
   const theme = useTheme();
   const { colors } = theme;
+  const navigate = useNavigate();
+
+  const handleConfirm = () => {
+    onConfirm();
+    navigate('/maps/ai');
+  };
 
   if (!isOpen) return null;
 
@@ -40,7 +47,7 @@ const AddBiznestDialog: React.FC<AddBiznestDialogProps> = ({
           className="text-2xl font-bold mb-4"
           style={{ color: colors.primary }}
         >
-          Add Biznest Site - Polygon {polygonId}
+          Add Biznest Site 
         </h2>
         
         <div className="mb-4">
@@ -113,7 +120,7 @@ const AddBiznestDialog: React.FC<AddBiznestDialogProps> = ({
               backgroundColor: colors.primary,
               color: colors.background
             }}
-            onClick={onConfirm}
+            onClick={handleConfirm}
           >
             Confirm
           </button>
