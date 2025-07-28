@@ -215,21 +215,34 @@ const HeatmapToggler: React.FC<HeatmapTogglerProps> = ({
                 {expandedCategories.includes(category.id) && (
                   <div className="p-3 pt-0 grid grid-cols-1 gap-2">
                     {category.items.map(({ type, icon: Icon }) => (
-                      <button
-                        key={type}
-                        onClick={() => onHeatmapChange(type)}
-                        className={`p-2 rounded border flex items-center gap-2 text-sm transition-all ${
-                          selectedHeatmap === type ? "border-2 shadow-sm" : "border hover:shadow-sm"
-                        }`}
-                        style={{
-                          borderColor: selectedHeatmap === type ? colors.primary : colors.primary,
-                          backgroundColor: selectedHeatmap === type ? `${colors.primary}10` : colors.background,
-                          color: selectedHeatmap === type ? colors.primary : colors.primary,
-                        }}
-                      >
-                        <Icon size={16} />
-                        <span className="text-left">{type}</span>
-                      </button>
+                      <div className="flex items-center justify-between gap-2">
+                        <button
+                          key={type}
+                          onClick={() => onHeatmapChange(type)}
+                          className={`p-2 rounded border flex items-center gap-2 text-sm transition-all ${
+                            selectedHeatmap === type ? "border-2 shadow-sm" : "border hover:shadow-sm"
+                          }`}
+                          style={{
+                            borderColor: selectedHeatmap === type ? colors.primary : colors.primary,
+                            backgroundColor: selectedHeatmap === type ? `${colors.primary}10` : colors.background,
+                            color: selectedHeatmap === type ? colors.primary : colors.primary,
+                          }}
+                        >
+                          <Icon size={16} />
+                          <span className="text-left">{type}</span>
+                        </button>
+                        <button
+                          className="ml-2 px-2 py-1 rounded border text-xs font-medium transition-colors hover:bg-gray-100"
+                          style={{
+                            borderColor: colors.secondary,
+                            color: colors.secondary,
+                            backgroundColor: "transparent",
+                          }}
+                          onClick={() => alert(`Update ${type}`)}
+                        >
+                          Update
+                        </button>
+                      </div>
                     ))}
                   </div>
                 )}

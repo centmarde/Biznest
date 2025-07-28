@@ -92,7 +92,7 @@ const ChatButton = () => {
   return (
     <div
       className={isMobile ? "fixed right-5" : "fixed right-5 bottom-5"}
-      style={isMobile ? { bottom: '80px', zIndex: 99999 } : { zIndex: 99999 }}
+      style={isMobile ? { bottom: '80px'} : {}}
     >
       {/* Chat interface - transition effects using Tailwind */}
       <div className={cn(

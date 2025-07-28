@@ -32,7 +32,7 @@ const AnalyzeDialog: React.FC<AnalyzeDialogProps> = ({
   imageUrl
 }) => {
   const theme = useTheme();
-  const { colors } = theme;
+  const { colors, components } = theme;
   const [analysis, setAnalysis] = useState<Analysis | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -80,7 +80,7 @@ const AnalyzeDialog: React.FC<AnalyzeDialogProps> = ({
       {/* Fullscreen Dialog Content */}
       <div
         className="fixed inset-0 z-10 flex flex-col"
-        style={{ backgroundColor: blueBackground ? '#1a2b4a' : 'white' }}
+        style={{ backgroundColor: blueBackground ? colors.primary : colors.background }}
       >
         {/* Header */}
         <div
@@ -89,14 +89,17 @@ const AnalyzeDialog: React.FC<AnalyzeDialogProps> = ({
         >
           <h2
             className="text-2xl font-bold"
-            style={{ color: blueBackground ? 'white' : colors.primary }}
+            style={{
+              ...components.text.heading,
+              color: blueBackground ? 'white' : components.text.heading.color
+            }}
           >
             {loading ? 'Loading Analysis...' : analysis?.title || 'AI Map Analysis'}
           </h2>
           <div className="flex items-center gap-2">
             <button
               onClick={() => setBlueBackground(!blueBackground)}
-              className="p-1 rounded-full hover:bg-gray-100 hover:bg-opacity-20"
+              className="p-1 rounded-full hover:bg-opacity-20"
               title={blueBackground ? 'Switch to light theme' : 'Switch to dark theme'}
             >
               {blueBackground ? (
@@ -107,7 +110,7 @@ const AnalyzeDialog: React.FC<AnalyzeDialogProps> = ({
             </button>
             <button
               onClick={onClose}
-              className="p-1 rounded-full hover:bg-gray-100 hover:bg-opacity-20"
+              className="p-1 rounded-full hover:bg-opacity-20"
             >
               <X size={20} color={blueBackground ? 'white' : colors.text} />
             </button>
@@ -117,18 +120,21 @@ const AnalyzeDialog: React.FC<AnalyzeDialogProps> = ({
         {/* Body: 2-column grid, fullscreen */}
         <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-0 h-full overflow-auto">
           {/* Left: Image and Legend */}
-          <div className="flex flex-col items-center justify-center h-full bg-white bg-opacity-80 p-8">
+          <div className="flex flex-col items-center justify-center h-full  bg-opacity-80 p-8">
             {loading ? (
               <div className="flex justify-center items-center h-64">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2" style={{ borderColor: blueBackground ? 'white' : colors.primary }}></div>
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2" style={{ borderColor: blueBackground ? colors.background : colors.primary }}></div>
               </div>
             ) : error ? (
               <div className="flex flex-col items-center justify-center h-64 text-center">
                 <AlertTriangle size={32} color={blueBackground ? 'white' : colors.primary} className="mb-2" />
                 <p style={{ color: blueBackground ? 'white' : colors.primary }}>{error}</p>
                 <button
-                  className="mt-4 px-4 py-2 rounded-md"
-                  style={{ backgroundColor: colors.secondary, color: colors.background }}
+                  className="mt-4"
+                  style={{
+                    ...components.button.secondary.base,
+                    ...(components.button.secondary.hover || {})
+                  }}
                   onClick={fetchRandomAnalysis}
                 >
                   Try Again
@@ -144,7 +150,7 @@ const AnalyzeDialog: React.FC<AnalyzeDialogProps> = ({
                   />
                 </div>
                 {/* Origin Legend */}
-                <div className="flex justify-center gap-8 p-2 bg-white bg-opacity-90 rounded-lg">
+                <div className="flex justify-center gap-8 p-2  bg-opacity-90 rounded-lg">
                   <div className="flex items-center">
                     <div className="w-4 h-4 rounded-full bg-green-500 mr-1"></div>
                     <span className="text-xs">Residential</span>
@@ -166,14 +172,20 @@ const AnalyzeDialog: React.FC<AnalyzeDialogProps> = ({
           <div className="flex flex-col justify-center h-full p-8" style={{ backgroundColor: blueBackground ? '#2a3b5a' : colors.background }}>
             {!loading && !error && (
               <div className="rounded-lg p-8 shadow-lg" style={{
-                backgroundColor: blueBackground ? 'rgba(255,255,255,0.05)' : 'white',
+                backgroundColor: blueBackground ? colors.primary : colors.background,
                 borderLeft: `6px solid ${
                   analysis?.origin === 'residential' ? 'green' :
                   analysis?.origin === 'traffic' ? 'yellow' : 'blue'
                 }`
               }}>
                 <div className="flex justify-between items-center mb-4">
-                  <h3 className="font-semibold text-lg" style={{ color: blueBackground ? 'white' : colors.primary }}>
+                  <h3
+                    className="font-semibold text-lg"
+                    style={{
+                      ...components.text.heading,
+                      color: blueBackground ? 'white' : components.text.heading.color
+                    }}
+                  >
                     <span className="mr-2">{
                       analysis?.origin === 'residential' ? '🏠' :
                       analysis?.origin === 'traffic' ? '🚦' : '🏢'
@@ -185,11 +197,10 @@ const AnalyzeDialog: React.FC<AnalyzeDialogProps> = ({
                       analysis?.riskLevel === 'Critical' ? colors.primary :
                       analysis?.riskLevel === 'High' ? colors.secondary :
                       analysis?.riskLevel === 'Medium-High' ? colors.tertiary :
-                      analysis?.riskLevel === 'Medium' ? colors.background :
-                      '#FFFFFF',
+                      analysis?.riskLevel === 'Medium' ? colors.background : colors.background,
                     color:
                       ['Critical', 'High'].includes(analysis?.riskLevel || '') ?
-                      colors.background : blueBackground ? 'white' : colors.text
+                      colors.background : blueBackground ? colors.background : colors.text
                   }}>
                     {analysis?.riskLevel || 'Unknown Risk'}
                   </span>
@@ -199,16 +210,16 @@ const AnalyzeDialog: React.FC<AnalyzeDialogProps> = ({
                 </p>
 
                 {analysis?.businessPotential && (
-                  <div className="mt-4 border-t pt-3" style={{ borderColor: blueBackground ? 'rgba(255,255,255,0.2)' : colors.tertiary }}>
-                    <h4 className="font-medium mb-1" style={{ color: blueBackground ? 'white' : colors.primary }}>
+                  <div className="mt-4 border-t pt-3" style={{ borderColor: blueBackground ? colors.tertiary : colors.tertiary }}>
+                    <h4 className="font-medium mb-1" style={{ color: blueBackground ? colors.background : colors.primary }}>
                       Business Potential Assessment
                     </h4>
-                    <p style={{ color: blueBackground ? 'white' : colors.text }}>{analysis.businessPotential}</p>
+                    <p style={{ color: blueBackground ? colors.background : colors.text }}>{analysis.businessPotential}</p>
                   </div>
                 )}
 
                 {analysis?.timestamp && (
-                  <p className="text-xs mt-3" style={{ color: blueBackground ? 'rgba(255,255,255,0.7)' : colors.mutedText }}>
+                  <p className="text-xs mt-3" style={{ color: blueBackground ? colors.mutedText : colors.mutedText }}>
                     Analysis generated: {new Date(analysis.timestamp).toLocaleString()}
                   </p>
                 )}
@@ -223,10 +234,10 @@ const AnalyzeDialog: React.FC<AnalyzeDialogProps> = ({
           style={{ borderColor: blueBackground ? 'rgba(255,255,255,0.2)' : colors.tertiary }}
         >
           <button
-            className="px-4 py-2 rounded-md"
             style={{
-              backgroundColor: blueBackground ? 'rgba(255,255,255,0.1)' : 'white',
-              color: blueBackground ? 'white' : colors.text,
+              ...components.button.text.base,
+              ...(components.button.text.hover || {}),
+              color: blueBackground ? 'white' : components.button.text.base.color,
               border: blueBackground ? '1px solid rgba(255,255,255,0.2)' : `1px solid ${colors.tertiary}`
             }}
             onClick={onClose}
@@ -235,10 +246,10 @@ const AnalyzeDialog: React.FC<AnalyzeDialogProps> = ({
           </button>
 
           <button
-            className="px-4 py-2 rounded-md flex items-center gap-2"
+            className="flex items-center gap-2"
             style={{
-              backgroundColor: colors.secondary,
-              color: colors.background
+              ...components.button.secondary.base,
+              ...(components.button.secondary.hover || {})
             }}
             onClick={() => {
               if (onAddToAnalytics) {
