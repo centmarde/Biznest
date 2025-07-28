@@ -19,33 +19,40 @@ interface CoordinatesInputProps {
 }
 
 const CoordinatesInput: React.FC<CoordinatesInputProps> = ({ coordinates, onChange }) => {
-  // Set default to 3 coordinates if empty on mount
-  React.useEffect(() => {
-    if (coordinates.length === 0) {
-      onChange([
-        { lat: 0, lng: 0 },
-        { lat: 0, lng: 0 },
-        { lat: 0, lng: 0 },
-      ])
-    }
-  }, [coordinates, onChange])
+  // Always show at least 3 coordinate inputs visually, but only real coordinates are editable/deletable
+  const minInputs = 3;
+  const filledCoords = [
+    ...coordinates,
+    ...Array(Math.max(0, minInputs - coordinates.length)).fill(null)
+  ];
+
+  // Add coordinate handler
+  const handleAddCoord = () => {
+    onChange([...coordinates, { lat: 0, lng: 0 }])
+  }
 
   const handleCoordChange = (idx: number, field: "lat" | "lng", value: string) => {
-    const numValue = Number.parseFloat(value) || 0
-    const updated = coordinates.map((coord, i) => (i === idx ? { ...coord, [field]: numValue } : coord))
-    onChange(updated)
+    if (idx >= coordinates.length) return; // Prevent editing placeholder
+    const numValue = Number.parseFloat(value) || 0;
+    const updated = coordinates.map((coord, i) => (i === idx ? { ...coord, [field]: numValue } : coord));
+    onChange(updated);
   }
 
+  // Remove coordinate handler
   const handleRemove = (idx: number) => {
-    onChange(coordinates.filter((_, i) => i !== idx))
+    // Only allow removing if more than 3 coordinates and only real ones
+    if (coordinates.length > 3 && idx < coordinates.length) {
+      onChange(coordinates.filter((_, i) => i !== idx));
+    }
   }
 
-  const formatCoordinate = (coord: Coordinate) => {
-    return `${coord.lat.toFixed(4)}, ${coord.lng.toFixed(4)}`
+  const formatCoordinate = (coord: Coordinate | null) => {
+    if (!coord) return "0.0000, 0.0000";
+    return `${coord.lat.toFixed(4)}, ${coord.lng.toFixed(4)}`;
   }
 
-  // Always render 3 input fields
-  const inputCoords = [0, 1, 2].map(i => coordinates[i] || { lat: 0, lng: 0 })
+  // Render all coordinates (always at least 3 visually)
+  const inputCoords = filledCoords
 
   // Get theme
   const theme = useTheme()
@@ -57,7 +64,7 @@ const CoordinatesInput: React.FC<CoordinatesInputProps> = ({ coordinates, onChan
           <MapPin style={{ height: 20, width: 20, color: theme.colors.primary }} />
           <span>Coordinate Points</span>
           <Badge variant="secondary" style={{ marginLeft: 'auto' }}>
-            3 points
+            {inputCoords.length} point{inputCoords.length !== 1 ? 's' : ''}
           </Badge>
         </CardTitle>
       </CardHeader>
@@ -74,6 +81,7 @@ const CoordinatesInput: React.FC<CoordinatesInputProps> = ({ coordinates, onChan
                 border: theme.components.card.border,
                 boxShadow: theme.components.card.boxShadow,
                 transition: 'border-color 0.3s',
+                opacity: coord ? 1 : 0.5,
               }}
               className="group"
             >
@@ -104,10 +112,11 @@ const CoordinatesInput: React.FC<CoordinatesInputProps> = ({ coordinates, onChan
                     <Input
                       type="number"
                       step="any"
-                      value={coord.lat}
+                      value={coord ? coord.lat : 0}
                       onChange={(e) => handleCoordChange(idx, "lat", e.target.value)}
                       placeholder="0.0000"
                       style={{ ...theme.components.input.base, height: 36, fontSize: '0.875rem' }}
+                      disabled={!coord}
                     />
                   </div>
 
@@ -118,10 +127,11 @@ const CoordinatesInput: React.FC<CoordinatesInputProps> = ({ coordinates, onChan
                     <Input
                       type="number"
                       step="any"
-                      value={coord.lng}
+                      value={coord ? coord.lng : 0}
                       onChange={(e) => handleCoordChange(idx, "lng", e.target.value)}
                       placeholder="0.0000"
                       style={{ ...theme.components.input.base, height: 36, fontSize: '0.875rem' }}
+                      disabled={!coord}
                     />
                   </div>
                 </div>
@@ -134,7 +144,7 @@ const CoordinatesInput: React.FC<CoordinatesInputProps> = ({ coordinates, onChan
                     variant="ghost"
                     size="sm"
                     onClick={() => handleRemove(idx)}
-                    disabled={inputCoords.length === 1}
+                    disabled={inputCoords.length <= 3 || !coord}
                     style={{ ...theme.components.button.text.base, height: 32, width: 32, padding: 0, color: theme.colors.secondary, backgroundColor: 'transparent' }}
                   >
                     <Trash2 style={{ height: 16, width: 16 }} />
@@ -154,7 +164,7 @@ const CoordinatesInput: React.FC<CoordinatesInputProps> = ({ coordinates, onChan
                     variant="ghost"
                     size="sm"
                     onClick={() => handleRemove(idx)}
-                    disabled={inputCoords.length === 1}
+                    disabled={inputCoords.length <= 3 || !coord}
                     style={{ ...theme.components.button.text.base, height: 32, width: 32, padding: 0, color: theme.colors.secondary, backgroundColor: 'transparent' }}
                   >
                     <Trash2 style={{ height: 16, width: 16 }} />
@@ -168,6 +178,19 @@ const CoordinatesInput: React.FC<CoordinatesInputProps> = ({ coordinates, onChan
               </div>
             </div>
           ))}
+        </div>
+
+        {/* Add coordinate button */}
+        <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '0.5rem' }}>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={handleAddCoord}
+            style={{ ...theme.components.button.text.base, minWidth: 120 }}
+          >
+            + Add Coordinate
+          </Button>
         </div>
 
         {/* Path Preview */}
