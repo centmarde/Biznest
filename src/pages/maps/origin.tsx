@@ -15,14 +15,14 @@ interface OriginIndicatorProps {
 
 // Original color palette for categories
 const CATEGORY_COLORS: Record<string, string> = {
-  zoning: "#6366f1",
-  transportation: "#22c55e",
-  environment: "#f59e42",
-  demographics: "#ef4444",
-  infrastructure: "#0ea5e9",
-  economic: "#a21caf",
-  services: "#16a34a",
-  none: "#9ca3af"
+  commercial_zones: "#6366f1", // indigo
+  food_beverage: "#f59e42", // green
+  tech_industry: " #22c55e", // orange
+  manufacturing: "#ef4444", // red
+  real_estate: "#0ea5e9", // blue
+  logistics: "#a21caf", // purple
+  finance: "#1eee", // dark green
+  healthcare: "#9ca3af", // gray
 };
 
 const OriginIndicator: React.FC<OriginIndicatorProps> = ({ id, title, icon: Icon, cardClass }) => {

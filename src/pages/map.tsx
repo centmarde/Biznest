@@ -12,13 +12,13 @@ import HeatmapToggler from "./maps/heatmap-toggler";
 import OriginDensityIndicator from "./maps/origin";
 import {
   Home,
-  TrafficCone, 
-  Thermometer,  
-  Users, 
-  FileText,
   ShoppingBag,
   Hospital,
-  Plus,
+  Utensils,
+  Monitor,
+  Factory,
+  Truck,
+  Banknote,
 } from "lucide-react";
 // Types
 interface Marker {
@@ -341,44 +341,44 @@ const MapPage: React.FC = () => {
                 {/* List all category origins below MapPreview */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-5">
                   <OriginDensityIndicator
-                    id="zoning"
-                    title="🏘️ Zoning & Land Use"
-                    icon={Home}
-                  />
-                  <OriginDensityIndicator
-                    id="transportation"
-                    title="🚦 Transportation & Mobility"
-                    icon={TrafficCone}
-                  />
-                  <OriginDensityIndicator
-                    id="environment"
-                    title="🌳 Environment & Sustainability"
-                    icon={Thermometer}
-                  />
-                  <OriginDensityIndicator
-                    id="demographics"
-                    title="🧍 Population & Demographics"
-                    icon={Users}
-                  />
-                  <OriginDensityIndicator
-                    id="infrastructure"
-                    title="🧱 Infrastructure & Development"
-                    icon={FileText}
-                  />
-                  <OriginDensityIndicator
-                    id="economic"
-                    title="📊 Economic Activity"
+                    id="retail"
+                    title="🛍️ Retail & Consumer Goods"
                     icon={ShoppingBag}
                   />
                   <OriginDensityIndicator
-                    id="services"
-                    title="🏥 Public Services"
-                    icon={Hospital}
+                    id="food_beverage"
+                    title="🍽️ Food & Beverage"
+                    icon={Utensils}
                   />
-                   <OriginDensityIndicator
-                    id="none"
-                    title="Add Origin"
-                    icon={Plus}
+                  <OriginDensityIndicator
+                    id="tech_industry"
+                    title="💻 Technology & IT Services"
+                    icon={Monitor}
+                  />
+                  <OriginDensityIndicator
+                    id="manufacturing"
+                    title="🏭 Manufacturing & Industrial"
+                    icon={Factory}
+                  />
+                  <OriginDensityIndicator
+                    id="real_estate"
+                    title="🏘️ Real Estate & Property"
+                    icon={Home}
+                  />
+                  <OriginDensityIndicator
+                    id="logistics"
+                    title="🚚 Logistics & Warehousing"
+                    icon={Truck}
+                  />
+                  <OriginDensityIndicator
+                    id="finance"
+                    title="💰 Finance & Insurance"
+                    icon={Banknote}
+                  />
+                  <OriginDensityIndicator
+                    id="healthcare"
+                    title="🏥 Healthcare & Wellness"
+                    icon={Hospital}
                   />
                 </div>
 
