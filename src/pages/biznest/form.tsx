@@ -20,10 +20,12 @@ export default function BiznestForm() {
               Complete your business information to get started with Biznest
             </p>
           </div>
+            <ChatButton />
           <BusinessStepper />
+          
         </div>
         {/* Add ChatButton floating on this page */}
-        <ChatButton />
+      
       </div>
     </DefaultLayout>
   )

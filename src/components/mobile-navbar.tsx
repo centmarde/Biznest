@@ -58,7 +58,7 @@ export default function MobileNavbar({ activeTab, onTabClick }: MobileNavbarProp
 
   return (
     <nav
-      className="fixed bottom-0 left-0 right-0 z-50 flex justify-around items-center h-16 bg-white border-t"
+      className="fixed bottom-0 left-0 right-0 z-50 flex justify-around items-center h-16 bg-white border-t gap-2"
       style={{
         backgroundColor: theme.colors.background,
         borderTop: `1px solid ${theme.colors.tertiary}`,
