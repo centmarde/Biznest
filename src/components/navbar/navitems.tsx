@@ -5,6 +5,7 @@ import {  MapPinned, Home,  Settings, Users, ChevronDown, ChevronUp, Building2 }
 import { ThemeSwitcher } from "@/theme/ThemeSwitcher"
 import { useTheme } from "@/theme/theme"
 import { useNavigate } from "react-router-dom"
+import { useUserAuth } from "@/auth/userAuth";
 
 interface NavItemsProps {
   activeTab: string;
@@ -105,6 +106,21 @@ export default function NavItems({ activeTab, onTabClick, className = "", paddin
   const [expandedItems, setExpandedItems] = React.useState<string[]>([]);
   const navigate = useNavigate();
   const theme = useTheme();
+  // Use Zustand hook to get role
+  const role = useUserAuth().role;
+
+  // Filter navItems based on role
+  const filteredNavItems = React.useMemo(() => {
+    if (role === "LGU") {
+      // LGU: show Dashboard, Users, Settings
+      return navItems.filter(item => ["dashboard", "users", "settings"].includes(item.id));
+    } else if (role === "BusinessOwner") {
+      // BusinessOwner: show Business Setup, Maps, Settings
+      return navItems.filter(item => ["biznest-form", "maps", "settings"].includes(item.id));
+    }
+    // Default: show nothing
+    return [];
+  }, [role]);
 
   const toggleExpand = (itemId: string) => {
     setExpandedItems(prev => 
@@ -136,7 +152,7 @@ export default function NavItems({ activeTab, onTabClick, className = "", paddin
 
   return (
     <nav className={`flex flex-col ${padding} ${className}`}>
-      {navItems.map((item) => (
+      {filteredNavItems.map((item) => (
         <div key={item.id} className="mb-1">
           <div 
             className="flex items-center justify-between px-4 py-3 rounded-lg cursor-pointer transition-colors"
