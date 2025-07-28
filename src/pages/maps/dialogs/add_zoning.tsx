@@ -18,8 +18,10 @@ const AddZoningDialog: React.FC<AddZoningDialogProps> = ({
   onConfirm
 }) => {
   const theme = useTheme();
-  const {  components } = theme;
+  const { components } = theme;
   const navigate = useNavigate();
+
+  const [zoningType, setZoningType] = React.useState('');
 
   const handleConfirm = () => {
     onConfirm();
@@ -85,6 +87,35 @@ const AddZoningDialog: React.FC<AddZoningDialogProps> = ({
               onFocus={e => Object.assign(e.target.style, components.input.hover)}
               onBlur={e => Object.assign(e.target.style, components.input.base)}
             ></textarea>
+          </div>
+
+          <div>
+            <label
+              htmlFor="zoning-type"
+              className="block font-medium mb-1"
+              style={components.text.body}
+            >
+              Zoning Type
+            </label>
+            <select
+              id="zoning-type"
+              value={zoningType}
+              onChange={e => setZoningType(e.target.value)}
+              className="w-full border rounded-md px-3 py-2"
+              style={components.input.base}
+              onFocus={e => Object.assign(e.target.style, components.input.hover)}
+              onBlur={e => Object.assign(e.target.style, components.input.base)}
+            >
+              <option value="">Select zoning type</option>
+              <option value="retail">🛍️ Retail & Consumer Goods</option>
+              <option value="food_beverage">🍽️ Food & Beverage</option>
+              <option value="tech_industry">💻 Technology & IT Services</option>
+              <option value="manufacturing">🏭 Manufacturing & Industrial</option>
+              <option value="real_estate">🏘️ Real Estate & Property</option>
+              <option value="logistics">🚚 Logistics & Warehousing</option>
+              <option value="finance">💰 Finance & Insurance</option>
+              <option value="healthcare">🏥 Healthcare & Wellness</option>
+            </select>
           </div>
         </div>
         
