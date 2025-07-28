@@ -13,6 +13,8 @@ import MaintenanceCards from "./pages/maintenance";
 import ModelsPage from "./pages/models";
 import BiznestForm from "./pages/biznest/form";
 import UserPage from "./pages/user";
+import SettingsPage from "./pages/settings";
+import AccountPage from "./pages/account";
 import NotFound from "./pages/not_found";
 import { useUserAuth } from "./auth/userAuth";
 
@@ -86,6 +88,26 @@ function App() {
             element={
               role === "BusinessOwner" ? (
                 <BiznestForm />
+              ) : (
+                <Navigate to="/not-found" replace />
+              )
+            }
+          />
+          <Route
+            path="/settings"
+            element={
+              role === "LGU" ? (
+                <SettingsPage />
+              ) : (
+                <Navigate to="/not-found" replace />
+              )
+            }
+          />
+          <Route
+            path="/account"
+            element={
+              role === "BusinessOwner" ? (
+                <AccountPage />
               ) : (
                 <Navigate to="/not-found" replace />
               )
