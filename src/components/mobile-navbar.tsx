@@ -19,7 +19,7 @@ const navItems = [
     href: "/settings",
     children: [
       ...(desktopNavItems.find(item => item.id === "settings")?.children || []),
-      { id: "logout", label: "Logout", href: "#logout" },
+      { id: "logout", label: "Logout" },
     ],
   },
 ];
@@ -121,7 +121,6 @@ export default function MobileNavbar({ activeTab, onTabClick }: MobileNavbarProp
                         className="flex items-center gap-2 w-full px-2 py-2 text-left rounded hover:bg-gray-100"
                         style={{ color: theme.colors.tertiary }}
                         onClick={() => {
-                          if (onTabClick) onTabClick(child.id);
                           logout();
                         }}
                       >
@@ -136,14 +135,7 @@ export default function MobileNavbar({ activeTab, onTabClick }: MobileNavbarProp
                           color: activeTab === child.id ? theme.colors.primary : theme.colors.text,
                           fontWeight: activeTab === child.id ? "bold" : "normal",
                         }}
-                        onClick={() => {
-                          if (onTabClick) onTabClick(child.id);
-                          // Only navigate if href is not "#"
-                          if (child.href && child.href !== "#" && child.href !== "#logout") {
-                            navigate(child.href);
-                          }
-                          setSettingsOpen(false);
-                        }}
+                       
                       >
                         {child.label}
                       </button>

@@ -38,7 +38,8 @@ const LoginContent = ({ onSwitchToRegister, setIsPageLoading }: LoginProps) => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const role = useUserAuth(state => state.role) || "LGU";
+  // Default to 'BusinessOwner' if no selection
+  const role = useUserAuth(state => state.role) || "BusinessOwner";
   const setRole = useUserAuth(state => state.setRole);
 
   const handleSubmit = (e: React.FormEvent) => {
