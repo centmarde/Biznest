@@ -7,6 +7,7 @@ import MapPage from './pages/map_ai'
 import MaintenanceCards from './pages/maintenance'
 import ModelsPage from './pages/models'
 import BiznestForm from './pages/biznest/form'
+import NotFound from './pages/not_found'
 import { useUserAuth } from './auth/userAuth'
 
 function App() {
@@ -20,10 +21,11 @@ function App() {
           {/*  end of outside  pages*/}
 
           {/* inside  pages*/}
+          <Route path="/not-found" element={<NotFound />} />
           <Route path="/more-info" element={<MoreInfo />} />
           <Route
             path="/home"
-            element={role === 'LGU' ? <Home /> : <Navigate to="/" replace />}
+            element={role === 'LGU' ? <Home /> : <Navigate to="/not-found" replace />}
           />
           <Route path="/maps/view" element={<Map />} />
           <Route path="/maps/ai" element={<MapPage />} />
@@ -31,7 +33,7 @@ function App() {
           <Route path="/models" element={<ModelsPage />} />
           <Route
             path="/biznest/form"
-            element={role === 'Business Owner' ? <BiznestForm /> : <Navigate to="/" replace />}
+            element={role === 'Business Owner' ? <BiznestForm /> : <Navigate to="/not-found" replace />}
           />
           {/* inside */}
           {/* Add more routes as needed */}
