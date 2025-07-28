@@ -1,4 +1,5 @@
 import React from "react";
+import { useIsMobile } from '../../utils/mobile';
 import { useTheme } from "../../theme/theme";
 
 
@@ -27,6 +28,7 @@ const CATEGORY_COLORS: Record<string, string> = {
 
 const OriginIndicator: React.FC<OriginIndicatorProps> = ({ id, title, icon: Icon, cardClass }) => {
   const theme = useTheme();
+  const isMobile = useIsMobile();
   const color = CATEGORY_COLORS[id] || "#6366f1";
   const cardStyle = {
     ...theme.components.card,
@@ -36,8 +38,13 @@ const OriginIndicator: React.FC<OriginIndicatorProps> = ({ id, title, icon: Icon
   return (
     <div className={`shadow ${cardClass || ''}`} style={cardStyle}>
       <div className="d-flex flex-column align-items-center gap-2 mb-2">
-        <Icon size={28} color={color} />
-        <span className="font-semibold text-md text-center" style={{ color }}>{title} <span className="text-xs" style={{ color: theme.colors.mutedText }}>Origin</span></span>
+        <Icon size={isMobile ? 18 : 28} color={color} />
+        <span
+          className={isMobile ? 'font-semibold text-xs text-center' : 'font-semibold text-md text-center'}
+          style={{ color }}
+        >
+          {isMobile ? title.slice(0, 10) : title} <span className="text-xs" style={{ color: theme.colors.mutedText }}>Origin</span>
+        </span>
       </div>
     </div>
   );
