@@ -12,7 +12,7 @@ import MapPage from "./pages/map_ai";
 import MaintenanceCards from "./pages/maintenance";
 import ModelsPage from "./pages/models";
 import BiznestForm from "./pages/biznest/form";
-import BiznestStartingForm from "./pages/biznest/starting-from";
+import BiznestStartingForm from "./pages/biznest/starting-form";
 import NotFound from "./pages/not_found";
 import { useUserAuth } from "./auth/userAuth";
 
