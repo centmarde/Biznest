@@ -1,4 +1,4 @@
-import { Home, Building2, MapPinned, Settings } from "lucide-react";
+import { Home, Building2, MapPinned, Settings, Users } from "lucide-react";
 import { useTheme } from "@/theme/theme";
 import { useNavigate } from "react-router-dom";
 import { useUserAuth } from "@/auth/userAuth";
@@ -10,6 +10,7 @@ import { navItems as desktopNavItems } from "@/components/navbar/navitems";
 
 const navItems = [
   { id: "dashboard", label: "Dashboard", icon: Home, href: "/home" },
+  { id: "user", label: "Users", icon: Users, href: "/user" },
   { id: "biznest-form", label: "Business", icon: Building2, href: "/biznest/form" },
   { id: "maps", label: "Maps", icon: MapPinned, href: "/maps/view" },
   {
@@ -27,7 +28,7 @@ const navItems = [
 
 function getFilteredNavItems(role: string | null) {
   if (role === "LGU") {
-    return navItems.filter(item => ["dashboard", "settings", "maps"].includes(item.id));
+    return navItems.filter(item => ["dashboard", "user", "settings", "maps"].includes(item.id));
   } else if (role === "BusinessOwner") {
     return navItems.filter(item => ["biznest-form",  "settings"].includes(item.id));
   }
