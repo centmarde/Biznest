@@ -9,6 +9,17 @@ import { ThemeProvider, useTheme } from "../theme/theme";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import HeatmapToggler from "./maps/heatmap-toggler";
+import OriginDensityIndicator from "./maps/origin";
+import {
+  Home,
+  TrafficCone, 
+  Thermometer,  
+  Users, 
+  FileText,
+  ShoppingBag,
+  Hospital,
+  Plus,
+} from "lucide-react";
 // Types
 interface Marker {
   lat: number;
@@ -291,14 +302,7 @@ const MapPage: React.FC = () => {
   return (
     <ThemeProvider>
       <DefaultLayout>
-        <div className="mx-auto max-w-7xl w-full">
-          <h1
-            className="text-3xl font-bold mb-6"
-            style={{ color: colors.primary }}
-          >
-            Map
-          </h1>
-
+        <div className="mx-auto w-full">
           {/* Map Tabs */}
           <MapTabs
             currentMapType={currentMapType}
@@ -331,6 +335,50 @@ const MapPage: React.FC = () => {
                     enableDrawing={currentMapType === "standard"} // Only enable drawing in standard mode
                     enableSearch={true} // Enable search functionality
                     onLocationSelect={handleLocationSelect} // Handle location selection
+                  />
+                </div>
+
+                {/* List all category origins below MapPreview */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-5">
+                  <OriginDensityIndicator
+                    id="zoning"
+                    title="🏘️ Zoning & Land Use"
+                    icon={Home}
+                  />
+                  <OriginDensityIndicator
+                    id="transportation"
+                    title="🚦 Transportation & Mobility"
+                    icon={TrafficCone}
+                  />
+                  <OriginDensityIndicator
+                    id="environment"
+                    title="🌳 Environment & Sustainability"
+                    icon={Thermometer}
+                  />
+                  <OriginDensityIndicator
+                    id="demographics"
+                    title="🧍 Population & Demographics"
+                    icon={Users}
+                  />
+                  <OriginDensityIndicator
+                    id="infrastructure"
+                    title="🧱 Infrastructure & Development"
+                    icon={FileText}
+                  />
+                  <OriginDensityIndicator
+                    id="economic"
+                    title="📊 Economic Activity"
+                    icon={ShoppingBag}
+                  />
+                  <OriginDensityIndicator
+                    id="services"
+                    title="🏥 Public Services"
+                    icon={Hospital}
+                  />
+                   <OriginDensityIndicator
+                    id="none"
+                    title="Add Origin"
+                    icon={Plus}
                   />
                 </div>
 

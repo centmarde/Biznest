@@ -157,7 +157,7 @@ const HeatmapToggler: React.FC<HeatmapTogglerProps> = ({
   return (
     <div className="md:col-span-4 col-span-1 w-full">
       <div
-        className="bg-white rounded-lg shadow p-4 md:p-6 h-full max-h-[80vh] overflow-y-auto"
+        className="bg-white rounded-lg shadow p-4 md:p-6 h-full max-h-[85vh] overflow-y-auto"
         style={{ borderColor: colors.tertiary, backgroundColor: colors.background }}
       >
         <h3 className="text-lg font-semibold mb-4" style={{ color: colors.primary }}>
