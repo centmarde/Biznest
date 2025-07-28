@@ -3,6 +3,7 @@ import { MainSidebar } from "@/components/sidebar"
 import { Navbar } from "@/components/navbar"
 import styled from "styled-components"
 import { useIsMobile } from "@/utils/mobile"
+import MobileNavbar from "@/components/mobile-navbar";
 
 // Update the type definitions for styled components to include the isMobile prop
 interface LayoutProps {
@@ -20,7 +21,8 @@ const LayoutContainer = styled.div<LayoutProps>`
 
 const ContentArea = styled.main<LayoutProps>`
   flex: 1;
-  padding: ${props => props.isMobile ? "calc(60px + 1rem) 1rem 1rem 1rem" : "1.5rem"};
+  padding: ${props => props.isMobile ? "calc(60px + 1rem) 1rem calc(64px + 1rem) 1rem" : "1.5rem"};
+  /* On mobile, add bottom padding to prevent MobileNavbar overlap (navbar height is 64px) */
   overflow-y: auto;
   min-width: 0; /* Prevent flex item from overflowing */
 `;
@@ -51,6 +53,7 @@ export default function DefaultLayout({ children }: DefaultLayoutProps) {
         <Navbar />
         {children}
       </ContentArea>
+      {isMobile && <MobileNavbar activeTab="dashboard" />}
     </LayoutContainer>
   );
 }

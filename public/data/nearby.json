@@ -1,0 +1,46 @@
+[
+  {
+    "location": "Fish Market",
+    "supplierName": "Ocean Fresh Supplies",
+    "businessType": "Seafood Supplier",
+    "description": "Provides fresh seafood daily to businesses near the fish market. Ideal for restaurants and food stalls looking for quality ingredients nearby.",
+    "distance": "200m",
+    "contact": {
+      "phone": "+1-555-1234",
+      "email": "contact@oceanfresh.com"
+    }
+  },
+  {
+    "location": "Central Bakery",
+    "supplierName": "Grain Masters",
+    "businessType": "Bakery Supplies",
+    "description": "Delivers flour, yeast, and baking essentials to bakeries in the central district.",
+    "distance": "150m",
+    "contact": {
+      "phone": "+1-555-5678",
+      "email": "info@grainmasters.com"
+    }
+  },
+  {
+    "location": "Tech Park",
+    "supplierName": "Gadget Hub",
+    "businessType": "Electronics Supplier",
+    "description": "Supplies electronic components and devices to tech startups and repair shops near Tech Park.",
+    "distance": "300m",
+    "contact": {
+      "phone": "+1-555-8765",
+      "email": "sales@gadgethub.com"
+    }
+  },
+  {
+    "location": "Green Valley",
+    "supplierName": "Fresh Farms",
+    "businessType": "Produce Supplier",
+    "description": "Offers organic fruits and vegetables to grocery stores and restaurants in Green Valley.",
+    "distance": "100m",
+    "contact": {
+      "phone": "+1-555-4321",
+      "email": "orders@freshfarms.com"
+    }
+  }
+]

@@ -7,6 +7,7 @@ import { ZoningActivity } from "@/components/home/zoningactivity"
 import DefaultLayout from "@/layout/default"
 import ChatButton from "@/components/AIrelated/ChatButton"
 import { Suspense } from "react"
+import { ZoningCrud } from "@/components/home/zoning-crud"
 
 export default function DashboardPage() {
   return (
@@ -16,6 +17,7 @@ export default function DashboardPage() {
           <DashboardShell>
             <div className="flex flex-col gap-6">
               <OverviewCards />
+              <ZoningCrud />
               <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                 <Suspense
                   fallback={<div className="h-[300px] flex items-center justify-center">Loading analytics...</div>}

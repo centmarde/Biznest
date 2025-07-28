@@ -18,6 +18,7 @@ const groq = new Groq({
 async function fetchChatConfig() {
   try {
     const response = await axios.get("/data/chatConfig.json");
+    console.log("Chat config fetched successfully:", response.data);
     return response.data.chatCompletion;
   } catch (error) {
     console.error("Error fetching chat config:", error);
@@ -39,7 +40,7 @@ async function fetchChatConfig() {
   }
 }
 
-console.log("API Key:", apiKey);
+
 
 // Function to format AI response text with proper line breaks for markdown-style formatting
 export function formatAIResponse(text: string): string {

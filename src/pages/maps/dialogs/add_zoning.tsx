@@ -1,7 +1,9 @@
 import React from 'react';
 import { useTheme } from '../../../theme/theme';
+import { useNavigate } from 'react-router-dom';
 
-interface AddHeritageDialogProps {
+
+interface AddZoningDialogProps {
   isOpen: boolean;
   onClose: () => void;
   onConfirm: () => void;
@@ -9,15 +11,22 @@ interface AddHeritageDialogProps {
   polygonPaths?: Array<{ lat: number; lng: number }>;
 }
 
-const AddHeritageDialog: React.FC<AddHeritageDialogProps> = ({ 
+
+const AddZoningDialog: React.FC<AddZoningDialogProps> = ({ 
   isOpen, 
   onClose, 
-  onConfirm, 
-  polygonId,
-  polygonPaths
+  onConfirm
 }) => {
   const theme = useTheme();
   const { components } = theme;
+  const navigate = useNavigate();
+
+  const [zoningType, setZoningType] = React.useState('');
+
+  const handleConfirm = () => {
+    onConfirm();
+    navigate('/maps/ai');
+  };
 
   if (!isOpen) return null;
 
@@ -36,40 +45,26 @@ const AddHeritageDialog: React.FC<AddHeritageDialogProps> = ({
           className="text-2xl font-bold mb-4"
           style={components.text.heading}
         >
-          Add Heritage Site - Polygon {polygonId}
+          Add new Zoning
         </h2>
         
-        <div className="mb-4">
-          <h3 className="font-semibold text-lg mb-2" style={components.text.small}>
-            Polygon Coordinates
-          </h3>
-          <div 
-            className="bg-gray-100 p-3 rounded-md max-h-60 overflow-y-auto"
-            style={{ fontSize: '0.85rem' }}
-          >
-            {polygonPaths ? (
-              <pre>{JSON.stringify(polygonPaths, null, 2)}</pre>
-            ) : (
-              <p>No polygon data available.</p>
-            )}
-          </div>
-        </div>
+    
         
         <div className="space-y-4">
           <div>
             <label 
-              htmlFor="heritage-name" 
+              htmlFor="zoning-name" 
               className="block font-medium mb-1"
               style={components.text.body}
             >
-              Heritage Site Name
+             Zoning Site Name
             </label>
             <input
               type="text"
-              id="heritage-name"
+              id="zoning-name"
               className="w-full border rounded-md px-3 py-2"
               style={components.input.base}
-              placeholder="Enter the name of this heritage site"
+              placeholder="Enter the name of this zoning site"
               onFocus={e => Object.assign(e.target.style, components.input.hover)}
               onBlur={e => Object.assign(e.target.style, components.input.base)}
             />
@@ -77,21 +72,50 @@ const AddHeritageDialog: React.FC<AddHeritageDialogProps> = ({
 
           <div>
             <label 
-              htmlFor="heritage-description" 
+              htmlFor="zoning-description" 
               className="block font-medium mb-1"
               style={components.text.body}
             >
               Description
             </label>
             <textarea
-              id="heritage-description"
+              id="zoning-description"
               rows={3}
               className="w-full border rounded-md px-3 py-2"
               style={components.input.base}
-              placeholder="Enter a description for this heritage site"
+              placeholder="Enter a description for this zoning site"
               onFocus={e => Object.assign(e.target.style, components.input.hover)}
               onBlur={e => Object.assign(e.target.style, components.input.base)}
             ></textarea>
+          </div>
+
+          <div>
+            <label
+              htmlFor="zoning-type"
+              className="block font-medium mb-1"
+              style={components.text.body}
+            >
+              Zoning Type
+            </label>
+            <select
+              id="zoning-type"
+              value={zoningType}
+              onChange={e => setZoningType(e.target.value)}
+              className="w-full border rounded-md px-3 py-2"
+              style={components.input.base}
+              onFocus={e => Object.assign(e.target.style, components.input.hover)}
+              onBlur={e => Object.assign(e.target.style, components.input.base)}
+            >
+              <option value="">Select zoning type</option>
+              <option value="retail">🛍️ Retail & Consumer Goods</option>
+              <option value="food_beverage">🍽️ Food & Beverage</option>
+              <option value="tech_industry">💻 Technology & IT Services</option>
+              <option value="manufacturing">🏭 Manufacturing & Industrial</option>
+              <option value="real_estate">🏘️ Real Estate & Property</option>
+              <option value="logistics">🚚 Logistics & Warehousing</option>
+              <option value="finance">💰 Finance & Insurance</option>
+              <option value="healthcare">🏥 Healthcare & Wellness</option>
+            </select>
           </div>
         </div>
         
@@ -110,7 +134,7 @@ const AddHeritageDialog: React.FC<AddHeritageDialogProps> = ({
             style={components.button.primary.base}
             onMouseOver={e => Object.assign((e.target as HTMLButtonElement).style, components.button.primary.hover)}
             onMouseOut={e => Object.assign((e.target as HTMLButtonElement).style, components.button.primary.base)}
-            onClick={onConfirm}
+            onClick={handleConfirm}
           >
             Confirm
           </button>
@@ -127,4 +151,4 @@ const AddHeritageDialog: React.FC<AddHeritageDialogProps> = ({
   );
 };
 
-export default AddHeritageDialog;
+export default AddZoningDialog;

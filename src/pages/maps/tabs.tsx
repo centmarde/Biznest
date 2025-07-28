@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import { useIsMobile } from '../../utils/mobile';
 import { useTheme } from '../../theme/theme';
-import { Map, Landmark, Droplets, PlusSquare, HelpCircle } from 'lucide-react';
-import AddBiznestDialog from './dialogs/add_biznest';
+import { PlusSquare, HelpCircle, BarChart2, Building2 } from 'lucide-react';
+import AddBiznestDialog from './dialogs/add_zoning';
 import HelpDialog from './dialogs/help_dialog';
 
 export type MapType = 'standard' | 'biznest' | 'flood';
@@ -18,12 +19,7 @@ interface MapTabsProps {
 }
 
 const MapTabs: React.FC<MapTabsProps> = ({
-  currentMapType,
-  biznestVisible,
-  floodVisible,
-  onSwitchToStandard,
-  onToggleBiznest,
-  onToggleFlood,
+ 
   onAddBiznest,
   onHelp,
 }) => {
@@ -32,13 +28,7 @@ const MapTabs: React.FC<MapTabsProps> = ({
   const [isBiznestDialogOpen, setIsBiznestDialogOpen] = useState(false);
   const [isHelpDialogOpen, setIsHelpDialogOpen] = useState(false);
   
-  const handleToggleBiznest = () => {
-    onToggleBiznest();
-    if (currentMapType === 'standard' && !biznestVisible) {
-      setIsBiznestDialogOpen(true);
-    }
-  };
-
+  
   const handleAddBiznest = () => {
     if (onAddBiznest) {
       onAddBiznest();
@@ -57,82 +47,92 @@ const MapTabs: React.FC<MapTabsProps> = ({
   return (
     <>
       <div className="flex mb-4 justify-between">
-        <div className="flex gap-4">
-          <button
-            className="px-4 py-2 rounded-md transition-all duration-200 flex items-center gap-2"
-            style={{
-              backgroundColor: currentMapType === 'standard' ? colors.primary : 'white',
-              color: currentMapType === 'standard' ? colors.background : colors.text,
-              border: `1px solid ${colors.tertiary}`
-            }}
-            onClick={onSwitchToStandard}
-          >
-            <Map size={18} />
-            Standard Map
-          </button>
-          
-          <button
-            className="px-4 py-2 rounded-md transition-all duration-200 flex items-center gap-2"
-            style={{
-              backgroundColor: currentMapType === 'biznest' || (currentMapType === 'standard' && biznestVisible) 
-                ? colors.primary 
-                : 'white',
-              color: currentMapType === 'biznest' || (currentMapType === 'standard' && biznestVisible)
-                ? colors.background 
-                : colors.text,
-              border: `1px solid ${colors.tertiary}`
-            }}
-            onClick={handleToggleBiznest}
-          >
-            <Landmark size={18} />
-            Biznest Sites {biznestVisible ? '(Visible)' : '(Hidden)'}
-          </button>
-          
-          <button
-            className="px-4 py-2 rounded-md transition-all duration-200 flex items-center gap-2"
-            style={{
-              backgroundColor: currentMapType === 'flood' || (currentMapType === 'standard' && floodVisible) 
-                ? colors.primary 
-                : 'white',
-              color: currentMapType === 'flood' || (currentMapType === 'standard' && floodVisible)
-                ? colors.background 
-                : colors.text,
-              border: `1px solid ${colors.tertiary}`
-            }}
-            onClick={onToggleFlood}
-          >
-            <Droplets size={18} />
-            Flood Zones {floodVisible ? '(Visible)' : '(Hidden)'}
-          </button>
-        </div>
-        
-        <div className="flex gap-2">
-          <button
-            className="px-4 py-2 rounded-md transition-all duration-200 flex items-center gap-2"
-            style={{
-              backgroundColor: colors.secondary,
-              color: 'white',
-              border: `1px solid ${colors.tertiary}`
-            }}
-            onClick={handleAddBiznest}
-          >
-            <PlusSquare size={18} />
-            Add Biznest
-          </button>
-          
-          <button
-            className="px-4 py-2 rounded-md transition-all duration-200 flex items-center gap-2"
-            style={{
-              backgroundColor: 'white',
-              color: colors.text,
-              border: `1px solid ${colors.tertiary}`
-            }}
-            onClick={handleHelp}
-          >
-            <HelpCircle size={18} />
-            Help
-          </button>
-        </div>
+        <div className="flex gap-4"></div>
+        {(() => {
+          const isMobile = useIsMobile();
+          return (
+            <div
+              className={
+                isMobile
+                  ? 'flex flex-wrap gap-1 justify-end w-full'
+                  : 'flex gap-2'
+              }
+            >
+              <button
+                className={
+                  isMobile
+                    ? 'px-2 py-1 rounded-md transition-all duration-200 flex items-center gap-1 text-xs'
+                    : 'px-4 py-2 rounded-md transition-all duration-200 flex items-center gap-2'
+                }
+                style={{
+                  backgroundColor: colors.tertiary,
+                  color: colors.text,
+                  border: `1px solid ${colors.secondary}`
+                }}
+                onClick={() => {
+                  // TODO: Implement new businesses statistics logic
+                  alert('Show New Businesses Statistics');
+                }}
+              >
+                <BarChart2 size={isMobile ? 14 : 18} />
+                {isMobile ? 'New Stats' : 'New Businesses Statistics'}
+              </button>
+
+              <button
+                className={
+                  isMobile
+                    ? 'px-2 py-1 rounded-md transition-all duration-200 flex items-center gap-1 text-xs'
+                    : 'px-4 py-2 rounded-md transition-all duration-200 flex items-center gap-2'
+                }
+                style={{
+                  backgroundColor: colors.tertiary,
+                  color: colors.text,
+                  border: `1px solid ${colors.secondary}`
+                }}
+                onClick={() => {
+                  // TODO: Implement old businesses statistics logic
+                  alert('Show Old Businesses Statistics');
+                }}
+              >
+                <Building2 size={isMobile ? 14 : 18} />
+                {isMobile ? 'Old Stats' : 'Old Businesses Statistics'}
+              </button>
+
+              <button
+                className={
+                  isMobile
+                    ? 'px-2 py-1 rounded-md transition-all duration-200 flex items-center gap-1 text-xs'
+                    : 'px-4 py-2 rounded-md transition-all duration-200 flex items-center gap-2'
+                }
+                style={{
+                  backgroundColor: colors.secondary,
+                  color: 'white',
+                  border: `1px solid ${colors.tertiary}`
+                }}
+                onClick={handleAddBiznest}
+              >
+                <PlusSquare size={isMobile ? 14 : 18} />
+                {isMobile ? 'Add' : 'Add Zoning'}
+              </button>
+
+              <button
+                className={
+                  isMobile
+                    ? 'px-2 py-1 rounded-md transition-all duration-200 flex items-center gap-1 text-xs'
+                    : 'px-4 py-2 rounded-md transition-all duration-200 flex items-center gap-2'
+                }
+                style={{
+                  color: colors.text,
+                  border: `1px solid ${colors.tertiary}`
+                }}
+                onClick={handleHelp}
+              >
+                <HelpCircle size={isMobile ? 14 : 18} />
+                {isMobile ? 'Help' : 'Help'}
+              </button>
+            </div>
+          );
+        })()}
       </div>
 
       <AddBiznestDialog 

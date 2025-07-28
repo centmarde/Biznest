@@ -1,7 +1,8 @@
 "use client"
 
 import type React from "react"
-import { useState/* , useEffect */ } from "react"
+import { useState } from "react"
+import { useUserAuth } from "@/auth/userAuth"
 import { useNavigate } from "react-router-dom"
 import { Github, Facebook, Instagram } from "lucide-react"
 import { ThemeProvider, useTheme } from "@/theme/theme"
@@ -35,21 +36,27 @@ const WelcomeGreeting = ({ children }: { children: React.ReactNode }) => {
 const LoginContent = ({ onSwitchToRegister, setIsPageLoading }: LoginProps) => {
   const theme = useTheme();
   const navigate = useNavigate();
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  // Default to 'BusinessOwner' if no selection
+  const role = useUserAuth(state => state.role) || "BusinessOwner";
+  const setRole = useUserAuth(state => state.setRole);
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     // Handle login logic here
-    console.log("Login attempt with:", email, password)
-    
+    console.log("Login attempt with:", email, password, role);
+    // Role is already set via Zustand
     // Show loader overlay
     if (setIsPageLoading) {
       setIsPageLoading(true);
-      
       // Navigate after 3 seconds
       setTimeout(() => {
-        navigate('/home');
+        if (role === "BusinessOwner") {
+          navigate("/biznest/startingform");
+        } else {
+          navigate("/home");
+        }
       }, 3000);
     }
   }
@@ -61,10 +68,8 @@ const LoginContent = ({ onSwitchToRegister, setIsPageLoading }: LoginProps) => {
         <WelcomeGreeting>
           Welcome! We're glad you're here 👋🏻
         </WelcomeGreeting>
-        
         <Card className="w-full max-w-[100%] rounded-lg shadow-md text-sm" style={theme.components.card}>
           <CardHeader className="space-y-1 text-center">
-         
             <CardDescription style={theme.components.text.small}>
               Sign in to access the City Planner system
             </CardDescription>
@@ -97,6 +102,19 @@ const LoginContent = ({ onSwitchToRegister, setIsPageLoading }: LoginProps) => {
                   </a>
                 </div>
               </div>
+              <div className="space-y-2">
+                <Label htmlFor="role" style={theme.components.text.body}>Role</Label>
+                <select
+                  id="role"
+                  value={role}
+                  onChange={e => setRole(e.target.value)}
+                  className="w-full rounded-md border px-3 py-2 text-sm"
+                  style={{ ...theme.components.input.base, minHeight: 40 }}
+                >
+                  <option value="LGU">LGU</option>
+                  <option value="BusinessOwner">Business Owner</option>
+                </select>
+              </div>
               <Button 
                 type="submit" 
                 className="w-full rounded-md py-2.5 px-5 font-bold transition-colors duration-300"
@@ -105,7 +123,6 @@ const LoginContent = ({ onSwitchToRegister, setIsPageLoading }: LoginProps) => {
                 Sign in
               </Button>
             </form>
-
             <div className="mt-6">
               <div className="relative">
                 <div className="absolute inset-0 flex items-center">
@@ -115,7 +132,6 @@ const LoginContent = ({ onSwitchToRegister, setIsPageLoading }: LoginProps) => {
                   <span className="px-2" style={{ backgroundColor: theme.colors.background, ...theme.components.text.small }}>Or continue with</span>
                 </div>
               </div>
-
               <div className="mt-6 flex justify-center gap-6">
                 <Button 
                   type="button" 

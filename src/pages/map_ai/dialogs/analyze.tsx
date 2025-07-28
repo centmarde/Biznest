@@ -1,258 +1,433 @@
-import React, { useState, useEffect } from 'react';
-import { useTheme } from '../../../theme/theme';
-import { X, PlusCircle, AlertTriangle, Sun, Moon } from 'lucide-react';
-import axios from 'axios';
+"use client"
+
+import type React from "react"
+import { useState, useEffect } from "react"
+import { useTheme } from "@/theme/theme"
+import {  PlusCircle, AlertTriangle, TrendingUp, MapPin, Building, Home, Car } from "lucide-react"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { Separator } from "@/components/ui/separator"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
+import { Area, AreaChart, Bar, BarChart, XAxis, YAxis, CartesianGrid } from "recharts"
+import mapImage from "/images/map.png"
+import { fetchNearbyData, fetchNearbySupplierByLocation } from "./analyze"
+interface AnalyzeDialogProps {
+  isOpen: boolean
+  onClose: () => void
+  onAddToAnalytics?: () => void
+  imageUrl?: string
+}
 
 interface Analysis {
-  id: number;
-  title: string;
-  imageUrl: string;
-  insights: string;
-  riskLevel: string;
-  timestamp: string;
-  origin: 'residential' | 'business' | 'traffic'; // Changed flood to traffic
-  businessPotential?: string; // Added business potential prediction
+  id: string
+  title: string
+  origin: "residential" | "business" | "traffic"
+  riskLevel: "Low" | "Medium" | "Medium-High" | "High" | "Critical"
+  insights: string
+  businessPotential?: string
+  timestamp: string
+  imageUrl?: string
+  metrics: {
+    trafficFlow: number
+    businessDensity: number
+    residentialDensity: number
+    riskScore: number
+  }
 }
 
-interface AnalysisResponse {
-  analyses: Analysis[];
+// interface Prediction {
+//   title: string
+//   description: string
+//   businessPotential: string
+// }
+
+// Mock data - replace with your actual API calls
+const mockAnalysis: Analysis = {
+  id: "1",
+  title: "Downtown Commercial District Analysis",
+  origin: "business",
+  riskLevel: "Medium-High",
+  insights:
+    "This area shows high commercial activity with moderate traffic congestion during peak hours. The business density indicates strong economic potential but requires careful traffic management.",
+  businessPotential:
+    "Excellent location for retail businesses, restaurants, and service providers. High foot traffic and accessibility make it ideal for customer-facing businesses.",
+  timestamp: new Date().toISOString(),
+  imageUrl: "/images/map.png",
+  metrics: {
+    trafficFlow: 75,
+    businessDensity: 85,
+    residentialDensity: 45,
+    riskScore: 65,
+  },
 }
 
-interface AnalyzeDialogProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onAddToAnalytics?: () => void;
-  imageUrl?: string;
+const mockTrafficData = [
+  { time: "6 AM", traffic: 20, business: 10, residential: 80 },
+  { time: "9 AM", traffic: 85, business: 70, residential: 60 },
+  { time: "12 PM", traffic: 90, business: 95, residential: 40 },
+  { time: "3 PM", traffic: 70, business: 80, residential: 45 },
+  { time: "6 PM", traffic: 95, business: 60, residential: 85 },
+  { time: "9 PM", traffic: 40, business: 30, residential: 90 },
+]
+
+const mockRiskData = [
+  { category: "Traffic", score: 75, color: "#ef4444" },
+  { category: "Business", score: 85, color: "#3b82f6" },
+  { category: "Safety", score: 60, color: "#f59e0b" },
+  { category: "Growth", score: 90, color: "#10b981" },
+]
+
+const chartConfig = {
+  traffic: {
+    label: "Traffic Flow",
+    color: "hsl(var(--chart-1))",
+  },
+  business: {
+    label: "Business Activity",
+    color: "hsl(var(--chart-2))",
+  },
+  residential: {
+    label: "Residential Activity",
+    color: "hsl(var(--chart-3))",
+  },
 }
 
-const AnalyzeDialog: React.FC<AnalyzeDialogProps> = ({
-  isOpen,
-  onClose,
-  onAddToAnalytics,
-  imageUrl
-}) => {
-  const theme = useTheme();
-  const { colors } = theme;
-  const [analysis, setAnalysis] = useState<Analysis | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-  const [blueBackground, setBlueBackground] = useState<boolean>(false);
+const AnalyzeDialog: React.FC<AnalyzeDialogProps> = ({ isOpen, onClose, onAddToAnalytics, imageUrl }) => {
+  const [analysis, setAnalysis] = useState<Analysis | null>(null)
+  const [loading, setLoading] = useState<boolean>(true)
+  const [error] = useState<string | null>(null)
+  const [nearbyData, setNearbyData] = useState<any>(null)
+  const [nearbyLoading, setNearbyLoading] = useState<boolean>(false)
+  const [nearbyError, setNearbyError] = useState<string | null>(null)
+  const [supplier, setSupplier] = useState<any | null>(null)
+  const [supplierLoading, setSupplierLoading] = useState<boolean>(false)
+  const [supplierError, setSupplierError] = useState<string | null>(null)
+  const theme = useTheme()
 
   useEffect(() => {
     if (isOpen) {
-      fetchRandomAnalysis();
+      setLoading(true)
+      // Simulate API call
+      setTimeout(() => {
+        setAnalysis(mockAnalysis)
+        setLoading(false)
+      }, 1500)
+      // Fetch nearby data
+      fetchNearbyData(setNearbyData, setNearbyLoading, setNearbyError)
+      // Fetch supplier for a demo location (e.g., "Fish Market")
+      fetchNearbySupplierByLocation("Fish Market", setSupplier, setSupplierLoading, setSupplierError)
     }
-  }, [isOpen]);
+  }, [isOpen])
 
-  const fetchRandomAnalysis = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      
-      const response = await axios.get<AnalysisResponse>('/data/aiAnalyze.json');
-      const { analyses } = response.data;
-      
-      if (analyses && analyses.length > 0) {
-        // Get a random analysis
-        const randomIndex = Math.floor(Math.random() * analyses.length);
-        setAnalysis(analyses[randomIndex]);
-      } else {
-        setError('No analysis data available');
-      }
-    } catch (err) {
-      setError('Failed to fetch analysis data');
-      console.error('Error fetching analysis data:', err);
-    } finally {
-      setLoading(false);
+  const getRiskColor = (level: string) => {
+    switch (level) {
+      case "Critical":
+        return "destructive"
+      case "High":
+        return "destructive"
+      case "Medium-High":
+        return "default"
+      case "Medium":
+        return "secondary"
+      case "Low":
+        return "outline"
+      default:
+        return "outline"
     }
-  };
+  }
 
-  if (!isOpen) return null;
+  const getOriginIcon = (origin: string) => {
+    switch (origin) {
+      case "residential":
+        return <Home className="h-4 w-4" />
+      case "business":
+        return <Building className="h-4 w-4" />
+      case "traffic":
+        return <Car className="h-4 w-4" />
+      default:
+        return <MapPin className="h-4 w-4" />
+    }
+  }
+
+  // const getOriginColor = (origin: string) => {
+  //   switch (origin) {
+  //     case "residential":
+  //       return "bg-green-500"
+  //     case "business":
+  //       return "bg-blue-500"
+  //     case "traffic":
+  //       return "bg-yellow-500"
+  //     default:
+  //       return "bg-gray-500"
+  //   }
+  // }
+
+  if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
-      {/* Fullscreen Backdrop */}
-      <div
-        className="fixed inset-0 backdrop-blur-md bg-opacity-30"
-        onClick={onClose}
-      ></div>
-
-      {/* Fullscreen Dialog Content */}
-      <div
-        className="fixed inset-0 z-10 flex flex-col"
-        style={{ backgroundColor: blueBackground ? '#1a2b4a' : 'white' }}
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent
+        style={{
+          width: "80vw",
+          height: "80vh",
+          maxWidth: "100vw",
+          maxHeight: "100vh",
+          margin: 0,
+          padding: 0,
+          borderRadius: 0,
+          background: theme.colors.background,
+          color: theme.colors.text,
+          display: "flex",
+          flexDirection: "column",
+        }}
       >
-        {/* Header */}
-        <div
-          className="flex items-center justify-between p-6 border-b"
-          style={{ borderColor: colors.tertiary }}
-        >
-          <h2
-            className="text-2xl font-bold"
-            style={{ color: blueBackground ? 'white' : colors.primary }}
-          >
-            {loading ? 'Loading Analysis...' : analysis?.title || 'AI Map Analysis'}
-          </h2>
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => setBlueBackground(!blueBackground)}
-              className="p-1 rounded-full hover:bg-gray-100 hover:bg-opacity-20"
-              title={blueBackground ? 'Switch to light theme' : 'Switch to dark theme'}
-            >
-              {blueBackground ? (
-                <Sun size={20} color="white" />
+        <DialogHeader style={{
+          padding: "24px",
+          borderBottom: `1px solid ${theme.colors.tertiary}`,
+          background: theme.colors.background,
+        }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+            <DialogTitle style={{ fontSize: "2rem", fontWeight: "bold", display: "flex", alignItems: "center", gap: "8px", color: theme.colors.primary }}>
+              {loading ? (
+                "Loading Analysis..."
               ) : (
-                <Moon size={20} color={colors.text} />
+                <>
+                  {getOriginIcon(analysis?.origin || "")}
+                  {analysis?.title || "AI Map Analysis"}
+                </>
               )}
-            </button>
-            <button
-              onClick={onClose}
-              className="p-1 rounded-full hover:bg-gray-100 hover:bg-opacity-20"
-            >
-              <X size={20} color={blueBackground ? 'white' : colors.text} />
-            </button>
+            </DialogTitle>
+            
           </div>
+        </DialogHeader>
+
+        <div style={{ flex: 1, overflow: "auto", background: theme.colors.background }}>
+          {loading ? (
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%" }}>
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "16px" }}>
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+                <p style={{ color: theme.colors.mutedText }}>Analyzing map data...</p>
+              </div>
+            </div>
+          ) : error ? (
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100%", textAlign: "center", padding: "24px" }}>
+              <AlertTriangle className="h-12 w-12" style={{ color: theme.colors.primary, marginBottom: "16px" }} />
+              <h3 style={{ fontSize: "1.125rem", fontWeight: "bold", marginBottom: "8px" }}>Analysis Failed</h3>
+              <p style={{ color: theme.colors.mutedText, marginBottom: "16px" }}>{error}</p>
+              <Button onClick={() => window.location.reload()}>Try Again</Button>
+            </div>
+          ) : (
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "24px", padding: "24px", height: "100%" }}>
+              {/* Left Column - Image and Legend */}
+              <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+                <Card style={theme.components.card}>
+                  <CardContent style={{ padding: "24px" }}>
+
+                    <div style={{ borderRadius: "12px", overflow: "hidden", border: `1px solid ${theme.colors.tertiary}`, marginBottom: "16px" }}>
+                      <img
+                        src={
+                          analysis?.imageUrl || imageUrl || mapImage
+                        }
+                        alt="AI Analysis Visualization"
+                        style={{ width: "100%", height: "auto" }}
+                      />
+                    </div>
+
+                    {/* Legend */}
+                    <div style={{ display: "flex", justifyContent: "center", gap: "24px", padding: "16px", background: theme.colors.tertiary, borderRadius: "8px" }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                        <div style={{ width: "12px", height: "12px", borderRadius: "50%", background: "#22c55e" }}></div>
+                        <span style={{ fontSize: "0.875rem" }}>Residential</span>
+                      </div>
+                      <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                        <div style={{ width: "12px", height: "12px", borderRadius: "50%", background: "#3b82f6" }}></div>
+                        <span style={{ fontSize: "0.875rem" }}>Business</span>
+                      </div>
+                      <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                        <div style={{ width: "12px", height: "12px", borderRadius: "50%", background: "#eab308" }}></div>
+                        <span style={{ fontSize: "0.875rem" }}>Traffic-Prone</span>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Metrics Overview */}
+                <Card style={theme.components.card}>
+                  <CardHeader>
+                    <CardTitle style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                      <TrendingUp className="h-5 w-5" />
+                      Key Metrics
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
+                      <div style={{ textAlign: "center", padding: "12px", background: theme.colors.tertiary, borderRadius: "8px" }}>
+                        <div style={{ fontSize: "2rem", fontWeight: "bold", color: theme.colors.primary }}>{analysis?.metrics.trafficFlow}%</div>
+                        <div style={{ fontSize: "0.875rem", color: theme.colors.mutedText }}>Traffic Flow</div>
+                      </div>
+                      <div style={{ textAlign: "center", padding: "12px", background: theme.colors.tertiary, borderRadius: "8px" }}>
+                        <div style={{ fontSize: "2rem", fontWeight: "bold", color: "#3b82f6" }}>{analysis?.metrics.businessDensity}%</div>
+                        <div style={{ fontSize: "0.875rem", color: theme.colors.mutedText }}>Business Density</div>
+                      </div>
+                      <div style={{ textAlign: "center", padding: "12px", background: theme.colors.tertiary, borderRadius: "8px" }}>
+                        <div style={{ fontSize: "2rem", fontWeight: "bold", color: "#22c55e" }}>{analysis?.metrics.residentialDensity}%</div>
+                        <div style={{ fontSize: "0.875rem", color: theme.colors.mutedText }}>Residential</div>
+                      </div>
+                      <div style={{ textAlign: "center", padding: "12px", background: theme.colors.tertiary, borderRadius: "8px" }}>
+                        <div style={{ fontSize: "2rem", fontWeight: "bold", color: "#f59e0b" }}>{analysis?.metrics.riskScore}%</div>
+                        <div style={{ fontSize: "0.875rem", color: theme.colors.mutedText }}>Risk Score</div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* Right Column - Analysis and Charts */}
+              <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+                {/* Analysis Card */}
+                <Card style={{ ...theme.components.card, borderLeft: `4px solid ${theme.colors.primary}` }}>
+                  <CardHeader>
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                      <CardTitle style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                        {getOriginIcon(analysis?.origin || "")}
+                        Analysis Insights
+                      </CardTitle>
+                      <Badge variant={getRiskColor(analysis?.riskLevel || "")}>{analysis?.riskLevel} Risk</Badge>
+                    </div>
+                  </CardHeader>
+                  <CardContent style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+                    <p style={{ color: theme.colors.mutedText, lineHeight: 1.6 }}>{analysis?.insights}</p>
+
+                    {analysis?.businessPotential && (
+                      <>
+                        <Separator />
+                        <div>
+                          <h4 style={{ fontWeight: "bold", marginBottom: "8px" }}>Business Potential</h4>
+                          <p style={{ fontSize: "0.875rem", color: theme.colors.mutedText }}>{analysis.businessPotential}</p>
+                        </div>
+                      </>
+                    )}
+
+                    <div style={{ fontSize: "0.75rem", color: theme.colors.mutedText, paddingTop: "8px", borderTop: `1px solid ${theme.colors.tertiary}` }}>
+                      Analysis generated: {new Date(analysis?.timestamp || "").toLocaleString()}
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Charts */}
+                <Tabs defaultValue="activity" className="w-full">
+                  <TabsList className="grid w-full grid-cols-2">
+                    <TabsTrigger value="activity">Activity Patterns</TabsTrigger>
+                    <TabsTrigger value="risk">Risk Assessment</TabsTrigger>
+                  </TabsList>
+
+                  <TabsContent value="activity" className="space-y-4">
+                    <Card style={theme.components.card}>
+                      <CardHeader>
+                        <CardTitle>Daily Activity Patterns</CardTitle>
+                        <CardDescription>
+                          Traffic, business, and residential activity throughout the day
+                        </CardDescription>
+                      </CardHeader>
+                      <CardContent>
+                        <ChartContainer config={chartConfig} className="h-[300px]">
+                          <AreaChart data={nearbyData?.activity || mockTrafficData}>
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis dataKey="time" />
+                            <YAxis />
+                            <ChartTooltip content={<ChartTooltipContent />} />
+                            <Area
+                              type="monotone"
+                              dataKey="traffic"
+                              stackId="1"
+                              stroke="var(--color-traffic)"
+                              fill="var(--color-traffic)"
+                              fillOpacity={0.6}
+                            />
+                            <Area
+                              type="monotone"
+                              dataKey="business"
+                              stackId="1"
+                              stroke="var(--color-business)"
+                              fill="var(--color-business)"
+                              fillOpacity={0.6}
+                            />
+                            <Area
+                              type="monotone"
+                              dataKey="residential"
+                              stackId="1"
+                              stroke="var(--color-residential)"
+                              fill="var(--color-residential)"
+                              fillOpacity={0.6}
+                            />
+                          </AreaChart>
+                        </ChartContainer>
+                        {nearbyLoading && <div style={{ color: theme.colors.mutedText, marginTop: 8 }}>Loading nearby data...</div>}
+                        {nearbyError && <div style={{ color: theme.colors.primary, marginTop: 8 }}>{nearbyError}</div>}
+                        {/* Supplier Info Section */}
+                        <div style={{ marginTop: 16 }}>
+                          <h4 style={{ fontWeight: "bold", marginBottom: 8 }}>Nearby Supplier (Fish Market)</h4>
+                          {supplierLoading && <div style={{ color: theme.colors.mutedText }}>Loading supplier...</div>}
+                          {supplierError && <div style={{ color: theme.colors.primary }}>{supplierError}</div>}
+                          {supplier && (
+                            <div style={{ background: theme.colors.tertiary, padding: 12, borderRadius: 8 }}>
+                              <div style={{ fontWeight: "bold", fontSize: "1rem" }}>{supplier.supplierName}</div>
+                              <div style={{ fontSize: "0.875rem", color: theme.colors.mutedText }}>{supplier.businessType}</div>
+                              <div style={{ marginTop: 8 }}>{supplier.description}</div>
+                              <div style={{ marginTop: 8, fontSize: "0.875rem" }}>
+                                <strong>Distance:</strong> {supplier.distance}
+                              </div>
+                              <div style={{ marginTop: 8, fontSize: "0.875rem" }}>
+                                <strong>Contact:</strong> {supplier.contact?.phone} | {supplier.contact?.email}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </TabsContent>
+
+                  <TabsContent value="risk" className="space-y-4">
+                    <Card style={theme.components.card}>
+                      <CardHeader>
+                        <CardTitle>Risk Assessment Breakdown</CardTitle>
+                        <CardDescription>Detailed risk analysis across different categories</CardDescription>
+                      </CardHeader>
+                      <CardContent>
+                        <ChartContainer config={chartConfig} className="h-[300px]">
+                          <BarChart data={mockRiskData} layout="horizontal">
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis type="number" domain={[0, 100]} />
+                            <YAxis dataKey="category" type="category" width={80} />
+                            <ChartTooltip content={<ChartTooltipContent />} />
+                            <Bar dataKey="score" fill="var(--color-traffic)" radius={[0, 4, 4, 0]} />
+                          </BarChart>
+                        </ChartContainer>
+                      </CardContent>
+                    </Card>
+                  </TabsContent>
+                </Tabs>
+              </div>
+            </div>
+          )}
         </div>
 
-        {/* Body: 2-column grid, fullscreen */}
-        <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-0 h-full overflow-auto">
-          {/* Left: Image and Legend */}
-          <div className="flex flex-col items-center justify-center h-full bg-white bg-opacity-80 p-8">
-            {loading ? (
-              <div className="flex justify-center items-center h-64">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2" style={{ borderColor: blueBackground ? 'white' : colors.primary }}></div>
-              </div>
-            ) : error ? (
-              <div className="flex flex-col items-center justify-center h-64 text-center">
-                <AlertTriangle size={32} color={blueBackground ? 'white' : colors.primary} className="mb-2" />
-                <p style={{ color: blueBackground ? 'white' : colors.primary }}>{error}</p>
-                <button
-                  className="mt-4 px-4 py-2 rounded-md"
-                  style={{ backgroundColor: colors.secondary, color: colors.background }}
-                  onClick={fetchRandomAnalysis}
-                >
-                  Try Again
-                </button>
-              </div>
-            ) : (
-              <>
-                <div className="rounded-lg overflow-hidden border w-full max-w-lg mb-6" style={{ borderColor: colors.tertiary }}>
-                  <img
-                    src={analysis?.imageUrl || imageUrl || 'data/images/map.png'}
-                    alt="AI Analysis Visualization"
-                    className="w-full h-auto"
-                  />
-                </div>
-                {/* Origin Legend */}
-                <div className="flex justify-center gap-8 p-2 bg-white bg-opacity-90 rounded-lg">
-                  <div className="flex items-center">
-                    <div className="w-4 h-4 rounded-full bg-green-500 mr-1"></div>
-                    <span className="text-xs">Residential</span>
-                  </div>
-                  <div className="flex items-center">
-                    <div className="w-4 h-4 rounded-full bg-blue-500 mr-1"></div>
-                    <span className="text-xs">Business</span>
-                  </div>
-                  <div className="flex items-center">
-                    <div className="w-4 h-4 rounded-full bg-yellow-500 mr-1"></div>
-                    <span className="text-xs">Traffic-Prone</span>
-                  </div>
-                </div>
-              </>
-            )}
-          </div>
-
-          {/* Right: Analysis Details */}
-          <div className="flex flex-col justify-center h-full p-8" style={{ backgroundColor: blueBackground ? '#2a3b5a' : colors.background }}>
-            {!loading && !error && (
-              <div className="rounded-lg p-8 shadow-lg" style={{
-                backgroundColor: blueBackground ? 'rgba(255,255,255,0.05)' : 'white',
-                borderLeft: `6px solid ${
-                  analysis?.origin === 'residential' ? 'green' :
-                  analysis?.origin === 'traffic' ? 'yellow' : 'blue'
-                }`
-              }}>
-                <div className="flex justify-between items-center mb-4">
-                  <h3 className="font-semibold text-lg" style={{ color: blueBackground ? 'white' : colors.primary }}>
-                    <span className="mr-2">{
-                      analysis?.origin === 'residential' ? '🏠' :
-                      analysis?.origin === 'traffic' ? '🚦' : '🏢'
-                    }</span>
-                    Analysis Insights
-                  </h3>
-                  <span className="px-3 py-1 rounded-full text-sm font-medium" style={{
-                    backgroundColor:
-                      analysis?.riskLevel === 'Critical' ? colors.primary :
-                      analysis?.riskLevel === 'High' ? colors.secondary :
-                      analysis?.riskLevel === 'Medium-High' ? colors.tertiary :
-                      analysis?.riskLevel === 'Medium' ? colors.background :
-                      '#FFFFFF',
-                    color:
-                      ['Critical', 'High'].includes(analysis?.riskLevel || '') ?
-                      colors.background : blueBackground ? 'white' : colors.text
-                  }}>
-                    {analysis?.riskLevel || 'Unknown Risk'}
-                  </span>
-                </div>
-                <p className="mb-4" style={{ color: blueBackground ? 'white' : colors.text }}>
-                  {analysis?.insights || 'No analysis data available.'}
-                </p>
-
-                {analysis?.businessPotential && (
-                  <div className="mt-4 border-t pt-3" style={{ borderColor: blueBackground ? 'rgba(255,255,255,0.2)' : colors.tertiary }}>
-                    <h4 className="font-medium mb-1" style={{ color: blueBackground ? 'white' : colors.primary }}>
-                      Business Potential Assessment
-                    </h4>
-                    <p style={{ color: blueBackground ? 'white' : colors.text }}>{analysis.businessPotential}</p>
-                  </div>
-                )}
-
-                {analysis?.timestamp && (
-                  <p className="text-xs mt-3" style={{ color: blueBackground ? 'rgba(255,255,255,0.7)' : colors.mutedText }}>
-                    Analysis generated: {new Date(analysis.timestamp).toLocaleString()}
-                  </p>
-                )}
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Footer Actions */}
-        <div
-          className="flex justify-end gap-3 p-6 border-t"
-          style={{ borderColor: blueBackground ? 'rgba(255,255,255,0.2)' : colors.tertiary }}
-        >
-          <button
-            className="px-4 py-2 rounded-md"
-            style={{
-              backgroundColor: blueBackground ? 'rgba(255,255,255,0.1)' : 'white',
-              color: blueBackground ? 'white' : colors.text,
-              border: blueBackground ? '1px solid rgba(255,255,255,0.2)' : `1px solid ${colors.tertiary}`
-            }}
-            onClick={onClose}
-          >
+        {/* Footer */}
+        <div style={{ display: "flex", justifyContent: "flex-end", gap: "12px", padding: "24px", borderTop: `1px solid ${theme.colors.tertiary}`, background: theme.colors.tertiary }}>
+          <Button variant="outline" onClick={onClose}>
             Close
-          </button>
-
-          <button
-            className="px-4 py-2 rounded-md flex items-center gap-2"
-            style={{
-              backgroundColor: colors.secondary,
-              color: colors.background
-            }}
-            onClick={() => {
-              if (onAddToAnalytics) {
-                onAddToAnalytics();
-              }
-            }}
-          >
-            <PlusCircle size={18} />
+          </Button>
+          <Button onClick={onAddToAnalytics} style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            <PlusCircle className="h-4 w-4" />
             Add to Analytics
-          </button>
+          </Button>
         </div>
-      </div>
-    </div>
-  );
-};
+      </DialogContent>
+    </Dialog>
+  )
+}
 
-export default AnalyzeDialog;
+export default AnalyzeDialog
