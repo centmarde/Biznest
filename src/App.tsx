@@ -13,6 +13,7 @@ import MaintenanceCards from "./pages/maintenance";
 import ModelsPage from "./pages/models";
 import BiznestForm from "./pages/biznest/form";
 import BiznestStartingForm from "./pages/biznest/starting-form";
+import UserPage from "./pages/user";
 import NotFound from "./pages/not_found";
 import { useUserAuth } from "./auth/userAuth";
 
@@ -34,6 +35,12 @@ function App() {
             path="/home"
             element={
               role === "LGU" ? <Home /> : <Navigate to="/not-found" replace />
+            }
+          />
+          <Route
+            path="/user"
+            element={
+              role === "LGU" ? <UserPage /> : <Navigate to="/not-found" replace />
             }
           />
           <Route

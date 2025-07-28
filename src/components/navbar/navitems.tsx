@@ -75,7 +75,7 @@ export const navItems: NavItem[] = [
     id: "users",
     label: "Users",
     icon: Users,
-    href: "#",
+    href: "/user",
   },
   {
     id: "settings",
