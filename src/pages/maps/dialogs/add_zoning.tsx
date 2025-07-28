@@ -2,7 +2,8 @@ import React from 'react';
 import { useTheme } from '../../../theme/theme';
 import { useNavigate } from 'react-router-dom';
 
-interface AddBiznestDialogProps {
+
+interface AddZoningDialogProps {
   isOpen: boolean;
   onClose: () => void;
   onConfirm: () => void;
@@ -11,14 +12,13 @@ interface AddBiznestDialogProps {
 }
 
 
-const AddBiznestDialog: React.FC<AddBiznestDialogProps> = ({ 
+const AddZoningDialog: React.FC<AddZoningDialogProps> = ({ 
   isOpen, 
   onClose, 
-  onConfirm, 
-  polygonPaths
+  onConfirm
 }) => {
   const theme = useTheme();
-  const { colors } = theme;
+  const {  components } = theme;
   const navigate = useNavigate();
 
   const handleConfirm = () => {
@@ -37,67 +37,53 @@ const AddBiznestDialog: React.FC<AddBiznestDialogProps> = ({
       <div 
         className="bg-white rounded-lg shadow-xl p-6 max-w-2xl w-full"
         onClick={(e) => e.stopPropagation()} // Prevent clicks inside the dialog from closing it
-        style={{ 
-          borderColor: colors.tertiary, 
-          borderWidth: '1px',
-          animation: 'fadeIn 0.2s ease-out' 
-        }}
+        style={{ ...components.card, animation: 'fadeIn 0.2s ease-out' }}
       >
         <h2 
           className="text-2xl font-bold mb-4"
-          style={{ color: colors.primary }}
+          style={components.text.heading}
         >
-          Add Biznest Site 
+          Add new Zoning
         </h2>
         
-        <div className="mb-4">
-          <h3 className="font-semibold text-lg mb-2" style={{ color: colors.secondary }}>
-            Polygon Coordinates
-          </h3>
-          <div 
-            className="bg-gray-100 p-3 rounded-md max-h-60 overflow-y-auto"
-            style={{ fontSize: '0.85rem' }}
-          >
-            {polygonPaths ? (
-              <pre>{JSON.stringify(polygonPaths, null, 2)}</pre>
-            ) : (
-              <p>No polygon data available.</p>
-            )}
-          </div>
-        </div>
+    
         
         <div className="space-y-4">
           <div>
             <label 
-              htmlFor="biznest-name" 
+              htmlFor="zoning-name" 
               className="block font-medium mb-1"
-              style={{ color: colors.text }}
+              style={components.text.body}
             >
-              Biznest Site Name
+             Zoning Site Name
             </label>
             <input
               type="text"
-              id="biznest-name"
+              id="zoning-name"
               className="w-full border rounded-md px-3 py-2"
-              style={{ borderColor: colors.tertiary }}
-              placeholder="Enter the name of this biznest site"
+              style={components.input.base}
+              placeholder="Enter the name of this zoning site"
+              onFocus={e => Object.assign(e.target.style, components.input.hover)}
+              onBlur={e => Object.assign(e.target.style, components.input.base)}
             />
           </div>
 
           <div>
             <label 
-              htmlFor="biznest-description" 
+              htmlFor="zoning-description" 
               className="block font-medium mb-1"
-              style={{ color: colors.text }}
+              style={components.text.body}
             >
               Description
             </label>
             <textarea
-              id="biznest-description"
+              id="zoning-description"
               rows={3}
               className="w-full border rounded-md px-3 py-2"
-              style={{ borderColor: colors.tertiary }}
-              placeholder="Enter a description for this biznest site"
+              style={components.input.base}
+              placeholder="Enter a description for this zoning site"
+              onFocus={e => Object.assign(e.target.style, components.input.hover)}
+              onBlur={e => Object.assign(e.target.style, components.input.base)}
             ></textarea>
           </div>
         </div>
@@ -105,21 +91,18 @@ const AddBiznestDialog: React.FC<AddBiznestDialogProps> = ({
         <div className="mt-6 flex justify-end space-x-3">
           <button
             className="px-4 py-2 rounded-md"
-            style={{
-              backgroundColor: 'white',
-              color: colors.text,
-              border: `1px solid ${colors.tertiary}`
-            }}
+            style={components.button.secondary.base}
+            onMouseOver={e => Object.assign((e.target as HTMLButtonElement).style, components.button.secondary.hover)}
+            onMouseOut={e => Object.assign((e.target as HTMLButtonElement).style, components.button.secondary.base)}
             onClick={onClose}
           >
             Cancel
           </button>
           <button
             className="px-4 py-2 rounded-md"
-            style={{
-              backgroundColor: colors.primary,
-              color: colors.background
-            }}
+            style={components.button.primary.base}
+            onMouseOver={e => Object.assign((e.target as HTMLButtonElement).style, components.button.primary.hover)}
+            onMouseOut={e => Object.assign((e.target as HTMLButtonElement).style, components.button.primary.base)}
             onClick={handleConfirm}
           >
             Confirm
@@ -137,4 +120,4 @@ const AddBiznestDialog: React.FC<AddBiznestDialogProps> = ({
   );
 };
 
-export default AddBiznestDialog;
+export default AddZoningDialog;

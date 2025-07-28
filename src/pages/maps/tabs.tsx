@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useTheme } from '../../theme/theme';
 import { PlusSquare, HelpCircle } from 'lucide-react';
-import AddBiznestDialog from './dialogs/add_biznest';
+import AddBiznestDialog from './dialogs/add_zoning';
 import HelpDialog from './dialogs/help_dialog';
 
 export type MapType = 'standard' | 'biznest' | 'flood';
@@ -61,13 +61,13 @@ const MapTabs: React.FC<MapTabsProps> = ({
             onClick={handleAddBiznest}
           >
             <PlusSquare size={18} />
-            Add Biznest
+            Add Zoning
           </button>
           
           <button
             className="px-4 py-2 rounded-md transition-all duration-200 flex items-center gap-2"
             style={{
-              backgroundColor: 'white',
+             
               color: colors.text,
               border: `1px solid ${colors.tertiary}`
             }}

@@ -3,7 +3,7 @@ import DefaultLayout from "../layout/default";
 import MapPreview from "./maps/map_preview";
 import MapTabs, { MapType } from "./maps/tabs";
 import HelpDialog from "./maps/dialogs/help_dialog";
-import AddBiznestDialog from "./maps/dialogs/add_biznest";
+import AddBiznestDialog from "./maps/dialogs/add_zoning";
 import ChatButton from "@/components/AIrelated/ChatButton";
 import { ThemeProvider, useTheme } from "../theme/theme";
 import axios from "axios";
