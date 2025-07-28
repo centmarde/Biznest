@@ -39,7 +39,7 @@ async function fetchChatConfig() {
   }
 }
 
-console.log("API Key:", apiKey);
+
 
 // Function to format AI response text with proper line breaks for markdown-style formatting
 export function formatAIResponse(text: string): string {
