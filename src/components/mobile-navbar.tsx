@@ -27,9 +27,9 @@ const navItems = [
 
 function getFilteredNavItems(role: string | null) {
   if (role === "LGU") {
-    return navItems.filter(item => ["dashboard", "settings"].includes(item.id));
+    return navItems.filter(item => ["dashboard", "settings", "maps"].includes(item.id));
   } else if (role === "BusinessOwner") {
-    return navItems.filter(item => ["biznest-form", "maps", "settings"].includes(item.id));
+    return navItems.filter(item => ["biznest-form",  "settings"].includes(item.id));
   }
   return [];
 }

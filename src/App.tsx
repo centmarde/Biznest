@@ -37,7 +37,7 @@ function App() {
           <Route
             path="/maps/view"
             element={
-              role === "BusinessOwner" ? (
+              role === "LGU" ? (
                 <Map />
               ) : (
                 <Navigate to="/not-found" replace />
@@ -47,7 +47,7 @@ function App() {
           <Route
             path="/maps/ai"
             element={
-              role === "BusinessOwner" ? (
+              role === "LGU" ? (
                 <MapPage />
               ) : (
                 <Navigate to="/not-found" replace />

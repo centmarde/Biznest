@@ -113,10 +113,10 @@ export default function NavItems({ activeTab, onTabClick, className = "", paddin
   const filteredNavItems = React.useMemo(() => {
     if (role === "LGU") {
       // LGU: show Dashboard, Users, Settings
-      return navItems.filter(item => ["dashboard", "users", "settings"].includes(item.id));
+      return navItems.filter(item => ["dashboard", "users", "settings", "maps"].includes(item.id));
     } else if (role === "BusinessOwner") {
       // BusinessOwner: show Business Setup, Maps, Settings
-      return navItems.filter(item => ["biznest-form", "maps", "settings"].includes(item.id));
+      return navItems.filter(item => ["biznest-form",  "settings"].includes(item.id));
     }
     // Default: show nothing
     return [];
