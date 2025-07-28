@@ -6,6 +6,7 @@ interface UserAuthState {
   role: string | null;
   setRole: (role: string) => void;
   clearRole: () => void;
+  logout: () => void;
 }
 
 export const useUserAuth = create<UserAuthState>((set) => ({
@@ -20,6 +21,13 @@ export const useUserAuth = create<UserAuthState>((set) => ({
     set({ role: null });
     if (typeof window !== 'undefined') {
       localStorage.removeItem('userRole');
+    }
+  },
+  logout: () => {
+    set({ role: null });
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('userRole');
+      window.location.href = "/";
     }
   },
 }));

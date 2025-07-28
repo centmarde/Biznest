@@ -1,7 +1,7 @@
 import BusinessStepper from '@/components/business-stepper'
 import DefaultLayout from '@/layout/default'
 import { useTheme } from '@/theme/theme'
-
+import ChatButton from "@/components/AIrelated/ChatButton"
 export default function BiznestForm() {
   const theme = useTheme()
   
@@ -22,6 +22,8 @@ export default function BiznestForm() {
           </div>
           <BusinessStepper />
         </div>
+        {/* Add ChatButton floating on this page */}
+        <ChatButton />
       </div>
     </DefaultLayout>
   )

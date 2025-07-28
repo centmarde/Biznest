@@ -18,6 +18,7 @@ const groq = new Groq({
 async function fetchChatConfig() {
   try {
     const response = await axios.get("/data/chatConfig.json");
+    console.log("Chat config fetched successfully:", response.data);
     return response.data.chatCompletion;
   } catch (error) {
     console.error("Error fetching chat config:", error);

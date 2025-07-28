@@ -3,6 +3,7 @@ import { MainSidebar } from "@/components/sidebar"
 import { Navbar } from "@/components/navbar"
 import styled from "styled-components"
 import { useIsMobile } from "@/utils/mobile"
+import MobileNavbar from "@/components/mobile-navbar";
 
 // Update the type definitions for styled components to include the isMobile prop
 interface LayoutProps {
@@ -51,6 +52,7 @@ export default function DefaultLayout({ children }: DefaultLayoutProps) {
         <Navbar />
         {children}
       </ContentArea>
+      {isMobile && <MobileNavbar activeTab="dashboard" />}
     </LayoutContainer>
   );
 }
