@@ -53,7 +53,7 @@ const LoginContent = ({ onSwitchToRegister, setIsPageLoading }: LoginProps) => {
       // Navigate after 3 seconds
       setTimeout(() => {
         if (role === "BusinessOwner") {
-          navigate("/biznest/form");
+          navigate("/biznest/startingform");
         } else {
           navigate("/home");
         }

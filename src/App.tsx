@@ -12,8 +12,10 @@ import MapPage from "./pages/map_ai";
 import MaintenanceCards from "./pages/maintenance";
 import ModelsPage from "./pages/models";
 import BiznestForm from "./pages/biznest/form";
+import BiznestStartingForm from "./pages/biznest/starting-from";
 import NotFound from "./pages/not_found";
 import { useUserAuth } from "./auth/userAuth";
+
 
 function App() {
   const { role } = useUserAuth();
@@ -74,6 +76,16 @@ function App() {
               )
             }
           />
+            <Route
+            path="/biznest/startingform"
+            element={
+              role === "BusinessOwner" ? (
+                <BiznestStartingForm />
+              ) : (
+                <Navigate to="/not-found" replace />
+              )
+            }
+          />
           <Route
             path="/biznest/form"
             element={
@@ -84,6 +96,7 @@ function App() {
               )
             }
           />
+        
           {/* inside */}
           {/* Add more routes as needed */}
           {/* catch-all route for unmatched paths */}

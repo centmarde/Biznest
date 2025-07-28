@@ -10,7 +10,7 @@ import { navItems as desktopNavItems } from "@/components/navbar/navitems";
 
 const navItems = [
   { id: "dashboard", label: "Dashboard", icon: Home, href: "/home" },
-  { id: "biznest-form", label: "Business", icon: Building2, href: "/biznest/form" },
+  { id: "biznest-form", label: "Business", icon: Building2, href: "/biznest/startingform" },
   { id: "maps", label: "Maps", icon: MapPinned, href: "/maps/view" },
   {
     id: "settings",
@@ -29,7 +29,7 @@ function getFilteredNavItems(role: string | null) {
   if (role === "LGU") {
     return navItems.filter(item => ["dashboard", "settings", "maps"].includes(item.id));
   } else if (role === "BusinessOwner") {
-    return navItems.filter(item => ["biznest-form",  "settings"].includes(item.id));
+    return navItems.filter(item => ["biznest-form",  "settings", "startingform"].includes(item.id));
   }
   return [];
 }

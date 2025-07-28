@@ -33,7 +33,7 @@ export const navItems: NavItem[] = [
     id: "biznest-form",
     label: "Business Setup",
     icon: Building2,
-    href: "/biznest/form",
+    href: "/biznest/startingform",
   },
   /* {
     id: "packages",
@@ -116,7 +116,7 @@ export default function NavItems({ activeTab, onTabClick, className = "", paddin
       return navItems.filter(item => ["dashboard", "users", "settings", "maps"].includes(item.id));
     } else if (role === "BusinessOwner") {
       // BusinessOwner: show Business Setup, Maps, Settings
-      return navItems.filter(item => ["biznest-form",  "settings"].includes(item.id));
+      return navItems.filter(item => ["biznest-form",  "settings" , "startingform"].includes(item.id));
     }
     // Default: show nothing
     return [];
