@@ -8,7 +8,7 @@ interface HelpDialogProps {
 
 const HelpDialog: React.FC<HelpDialogProps> = ({ isOpen, onClose }) => {
   const theme = useTheme();
-  const { colors } = theme;
+  const { components } = theme;
 
   if (!isOpen) return null;
 
@@ -21,51 +21,47 @@ const HelpDialog: React.FC<HelpDialogProps> = ({ isOpen, onClose }) => {
       <div 
         className="bg-white rounded-lg shadow-xl p-6 max-w-lg w-full"
         onClick={(e) => e.stopPropagation()} // Prevent clicks inside the dialog from closing it
-        style={{ 
-          borderColor: colors.tertiary, 
-          borderWidth: '1px',
-          animation: 'fadeIn 0.2s ease-out' 
-        }}
+        style={{ ...components.card, animation: 'fadeIn 0.2s ease-out' }}
       >
         <h2 
           className="text-2xl font-bold mb-4"
-          style={{ color: colors.primary }}
+          style={components.text.heading}
         >
           Map Help
         </h2>
         
         <div className="space-y-4">
           <div>
-            <h3 className="font-semibold text-lg mb-1" style={{ color: colors.secondary }}>
+            <h3 className="font-semibold text-lg mb-1" style={components.text.small}>
               Drawing Polygons
             </h3>
-            <p className="text-gray-700">
-              1. Use the drawing tools in the map to create a polygon.
-              2. Click on the map to create points for your polygon.
-              3. Close the polygon by clicking on the first point.
+            <p style={components.text.body}>
+              1. Use the drawing tools in the map to create a polygon.<br />
+              2. Click on the map to create points for your polygon.<br />
+              3. Close the polygon by clicking on the first point.<br />
               4. Press Ctrl+Z to undo the last drawn polygon if needed.
             </p>
           </div>
           
           <div>
-            <h3 className="font-semibold text-lg mb-1" style={{ color: colors.secondary }}>
+            <h3 className="font-semibold text-lg mb-1" style={components.text.small}>
               Adding Biznest Sites
             </h3>
-            <p className="text-gray-700">
-              1. Draw a polygon on the map to mark the biznest site area.
-              2. Click the "Add Biznest" button to add information about this site.
+            <p style={components.text.body}>
+              1. Draw a polygon on the map to mark the biznest site area.<br />
+              2. Click the "Add Biznest" button to add information about this site.<br />
               3. If you haven't drawn a polygon yet, you'll need to create one first.
             </p>
           </div>
           
           <div>
-            <h3 className="font-semibold text-lg mb-1" style={{ color: colors.secondary }}>
+            <h3 className="font-semibold text-lg mb-1" style={components.text.small}>
               Map Layers
             </h3>
-            <p className="text-gray-700">
-              • Use the tab buttons to toggle between different map views.
-              • "Standard Map" shows all layers and allows drawing.
-              • "Biznest Sites" shows only biznest site polygons.
+            <p style={components.text.body}>
+              • Use the tab buttons to toggle between different map views.<br />
+              • "Standard Map" shows all layers and allows drawing.<br />
+              • "Biznest Sites" shows only biznest site polygons.<br />
               • "Flood Zones" shows only flood zone polygons.
             </p>
           </div>
@@ -74,10 +70,9 @@ const HelpDialog: React.FC<HelpDialogProps> = ({ isOpen, onClose }) => {
         <div className="mt-6 flex justify-end">
           <button
             className="px-4 py-2 rounded-md"
-            style={{
-              backgroundColor: colors.primary,
-              color: colors.background
-            }}
+            style={components.button.primary.base}
+            onMouseOver={e => Object.assign((e.target as HTMLButtonElement).style, components.button.primary.hover)}
+            onMouseOut={e => Object.assign((e.target as HTMLButtonElement).style, components.button.primary.base)}
             onClick={onClose}
           >
             Close

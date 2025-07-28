@@ -67,7 +67,7 @@ const MapTabs: React.FC<MapTabsProps> = ({
           <button
             className="px-4 py-2 rounded-md transition-all duration-200 flex items-center gap-2"
             style={{
-              backgroundColor: 'white',
+             
               color: colors.text,
               border: `1px solid ${colors.tertiary}`
             }}

@@ -18,7 +18,7 @@ const AddBiznestDialog: React.FC<AddBiznestDialogProps> = ({
   polygonPaths
 }) => {
   const theme = useTheme();
-  const { colors } = theme;
+  const {  components } = theme;
   const navigate = useNavigate();
 
   const handleConfirm = () => {
@@ -37,21 +37,17 @@ const AddBiznestDialog: React.FC<AddBiznestDialogProps> = ({
       <div 
         className="bg-white rounded-lg shadow-xl p-6 max-w-2xl w-full"
         onClick={(e) => e.stopPropagation()} // Prevent clicks inside the dialog from closing it
-        style={{ 
-          borderColor: colors.tertiary, 
-          borderWidth: '1px',
-          animation: 'fadeIn 0.2s ease-out' 
-        }}
+        style={{ ...components.card, animation: 'fadeIn 0.2s ease-out' }}
       >
         <h2 
           className="text-2xl font-bold mb-4"
-          style={{ color: colors.primary }}
+          style={components.text.heading}
         >
           Add Biznest Site 
         </h2>
         
         <div className="mb-4">
-          <h3 className="font-semibold text-lg mb-2" style={{ color: colors.secondary }}>
+          <h3 className="font-semibold text-lg mb-2" style={components.text.small}>
             Polygon Coordinates
           </h3>
           <div 
@@ -71,7 +67,7 @@ const AddBiznestDialog: React.FC<AddBiznestDialogProps> = ({
             <label 
               htmlFor="biznest-name" 
               className="block font-medium mb-1"
-              style={{ color: colors.text }}
+              style={components.text.body}
             >
               Biznest Site Name
             </label>
@@ -79,8 +75,10 @@ const AddBiznestDialog: React.FC<AddBiznestDialogProps> = ({
               type="text"
               id="biznest-name"
               className="w-full border rounded-md px-3 py-2"
-              style={{ borderColor: colors.tertiary }}
+              style={components.input.base}
               placeholder="Enter the name of this biznest site"
+              onFocus={e => Object.assign(e.target.style, components.input.hover)}
+              onBlur={e => Object.assign(e.target.style, components.input.base)}
             />
           </div>
 
@@ -88,7 +86,7 @@ const AddBiznestDialog: React.FC<AddBiznestDialogProps> = ({
             <label 
               htmlFor="biznest-description" 
               className="block font-medium mb-1"
-              style={{ color: colors.text }}
+              style={components.text.body}
             >
               Description
             </label>
@@ -96,8 +94,10 @@ const AddBiznestDialog: React.FC<AddBiznestDialogProps> = ({
               id="biznest-description"
               rows={3}
               className="w-full border rounded-md px-3 py-2"
-              style={{ borderColor: colors.tertiary }}
+              style={components.input.base}
               placeholder="Enter a description for this biznest site"
+              onFocus={e => Object.assign(e.target.style, components.input.hover)}
+              onBlur={e => Object.assign(e.target.style, components.input.base)}
             ></textarea>
           </div>
         </div>
@@ -105,21 +105,18 @@ const AddBiznestDialog: React.FC<AddBiznestDialogProps> = ({
         <div className="mt-6 flex justify-end space-x-3">
           <button
             className="px-4 py-2 rounded-md"
-            style={{
-              backgroundColor: 'white',
-              color: colors.text,
-              border: `1px solid ${colors.tertiary}`
-            }}
+            style={components.button.secondary.base}
+            onMouseOver={e => Object.assign((e.target as HTMLButtonElement).style, components.button.secondary.hover)}
+            onMouseOut={e => Object.assign((e.target as HTMLButtonElement).style, components.button.secondary.base)}
             onClick={onClose}
           >
             Cancel
           </button>
           <button
             className="px-4 py-2 rounded-md"
-            style={{
-              backgroundColor: colors.primary,
-              color: colors.background
-            }}
+            style={components.button.primary.base}
+            onMouseOver={e => Object.assign((e.target as HTMLButtonElement).style, components.button.primary.hover)}
+            onMouseOut={e => Object.assign((e.target as HTMLButtonElement).style, components.button.primary.base)}
             onClick={handleConfirm}
           >
             Confirm
