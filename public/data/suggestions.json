@@ -1,0 +1,60 @@
+{
+  "predictions": [
+    {
+      "id": 1,
+      "title": "Riverside Beer House Opportunity",
+      "description": "This area is located near the river, making it an ideal spot for a beer house. The scenic view and proximity to water can attract both locals and tourists, boosting hospitality and leisure business.",
+      "origin": "business",
+      "businessPotential": "High potential for a themed beer house or pub, leveraging riverside ambiance for events and gatherings.",
+      "timestamp": "2025-07-29T00:00:00.000Z"
+    },
+    {
+      "id": 2,
+      "title": "Transit Hub Coffee & Coworking Spot",
+      "description": "Located near a busy transit station, this site is perfect for a hybrid coffee shop and coworking space catering to daily commuters and remote workers.",
+      "origin": "business",
+      "businessPotential": "Strong potential for high foot traffic sales and daily recurring customers, especially during peak hours.",
+      "timestamp": "2025-07-29T00:00:00.000Z"
+    },
+    {
+      "id": 3,
+      "title": "University Belt Affordable Eats",
+      "description": "Surrounded by educational institutions, this area is ideal for a food park or student-friendly dine-in spots offering affordable meals.",
+      "origin": "business",
+      "businessPotential": "Excellent opportunity for fast casual dining, maximizing foot traffic from students and faculty.",
+      "timestamp": "2025-07-29T00:00:00.000Z"
+    },
+    {
+      "id": 4,
+      "title": "Highland Adventure & Camping Store",
+      "description": "Near elevated and hilly terrain popular among hikers and bikers, this location suits an outdoor adventure and gear store.",
+      "origin": "business",
+      "businessPotential": "Niche opportunity with potential to develop partnerships with tour groups and adventure clubs.",
+      "timestamp": "2025-07-29T00:00:00.000Z"
+    },
+    {
+      "id": 5,
+      "title": "Tech Hub Gadget Repair and Accessories",
+      "description": "Within a digital business district, this site is a great fit for a quick-service tech repair and accessories shop for professionals.",
+      "origin": "business",
+      "businessPotential": "Consistent demand expected from gadget-heavy office workers and digital nomads.",
+      "timestamp": "2025-07-29T00:00:00.000Z"
+    },
+    {
+      "id": 6,
+      "title": "Suburban Weekend Farmers' Market",
+      "description": "This suburban area has limited access to fresh local produce. A weekly farmers' market could fulfill community needs and support local growers.",
+      "origin": "business",
+      "businessPotential": "Community-driven model with low startup costs and strong potential for repeat visitors.",
+      "timestamp": "2025-07-29T00:00:00.000Z"
+    },
+    {
+      "id": 7,
+      "title": "Seaside Wellness Retreat & Café",
+      "description": "Located near the coast, this quiet area is well-suited for a wellness retreat center with an organic café, yoga space, and spa.",
+      "origin": "business",
+      "businessPotential": "High potential for eco-tourism and wellness-focused travelers seeking holistic experiences.",
+      "timestamp": "2025-07-29T00:00:00.000Z"
+    }
+  ]
+}

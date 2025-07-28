@@ -3,7 +3,7 @@ import { useTheme } from '../../theme/theme';
 import { PlusSquare, HelpCircle } from 'lucide-react';
 import AddHeritageDialog from '../maps/dialogs/add_heritage';
 import HelpDialog from '../maps/dialogs/help_dialog';
-import AnalyzeDialog from './dialogs/analyze';
+import AnalyzeDialog from './dialogs/analyze.tsx';
 
 interface MapAITabsProps {
   onAddHeritage?: () => void;
