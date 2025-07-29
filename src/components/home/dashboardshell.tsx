@@ -1,9 +1,11 @@
 import type React from "react"
 import { useTheme } from "@/theme/theme"
 
-interface DashboardShellProps extends React.HTMLAttributes<HTMLDivElement> {}
+interface DashboardShellProps {
+  children: React.ReactNode;
+}
 
-export function DashboardShell({ children, className, ...props }: DashboardShellProps) {
+export function DashboardShell({ children, ...props }: DashboardShellProps) {
   const theme = useTheme();
   
   return <div 

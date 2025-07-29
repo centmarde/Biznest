@@ -15,7 +15,7 @@ interface MainSidebarProps extends React.ComponentPropsWithoutRef<"div"> {
   isMobile?: boolean;
 }
 
-export function MainSidebar({ isMobile = false, className, ...props }: MainSidebarProps) {
+export function MainSidebar({ isMobile = false, ...props }: MainSidebarProps) {
   const [activeTab, setActiveTab] = React.useState("dashboard")
   const [notificationCount, setNotificationCount] = React.useState(3)
   const [showNotifications, setShowNotifications] = React.useState(false)

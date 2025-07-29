@@ -1,4 +1,4 @@
-import React, { createContext, useContext, ReactNode, useState } from 'react';
+import React, { createContext, useContext, ReactNode, useState, FC } from 'react';
 
 // Light theme colors
 const lightColors = {
@@ -8,6 +8,7 @@ const lightColors = {
     background: '#ffffff',   // White background
     text: '#151515',         // Dark text for good readability
     mutedText: '#6b7280',    // Gray for secondary text and descriptions
+    card: '#ffffff',
 };
 
 // Dark theme colors
@@ -18,6 +19,7 @@ const darkColors = {
     background: '#151515',   // Dark background
     text: '#ffffff',         // White text for contrast
     mutedText: '#9ca3af',    // Light gray for secondary text
+    card: '#1f2937',
 };
 
 // Custom style interfaces with hover states
@@ -83,17 +85,17 @@ const createTheme = (colors: typeof lightColors, isDark: boolean, toggleTheme: (
           transition: 'background-color 0.3s ease',
         },
         hover: {
-          backgroundColor: colors.tertiary,
+          backgroundColor: colors.primary,
         },
       },
       text: {
         base: {
           backgroundColor: 'transparent',
           color: colors.primary,
-          padding: '10px 20px',
           border: 'none',
+          padding: '10px 20px',
           cursor: 'pointer',
-          transition: 'color 0.3s ease',
+          textDecoration: 'underline',
         },
         hover: {
           color: colors.secondary,
@@ -101,104 +103,73 @@ const createTheme = (colors: typeof lightColors, isDark: boolean, toggleTheme: (
       },
     },
     card: {
-      backgroundColor: colors.background,
+      backgroundColor: colors.card,
       borderRadius: '8px',
       padding: '20px',
-      boxShadow: `0 4px 8px rgba(76, 88, 91, 0.1)`,
+      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.05)',
       border: `1px solid ${colors.tertiary}`,
     },
     input: {
       base: {
         backgroundColor: colors.background,
+        color: colors.text,
+        borderRadius: '6px',
+        padding: '12px',
         border: `1px solid ${colors.tertiary}`,
-        borderRadius: '4px',
-        padding: '10px 12px',
-        color: colors.primary,
-        transition: 'border-color 0.3s ease',
+        width: '100%',
       },
       hover: {
-        outline: 'none',
-        borderColor: colors.secondary,
+        borderColor: colors.primary,
       },
     },
     text: {
       heading: {
-        color: colors.primary,
+        fontSize: '2rem',
         fontWeight: 'bold',
-        marginBottom: '16px',
+        color: colors.primary,
       },
       body: {
-        color: colors.primary,
-        fontSize: '16px',
-        lineHeight: 1.5,
+        fontSize: '1rem',
+        color: colors.text,
       },
       small: {
-        color: colors.secondary,
-        fontSize: '14px',
+        fontSize: '0.875rem',
+        color: colors.mutedText,
       },
     },
   },
 });
 
-// Create context
+// Theme context
 const ThemeContext = createContext<ThemeType | undefined>(undefined);
 
-// Custom hook for using the theme
-export const useTheme = () => {
-  const context = useContext(ThemeContext);
-  if (!context) {
-    throw new Error('useTheme must be used within a ThemeProvider');
-  }
-  return context;
-};
-
-// Theme provider component
+// Theme provider props
 interface ThemeProviderProps {
   children: ReactNode;
 }
 
-export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
-  // Initialize theme from localStorage or default to light mode
-  const [isDark, setIsDark] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const savedTheme = localStorage.getItem('theme');
-      return savedTheme === 'dark';
-    }
-    return false;
-  });
-
-  // Apply initial background color immediately
-  React.useEffect(() => {
-    const colors = isDark ? darkColors : lightColors;
-    document.body.style.backgroundColor = colors.background;
-    document.documentElement.style.backgroundColor = colors.background;
-    document.body.style.transition = 'background-color 0.3s ease';
-    document.documentElement.style.transition = 'background-color 0.3s ease';
-  }, [isDark]);
+// Theme provider component
+export const ThemeProvider: FC<ThemeProviderProps> = ({ children }) => {
+  const [isDark, setIsDark] = useState(false);
 
   const toggleTheme = () => {
-    const newTheme = !isDark;
-    setIsDark(newTheme);
-    
-    // Immediately apply background color change to avoid delay
-    const newColors = newTheme ? darkColors : lightColors;
-    document.body.style.backgroundColor = newColors.background;
-    document.documentElement.style.backgroundColor = newColors.background;
-    
-    // Save to localStorage
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('theme', newTheme ? 'dark' : 'light');
-    }
+    setIsDark(!isDark);
   };
 
-  const currentTheme = createTheme(isDark ? darkColors : lightColors, isDark, toggleTheme);
+  const theme = createTheme(isDark ? darkColors : lightColors, isDark, toggleTheme);
 
   return (
-    <ThemeContext.Provider value={currentTheme}>
+    <ThemeContext.Provider value={theme}>
       {children}
     </ThemeContext.Provider>
   );
 };
 
-// Export the theme
-export default lightColors;
+// Custom hook to use the theme
+export const useTheme = () => {
+  const context = useContext(ThemeContext);
+  if (context === undefined) {
+    throw new Error('useTheme must be used within a ThemeProvider');
+  }
+  return context;
+};

@@ -4,6 +4,7 @@ import { useTheme } from '../../theme/theme';
 import { PlusSquare, HelpCircle, BarChart2, Building2 } from 'lucide-react';
 import AddBiznestDialog from './dialogs/add_zoning';
 import HelpDialog from './dialogs/help_dialog';
+import { useNavigate } from 'react-router-dom';
 
 export type MapType = 'standard' | 'biznest' | 'flood';
 
@@ -27,6 +28,7 @@ const MapTabs: React.FC<MapTabsProps> = ({
   const { colors } = theme;
   const [isBiznestDialogOpen, setIsBiznestDialogOpen] = useState(false);
   const [isHelpDialogOpen, setIsHelpDialogOpen] = useState(false);
+  const navigate = useNavigate();
   
   
   const handleAddBiznest = () => {
@@ -44,20 +46,19 @@ const MapTabs: React.FC<MapTabsProps> = ({
     setIsHelpDialogOpen(true);
   };
 
+  const isMobile = useIsMobile();
+
   return (
     <>
       <div className="flex mb-4 justify-between">
         <div className="flex gap-4"></div>
-        {(() => {
-          const isMobile = useIsMobile();
-          return (
-            <div
-              className={
-                isMobile
-                  ? 'flex flex-wrap gap-1 justify-end w-full'
-                  : 'flex gap-2'
-              }
-            >
+        <div
+          className={
+            isMobile
+              ? 'flex flex-wrap gap-1 justify-end w-full'
+              : 'flex gap-2'
+          }
+        >
               <button
                 className={
                   isMobile
@@ -71,7 +72,7 @@ const MapTabs: React.FC<MapTabsProps> = ({
                 }}
                 onClick={() => {
                   // TODO: Implement new businesses statistics logic
-                  alert('Show New Businesses Statistics');
+                  navigate('/new-stats/statistics');
                 }}
               >
                 <BarChart2 size={isMobile ? 14 : 18} />
@@ -91,7 +92,7 @@ const MapTabs: React.FC<MapTabsProps> = ({
                 }}
                 onClick={() => {
                   // TODO: Implement old businesses statistics logic
-                  alert('Show Old Businesses Statistics');
+                  navigate('/old-stats/statistics');
                 }}
               >
                 <Building2 size={isMobile ? 14 : 18} />
@@ -131,8 +132,6 @@ const MapTabs: React.FC<MapTabsProps> = ({
                 {isMobile ? 'Help' : 'Help'}
               </button>
             </div>
-          );
-        })()}
       </div>
 
       <AddBiznestDialog 
