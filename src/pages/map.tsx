@@ -29,7 +29,8 @@ interface Marker {
 
 interface Polygon {
   paths: Array<{ lat: number; lng: number }>;
-  options?: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  options?: any; // Google Maps polygon options - external library type
   id?: number;
   name?: string;
 }

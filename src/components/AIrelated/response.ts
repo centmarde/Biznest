@@ -75,6 +75,7 @@ export function Response() {
     
     const chatCompletion = await groq.chat.completions.create({
       messages: [
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         ...chatConfig.messages.map((msg: any) => ({
           role: msg.role as "system" | "user" | "assistant",
           content: msg.content
@@ -93,6 +94,7 @@ export function Response() {
     });
 
     let fullResponse = "";
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     for await (const chunk of chatCompletion as any) {
       const content = chunk.choices[0]?.delta?.content || "";
       fullResponse += content;
