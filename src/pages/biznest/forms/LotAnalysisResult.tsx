@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import DefaultLayout from "@/layout/default";
 import { useTheme } from "@/theme/theme";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -6,6 +6,8 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsive
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
+// Zustand stores and logMemoryState import
+import { logMemoryState} from "../data/memory-option-1";
 
 // Fix for default marker icon
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -24,8 +26,14 @@ const chartData = [
   { name: 'Growth Pot.', value: 75 },
 ];
 
+
 const LotAnalysisResult: React.FC = () => {
   const theme = useTheme();
+
+  // Log Zustand memory state on mount
+  useEffect(() => {
+    logMemoryState();
+  }, []);
 
   const recommendations = [
     { title: "Boutique Coffee Shop", reason: "High foot traffic and low competition for premium coffee." },

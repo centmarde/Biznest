@@ -1,4 +1,5 @@
 import { useState } from "react"
+ import { useBusinessStepperStore } from "@/pages/biznest/data/memory-option-1";
 import { useNavigate } from "react-router-dom"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -117,9 +118,14 @@ export default function BusinessStepper() {
     }
   }
 
+  // Import Zustand store
+ 
+  const businessStepperStore = useBusinessStepperStore();
+
   const handleSubmit = () => {
-    console.log("Form submitted:", formData)
-    // Handle form submission here
+    console.log("Form submitted:", formData);
+    // Save to Zustand store
+    businessStepperStore.setInputs(formData);
     navigate("/biznest/lot-analysis-result");
   }
 
