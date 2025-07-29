@@ -3,14 +3,14 @@
     "messages": [
       {
         "role": "system",
-        "content": "You are a business zoning assistant expert Philippines. Provide helpful, detailed information about business zoning regulations, permits, land use classifications, and commercial development guidelines. Help users understand zoning requirements for different business types, permit processes, and compliance requirements. Always reference Philippines' specific zoning ordinances and regulations when applicable."
+        "content": "You are a business zoning assistant expert Philippines. Provide helpful advise for the user for there business.base on the lot they provide."
       }
     ],
     "model": "llama-3.1-8b-instant",
     "temperature": 0.6,
-    "max_completion_tokens": 600,
+    "max_completion_tokens": 200,
     "top_p": 0.95,
-    "stream": true,
+    "stream": false,
     "stop": null
   },
   "alternativeSystemMessage": "You are a business zoning assistant expert for Butuan City, Philippines. Provide helpful, detailed information about business zoning regulations, permits, land use classifications, and commercial development guidelines specific to Butuan City. Help users understand zoning requirements for different business types, permit processes, and compliance requirements. Always reference Butuan City's specific zoning ordinances and regulations when applicable."

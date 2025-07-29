@@ -1,6 +1,7 @@
 // AIResponseContainer component to fetch and display AI response
 function AIResponseContainer() {
   const [response, setResponse] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(true);
   useEffect(() => {
     async function fetchAIAnalysis() {
       const lotAnalysis = useLotAnalysisStore.getState();
@@ -9,14 +10,23 @@ function AIResponseContainer() {
       const { getResponse } = Response();
       const aiText = await getResponse(prompt);
       setResponse(formatAIResponse(aiText));
+      setLoading(false);
     }
     fetchAIAnalysis();
   }, []);
   return (
-    <div
-      className="prose prose-slate max-w-none"
-      dangerouslySetInnerHTML={{ __html: response }}
-    />
+    <div className="prose prose-slate max-w-none">
+      {loading || !response ? (
+        <div className="flex items-center justify-center h-32">
+          <svg className="animate-spin h-8 w-8 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+          </svg>
+        </div>
+      ) : (
+        <div dangerouslySetInnerHTML={{ __html: response }} />
+      )}
+    </div>
   );
 }
 "use client";
@@ -32,6 +42,7 @@ import { Response, formatAIResponse } from "../lib/analyze";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { useTheme } from "@/theme/theme";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
@@ -70,7 +81,8 @@ interface Recommendation {
 }
 
 export function BusinessLotAnalysisResults() {
-  const [selectedTab, setSelectedTab] = useState("overview");
+  const [selectedTab, setSelectedTab] = useState("ai-analysis");
+  const theme = useTheme();
   // Removed aiAnalysisResponse state, using AIResponseContainer instead
 
   const lotData = {
@@ -200,35 +212,35 @@ export function BusinessLotAnalysisResults() {
   ];
 
   const getScoreColor = (score: number) => {
-    if (score >= 85) return "text-emerald-600";
-    if (score >= 70) return "text-blue-600";
-    if (score >= 55) return "text-amber-600";
-    return "text-red-600";
+    if (score >= 85) return theme.colors.primary;
+    if (score >= 70) return theme.colors.secondary;
+    if (score >= 55) return theme.colors.tertiary;
+    return '#e11d48'; // red-600
   };
 
   const getScoreBg = (score: number) => {
-    if (score >= 85) return "bg-emerald-100";
-    if (score >= 70) return "bg-blue-100";
-    if (score >= 55) return "bg-amber-100";
-    return "bg-red-100";
+    if (score >= 85) return theme.colors.tertiary;
+    if (score >= 70) return theme.colors.secondary;
+    if (score >= 55) return '#fbbf24'; // amber-100
+    return '#fee2e2'; // red-100
   };
 
   const getRecommendationIcon = (type: string) => {
     switch (type) {
       case "opportunity":
-        return <CheckCircle className="w-5 h-5 text-emerald-600" />;
+        return <CheckCircle className="w-5 h-5" style={{ color: theme.colors.primary }} />;
       case "warning":
-        return <AlertTriangle className="w-5 h-5 text-amber-600" />;
+        return <AlertTriangle className="w-5 h-5" style={{ color: theme.colors.tertiary }} />;
       default:
-        return <XCircle className="w-5 h-5 text-slate-600" />;
+        return <XCircle className="w-5 h-5" style={{ color: theme.colors.mutedText }} />;
     }
   };
 
   const getImpactBadge = (impact: string) => {
     const variants = {
-      high: "bg-red-100 text-red-800",
-      medium: "bg-amber-100 text-amber-800",
-      low: "bg-slate-100 text-slate-800",
+      high: { background: '#fee2e2', color: '#b91c1c' },
+      medium: { background: '#fbbf24', color: theme.colors.tertiary },
+      low: { background: theme.colors.tertiary, color: theme.colors.mutedText },
     };
     return variants[impact as keyof typeof variants] || variants.low;
   };
@@ -236,23 +248,35 @@ export function BusinessLotAnalysisResults() {
   return (
     <div className="space-y-6">
       {/* Header Card */}
-      <Card className="border-0 shadow-lg bg-gradient-to-r from-indigo-600 to-purple-600 text-white">
+      <Card style={{
+        backgroundColor: theme.colors.background,
+        color: theme.colors.text,
+        border: 'none',
+        boxShadow: '0 4px 16px rgba(76, 88, 91, 0.12)',
+        ...theme.components.card,
+      }}>
         <CardHeader>
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <div className="p-2 bg-white/20 rounded-lg">
-                <Building2 className="w-6 h-6" />
+              <div style={{
+                padding: '8px',
+                background: theme.colors.tertiary,
+                borderRadius: '8px',
+                display: 'flex',
+                alignItems: 'center',
+              }}>
+                <Building2 className="w-6 h-6" style={{ color: theme.colors.primary }} />
               </div>
               <div>
-                <CardTitle className="text-2xl font-bold">
+                <CardTitle style={{ ...theme.components.text.heading, fontSize: '2rem' }}>
                   Commercial Lot Analysis
                 </CardTitle>
-                <p className="text-indigo-100">{lotData.address}</p>
+                <p style={{ color: theme.colors.secondary }}>{lotData.address}</p>
               </div>
             </div>
             <div className="text-right">
-              <div className="text-3xl font-bold">{overallScore}</div>
-              <div className="text-sm text-indigo-100">
+              <div style={{ fontSize: '2rem', fontWeight: 'bold', color: theme.colors.primary }}>{overallScore}</div>
+              <div style={{ fontSize: '0.9rem', color: theme.colors.mutedText }}>
                 Business Viability Score
               </div>
             </div>
@@ -261,20 +285,20 @@ export function BusinessLotAnalysisResults() {
         <CardContent>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
             <div>
-              <div className="text-indigo-100">Lot Size</div>
-              <div className="font-semibold">{lotData.lotSize}</div>
+              <div style={{ color: theme.colors.secondary }}>Lot Size</div>
+              <div style={{ fontWeight: 'bold', color: theme.colors.primary }}>{lotData.lotSize}</div>
             </div>
             <div>
-              <div className="text-indigo-100">Zoning</div>
-              <div className="font-semibold">{lotData.zoning}</div>
+              <div style={{ color: theme.colors.secondary }}>Zoning</div>
+              <div style={{ fontWeight: 'bold', color: theme.colors.primary }}>{lotData.zoning}</div>
             </div>
             <div>
-              <div className="text-indigo-100">List Price</div>
-              <div className="font-semibold">{lotData.listingPrice}</div>
+              <div style={{ color: theme.colors.secondary }}>List Price</div>
+              <div style={{ fontWeight: 'bold', color: theme.colors.primary }}>{lotData.listingPrice}</div>
             </div>
             <div>
-              <div className="text-indigo-100">Est. Value</div>
-              <div className="font-semibold">{lotData.estimatedValue}</div>
+              <div style={{ color: theme.colors.secondary }}>Est. Value</div>
+              <div style={{ fontWeight: 'bold', color: theme.colors.primary }}>{lotData.estimatedValue}</div>
             </div>
           </div>
         </CardContent>
@@ -285,76 +309,12 @@ export function BusinessLotAnalysisResults() {
         onValueChange={setSelectedTab}
         className="w-full"
       >
-        <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="ai-analysis">AI Analysis</TabsTrigger>
-          <TabsTrigger value="detailed">Detailed Scores</TabsTrigger>
-          <TabsTrigger value="recommendations">Recommendations</TabsTrigger>
-        </TabsList>
-
-        <TabsContent value="overview" className="space-y-6">
-          {/* Score Overview */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {analysisScores.map((item, index) => (
-              <Card key={index} className="hover:shadow-md transition-shadow">
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center space-x-2">
-                      <div
-                        className={`p-2 rounded-lg ${getScoreBg(item.score)}`}
-                      >
-                        {item.icon}
-                      </div>
-                      <div className="font-medium text-sm">{item.category}</div>
-                    </div>
-                    <div
-                      className={`text-2xl font-bold ${getScoreColor(
-                        item.score
-                      )}`}
-                    >
-                      {item.score}
-                    </div>
-                  </div>
-                  <Progress value={item.score} className="h-2" />
-                  <div className="mt-2 text-xs text-slate-600">
-                    {item.details[0]}
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-
-          {/* Business Metrics */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <Card className="bg-gradient-to-br from-green-50 to-emerald-50 border-green-200">
-              <CardContent className="p-6 text-center">
-                <Users className="w-8 h-8 text-green-600 mx-auto mb-2" />
-                <div className="text-2xl font-bold text-green-800">45,000+</div>
-                <div className="text-sm text-green-700">
-                  Daily Traffic Count
-                </div>
-              </CardContent>
-            </Card>
-            <Card className="bg-gradient-to-br from-blue-50 to-cyan-50 border-blue-200">
-              <CardContent className="p-6 text-center">
-                <DollarSign className="w-8 h-8 text-blue-600 mx-auto mb-2" />
-                <div className="text-2xl font-bold text-blue-800">$78K</div>
-                <div className="text-sm text-blue-700">
-                  Median Household Income
-                </div>
-              </CardContent>
-            </Card>
-            <Card className="bg-gradient-to-br from-purple-50 to-violet-50 border-purple-200">
-              <CardContent className="p-6 text-center">
-                <TrendingUp className="w-8 h-8 text-purple-600 mx-auto mb-2" />
-                <div className="text-2xl font-bold text-purple-800">+12%</div>
-                <div className="text-sm text-purple-700">
-                  Annual Growth Rate
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </TabsContent>
+      <TabsList className="grid w-full grid-cols-4">
+        <TabsTrigger value="ai-analysis">AI Analysis</TabsTrigger>
+        <TabsTrigger value="overview">Overview</TabsTrigger>
+        <TabsTrigger value="detailed">Detailed Scores</TabsTrigger>
+        <TabsTrigger value="recommendations">Recommendations</TabsTrigger>
+      </TabsList>
 
         <TabsContent value="ai-analysis" className="space-y-6">
           <Card>
@@ -409,17 +369,70 @@ export function BusinessLotAnalysisResults() {
           </Card>
         </TabsContent>
 
+        <TabsContent value="overview" className="space-y-6">
+          {/* Score Overview */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {analysisScores.map((item, index) => (
+              <Card key={index} style={{ ...theme.components.card }}>
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center space-x-2">
+                      <div
+                        style={{ padding: '8px', borderRadius: '8px', background: getScoreBg(item.score), display: 'flex', alignItems: 'center' }}
+                      >
+                        {item.icon}
+                      </div>
+                      <div style={{ fontWeight: '500', fontSize: '1rem', color: theme.colors.primary }}>{item.category}</div>
+                    </div>
+                    <div
+                      style={{ fontSize: '1.5rem', fontWeight: 'bold', color: getScoreColor(item.score) }}
+                    >
+                      {item.score}
+                    </div>
+                  </div>
+                  <Progress value={item.score} className="h-2" />
+                  <div style={{ marginTop: '8px', fontSize: '0.85rem', color: theme.colors.mutedText }}>
+                    {item.details[0]}
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          {/* Business Metrics */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <Card style={{ ...theme.components.card, textAlign: 'center' }}>
+              <CardContent className="p-6">
+                <Users className="w-8 h-8" style={{ color: theme.colors.primary, margin: '0 auto 8px' }} />
+                <div style={{ fontSize: '2rem', fontWeight: 'bold', color: theme.colors.primary }}>45,000+</div>
+                <div style={{ fontSize: '1rem', color: theme.colors.secondary }}>Daily Traffic Count</div>
+              </CardContent>
+            </Card>
+            <Card style={{ ...theme.components.card, textAlign: 'center' }}>
+              <CardContent className="p-6">
+                <DollarSign className="w-8 h-8" style={{ color: theme.colors.secondary, margin: '0 auto 8px' }} />
+                <div style={{ fontSize: '2rem', fontWeight: 'bold', color: theme.colors.secondary }}>$78K</div>
+                <div style={{ fontSize: '1rem', color: theme.colors.secondary }}>Median Household Income</div>
+              </CardContent>
+            </Card>
+            <Card style={{ ...theme.components.card, textAlign: 'center' }}>
+              <CardContent className="p-6">
+                <TrendingUp className="w-8 h-8" style={{ color: theme.colors.tertiary, margin: '0 auto 8px' }} />
+                <div style={{ fontSize: '2rem', fontWeight: 'bold', color: theme.colors.tertiary }}>+12%</div>
+                <div style={{ fontSize: '1rem', color: theme.colors.tertiary }}>Annual Growth Rate</div>
+              </CardContent>
+            </Card>
+          </div>
+        </TabsContent>
+
         <TabsContent value="detailed" className="space-y-6">
           {analysisScores.map((item, index) => (
-            <Card key={index}>
+            <Card key={index} style={{ ...theme.components.card }}>
               <CardHeader>
-                <CardTitle className="flex items-center space-x-2">
+                <CardTitle className="flex items-center space-x-2" style={{ color: theme.colors.primary }}>
                   {item.icon}
                   <span>{item.category}</span>
-                  <Badge
-                    variant="outline"
-                    className={getScoreColor(item.score)}
-                  >
+                  <Badge variant="outline" style={{ background: getScoreBg(item.score), color: getScoreColor(item.score), border: 'none' }}>
                     {item.score}/100
                   </Badge>
                 </CardTitle>
@@ -427,12 +440,9 @@ export function BusinessLotAnalysisResults() {
               <CardContent>
                 <div className="space-y-3">
                   {item.details.map((detail, detailIndex) => (
-                    <div
-                      key={detailIndex}
-                      className="flex items-start space-x-2"
-                    >
-                      <CheckCircle className="w-4 h-4 text-emerald-600 mt-0.5 flex-shrink-0" />
-                      <span className="text-sm text-slate-700">{detail}</span>
+                    <div key={detailIndex} className="flex items-start space-x-2">
+                      <CheckCircle className="w-4 h-4" style={{ color: theme.colors.primary, marginTop: '2px', flexShrink: 0 }} />
+                      <span style={{ fontSize: '0.95rem', color: theme.colors.text }}>{detail}</span>
                     </div>
                   ))}
                 </div>
@@ -444,7 +454,7 @@ export function BusinessLotAnalysisResults() {
         <TabsContent value="recommendations" className="space-y-6">
           <div className="space-y-4">
             {recommendations.map((rec, index) => (
-              <Card key={index} className="hover:shadow-md transition-shadow">
+              <Card key={index} style={{ ...theme.components.card }}>
                 <CardContent className="p-6">
                   <div className="flex items-start space-x-4">
                     <div className="flex-shrink-0">
@@ -452,14 +462,12 @@ export function BusinessLotAnalysisResults() {
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center justify-between mb-2">
-                        <h3 className="font-semibold text-slate-900">
-                          {rec.title}
-                        </h3>
-                        <Badge className={getImpactBadge(rec.impact)}>
+                        <h3 style={{ fontWeight: '600', color: theme.colors.primary }}>{rec.title}</h3>
+                        <Badge style={{ background: getImpactBadge(rec.impact).background, color: getImpactBadge(rec.impact).color, border: 'none' }}>
                           {rec.impact} impact
                         </Badge>
                       </div>
-                      <p className="text-sm text-slate-600">
+                      <p style={{ fontSize: '0.95rem', color: theme.colors.text }}>
                         {rec.description}
                       </p>
                     </div>
@@ -469,32 +477,28 @@ export function BusinessLotAnalysisResults() {
             ))}
           </div>
 
-          <Card className="bg-gradient-to-r from-indigo-50 to-purple-50 border-indigo-200">
+          <Card style={{ ...theme.components.card }}>
             <CardHeader>
-              <CardTitle className="flex items-center space-x-2 text-indigo-800">
-                <Brain className="w-5 h-5" />
+              <CardTitle className="flex items-center space-x-2" style={{ color: theme.colors.primary }}>
+                <Brain className="w-5 h-5" style={{ color: theme.colors.primary }} />
                 <span>Investment Recommendation</span>
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-indigo-700 mb-4">
-                <strong>STRONG BUY:</strong> This commercial lot represents an
-                exceptional investment opportunity with high ROI potential. The
-                combination of prime location, strong demographics, and
-                favorable market conditions make it ideal for immediate
-                development or long-term investment.
+              <p style={{ color: theme.colors.secondary, marginBottom: '1rem' }}>
+                <strong>STRONG BUY:</strong> This commercial lot represents an exceptional investment opportunity with high ROI potential. The combination of prime location, strong demographics, and favorable market conditions make it ideal for immediate development or long-term investment.
               </p>
               <div className="flex space-x-3">
-                <Button className="bg-indigo-600 hover:bg-indigo-700">
-                  <DollarSign className="w-4 h-4 mr-2" />
+                <Button style={{ ...theme.components.button.primary.base }}>
+                  <DollarSign className="w-4 h-4 mr-2" style={{ color: theme.colors.background }} />
                   Request Financial Analysis
                 </Button>
-                <Button variant="outline">
-                  <Calendar className="w-4 h-4 mr-2" />
+                <Button style={{ ...theme.components.button.secondary.base }}>
+                  <Calendar className="w-4 h-4 mr-2" style={{ color: theme.colors.background }} />
                   Schedule Property Tour
                 </Button>
-                <Button variant="outline">
-                  <Truck className="w-4 h-4 mr-2" />
+                <Button style={{ ...theme.components.button.secondary.base }}>
+                  <Truck className="w-4 h-4 mr-2" style={{ color: theme.colors.background }} />
                   Get Development Quotes
                 </Button>
               </div>
