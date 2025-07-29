@@ -105,7 +105,27 @@ function App() {
               )
             }
           />
-        
+          <Route
+            path="/settings"
+            element={
+              role === "LGU" || role === "BusinessOwner" ? (
+                <SettingsPage />
+              ) : (
+                <Navigate to="/not-found" replace />
+              )
+            }
+          />
+          <Route
+            path="/account"
+            element={
+              role === "LGU" || role === "BusinessOwner" ? (
+                <AccountPage />
+              ) : (
+                <Navigate to="/not-found" replace />
+              )
+            }
+          />
+
           {/* inside */}
           {/* Add more routes as needed */}
           {/* catch-all route for unmatched paths */}
