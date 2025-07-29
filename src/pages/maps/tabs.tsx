@@ -72,7 +72,7 @@ const MapTabs: React.FC<MapTabsProps> = ({
                 }}
                 onClick={() => {
                   // TODO: Implement new businesses statistics logic
-                  alert('Show New Businesses Statistics');
+                  navigate('/new-stats/statistics');
                 }}
               >
                 <BarChart2 size={isMobile ? 14 : 18} />
