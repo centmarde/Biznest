@@ -71,11 +71,11 @@ const MapTabs: React.FC<MapTabsProps> = ({
                 }}
                 onClick={() => {
                   // TODO: Implement new businesses statistics logic
-                  alert('Show New Businesses Statistics');
+                  alert('Show New Businesses');
                 }}
               >
                 <BarChart2 size={isMobile ? 14 : 18} />
-                {isMobile ? 'New Stats' : 'New Businesses Statistics'}
+                {isMobile ? 'Show New Bus.' : 'Show New Businesses'}
               </button>
 
               <button
@@ -91,11 +91,11 @@ const MapTabs: React.FC<MapTabsProps> = ({
                 }}
                 onClick={() => {
                   // TODO: Implement old businesses statistics logic
-                  alert('Show Old Businesses Statistics');
+                  alert('Show Old Businesses');
                 }}
               >
                 <Building2 size={isMobile ? 14 : 18} />
-                {isMobile ? 'Old Stats' : 'Old Businesses Statistics'}
+                {isMobile ? 'Show Old.' : 'Show Old Businesses'}
               </button>
 
               <button

@@ -15,6 +15,8 @@ import BiznestForm from "./pages/biznest/form";
 import BiznestStartingForm from "./pages/biznest/starting-form";
 import UserPage from "./pages/user";
 import NotFound from "./pages/not_found";
+import OldStats from "./pages/old_stats";
+// import NewStats from "./pages/new_stats";
 import { useUserAuth } from "./auth/userAuth";
 
 
@@ -48,6 +50,16 @@ function App() {
             element={
               role === "LGU" ? (
                 <Map />
+              ) : (
+                <Navigate to="/not-found" replace />
+              )
+            }
+          />
+           <Route
+            path="stats/old"
+            element={
+              role === "LGU" ? (
+                <OldStats />
               ) : (
                 <Navigate to="/not-found" replace />
               )

@@ -14,7 +14,27 @@ const navItems = [
   { id: "user", label: "Users", icon: Users, href: "/user" },
   { id: "biznest-form", label: "Business", icon: Building2, href: "/biznest/form" },
 
-  { id: "maps", label: "Maps", icon: MapPinned, href: "/maps/view" },
+  { id: "old-stats", label: "Old Statistics", icon: MapPinned, href: "/stats/old" },
+
+  {
+    id: "maps",
+    label: "Maps",
+    icon: MapPinned,
+    href: "/maps/view",
+    children: [
+      { id: "maps-view", label: "Heat Map", href: "/maps/view" },
+    ],
+  },
+  {
+    id: "summarized-statistic",
+    label: "Summarized Statistic",
+    icon: MapPinned,
+    href: "#",
+    children: [
+      { id: "old-business-statistics", label: "Old Business statistics", href: "/maps/old-business-statistics" },
+      { id: "new-business-statistics", label: "New Business statistics", href: "/maps/new-business-statistics" },
+    ],
+  },
   {
     id: "settings",
     label: "Settings",
@@ -30,7 +50,7 @@ const navItems = [
 
 function getFilteredNavItems(role: string | null) {
   if (role === "LGU") {
-    return navItems.filter(item => ["dashboard", "user", "settings", "maps"].includes(item.id));
+    return navItems.filter(item => ["dashboard", "user", "settings", "maps", "summarized-statistic", "old-stats"].includes(item.id));
   } else if (role === "BusinessOwner") {
     return navItems.filter(item => ["biznest-form",  "settings", "startingform"].includes(item.id));
   }
