@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import DefaultLayout from "@/layout/default";
 import {
@@ -10,10 +10,15 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/theme/theme";
+import { useUserChoiceStore } from "./data/memory-option-1";
 
 const StartingFrom: React.FC = () => {
   const navigate = useNavigate();
   const theme = useTheme();
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [userInput, setUserInput] = useState<string>("");
+  const saveUserChoice = useUserChoiceStore(state => state.saveUserChoice);
+  const getUserChoice = useUserChoiceStore(state => state.getUserChoice);
 
   const scenarios = [
     {
@@ -85,8 +90,27 @@ const StartingFrom: React.FC = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent className="p-8 pt-0">
+                {/* Optional user input field for additional info */}
+                {selectedIndex === index && (
+                  <input
+                    type="text"
+                    className="w-full mb-2 p-2 border rounded"
+                    placeholder="Add details (optional)"
+                    value={userInput}
+                    onChange={e => setUserInput(e.target.value)}
+                  />
+                )}
                 <Button
-                  onClick={() => navigate(scenario.path)}
+                  onClick={() => {
+                    setSelectedIndex(index);
+                    saveUserChoice({
+                      option: scenario.title,
+                      path: scenario.path,
+                      input: userInput,
+                    });
+                    console.log("User choice:", getUserChoice());
+                    navigate(scenario.path);
+                  }}
                   className="w-full mt-4 py-3 text-lg"
                   style={{
                     backgroundColor: scenario.accentColor,
