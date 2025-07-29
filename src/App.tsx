@@ -25,6 +25,7 @@ import AccountPage from "./pages/account";
 import NotFound from "./pages/not_found";
 import { useUserAuth } from "./auth/userAuth";
 import OldBusinessStatistics from "./pages/old_stats/statistics";
+import NewBusinessStatistics from "./pages/new_stats/statistics";
 
 
 function App() {
@@ -107,6 +108,16 @@ function App() {
             element={
               role === "BusinessOwner" ? (
                 <BiznestForm />
+              ) : (
+                <Navigate to="/not-found" replace />
+              )
+            }
+          />
+          <Route
+            path="/new-stats/statistics"
+            element={
+              role === "LGU" ? (
+                <NewBusinessStatistics />
               ) : (
                 <Navigate to="/not-found" replace />
               )
