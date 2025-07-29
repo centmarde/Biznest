@@ -23,9 +23,8 @@ import UserPage from "./pages/user";
 import SettingsPage from "./pages/settings";
 import AccountPage from "./pages/account";
 import NotFound from "./pages/not_found";
-import OldStats from "./pages/old_stats";
-// import NewStats from "./pages/new_stats";
 import { useUserAuth } from "./auth/userAuth";
+import OldBusinessStatistics from "./pages/old_stats/statistics";
 
 
 function App() {
@@ -58,16 +57,6 @@ function App() {
             element={
               role === "LGU" ? (
                 <Map />
-              ) : (
-                <Navigate to="/not-found" replace />
-              )
-            }
-          />
-           <Route
-            path="stats/old"
-            element={
-              role === "LGU" ? (
-                <OldStats />
               ) : (
                 <Navigate to="/not-found" replace />
               )
@@ -118,6 +107,16 @@ function App() {
             element={
               role === "BusinessOwner" ? (
                 <BiznestForm />
+              ) : (
+                <Navigate to="/not-found" replace />
+              )
+            }
+          />
+          <Route
+            path="/old-stats/statistics"
+            element={
+              role === "LGU" ? (
+                <OldBusinessStatistics />
               ) : (
                 <Navigate to="/not-found" replace />
               )

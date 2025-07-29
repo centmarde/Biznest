@@ -43,26 +43,8 @@ export const navItems: NavItem[] = [
     children: [
       {
         id: "maps-view",
-        label: "Heat Map",
+        label: "View Map",
         href: "/maps/view",
-      },
-    ],
-  },
-  {
-    id: "summarized-statistic",
-    label: "Summarized Statistic",
-    icon: MapPinned,
-    href: "#",
-    children: [
-      {
-        id: "old-business-statistics",
-        label: "Old Business statistics",
-        href: "/stats/old",
-      },
-      {
-        id: "new-business-statistics",
-        label: "New Business statistics",
-        href: "/maps/new-business-statistics",
       },
     ],
   },
@@ -127,7 +109,7 @@ export default function NavItems({ activeTab: _activeTab, onTabClick, className 
   // Filter navItems based on role
   const filteredNavItems = React.useMemo(() => {
     if (role === "LGU") {
-      return navItems.filter(item => ["dashboard", "users", "settings", "maps", "summarized-statistic"].includes(item.id));
+      return navItems.filter(item => ["dashboard", "users", "settings", "maps"].includes(item.id));
     } else if (role === "BusinessOwner") {
       return navItems.filter(item => ["biznest-form", "settings", "startingform"].includes(item.id));
     }

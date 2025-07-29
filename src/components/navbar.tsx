@@ -1,4 +1,4 @@
-import { User, Settings, LogOut, MapPinned } from "lucide-react"
+import { User, Settings, LogOut } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
@@ -74,11 +74,6 @@ export function Navbar() {
                 <a href="/settings" className="w-full">
                   Settings
                 </a>
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>
-                <MapPinned className="mr-2 h-4 w-4" />
-                <a href="#" className="w-full">Summarized Statistic</a>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem>

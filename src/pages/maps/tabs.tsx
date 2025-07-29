@@ -4,6 +4,7 @@ import { useTheme } from '../../theme/theme';
 import { PlusSquare, HelpCircle, BarChart2, Building2 } from 'lucide-react';
 import AddBiznestDialog from './dialogs/add_zoning';
 import HelpDialog from './dialogs/help_dialog';
+import { useNavigate } from 'react-router-dom';
 
 export type MapType = 'standard' | 'biznest' | 'flood';
 
@@ -27,6 +28,7 @@ const MapTabs: React.FC<MapTabsProps> = ({
   const { colors } = theme;
   const [isBiznestDialogOpen, setIsBiznestDialogOpen] = useState(false);
   const [isHelpDialogOpen, setIsHelpDialogOpen] = useState(false);
+  const navigate = useNavigate();
   
   
   const handleAddBiznest = () => {
@@ -70,11 +72,11 @@ const MapTabs: React.FC<MapTabsProps> = ({
                 }}
                 onClick={() => {
                   // TODO: Implement new businesses statistics logic
-                  alert('Show New Businesses');
+                  alert('Show New Businesses Statistics');
                 }}
               >
                 <BarChart2 size={isMobile ? 14 : 18} />
-                {isMobile ? 'Show New Bus.' : 'Show New Businesses'}
+                {isMobile ? 'New Stats' : 'New Businesses Statistics'}
               </button>
 
               <button
@@ -90,11 +92,11 @@ const MapTabs: React.FC<MapTabsProps> = ({
                 }}
                 onClick={() => {
                   // TODO: Implement old businesses statistics logic
-                  alert('Show Old Businesses');
+                  navigate('/old-stats/statistics');
                 }}
               >
                 <Building2 size={isMobile ? 14 : 18} />
-                {isMobile ? 'Show Old.' : 'Show Old Businesses'}
+                {isMobile ? 'Old Stats' : 'Old Businesses Statistics'}
               </button>
 
               <button

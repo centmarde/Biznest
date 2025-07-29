@@ -11,6 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/theme/theme";
 import { useUserChoiceStore } from "./data/memory-option-1";
+import ChatButton from "@/components/AIrelated/ChatButton";
 
 const StartingFrom: React.FC = () => {
   const navigate = useNavigate();
@@ -124,6 +125,7 @@ const StartingFrom: React.FC = () => {
           ))}
         </div>
       </div>
+      <ChatButton />
     </DefaultLayout>
   );
 };
