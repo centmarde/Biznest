@@ -232,13 +232,13 @@ export default function UserPage() {
                 <CardHeader>
                   <CardTitle>Quick Actions</CardTitle>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="p-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                     {quickActions.map((action, index) => (
                       <Button
                         key={index}
                         variant="outline"
-                        className="h-auto p-4 flex flex-col items-center gap-2"
+                        className="h-auto p-4 flex flex-col items-center justify-center gap-2"
                         style={{ 
                           borderColor: theme.colors.tertiary,
                           color: theme.colors.text
