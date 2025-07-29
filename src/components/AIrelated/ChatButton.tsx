@@ -6,6 +6,7 @@ import { MessageCircle, X, Send, Maximize2, Minimize2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useTheme } from '@/theme/theme';
 import { Response, formatAIResponse } from './response';
+import { useIsMobile } from '@/utils/mobile';
 
 // Define message type
 interface ChatMessage {
@@ -15,6 +16,7 @@ interface ChatMessage {
 }
 
 const ChatButton = () => {
+  const isMobile = useIsMobile();
   const [isOpen, setIsOpen] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const [message, setMessage] = useState('');
@@ -86,8 +88,12 @@ const ChatButton = () => {
     }
   };
 
+  // Responsive bottom position: 20px for mobile, Tailwind bottom-5 for md and up
   return (
-    <div className="fixed bottom-5 right-5 z-50">
+    <div
+      className={isMobile ? "fixed right-5" : "fixed right-5 bottom-5"}
+      style={isMobile ? { bottom: '80px'} : {}}
+    >
       {/* Chat interface - transition effects using Tailwind */}
       <div className={cn(
         "absolute transition-all duration-300 ease-in-out",

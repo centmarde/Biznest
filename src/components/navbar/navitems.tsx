@@ -4,7 +4,7 @@ import * as React from "react"
 import {  MapPinned, Home,  Settings, Users, ChevronDown, ChevronUp, Building2 } from "lucide-react"
 import { ThemeSwitcher } from "@/theme/ThemeSwitcher"
 import { useTheme } from "@/theme/theme"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useLocation } from "react-router-dom"
 import { useUserAuth } from "@/auth/userAuth";
 
 interface NavItemsProps {
@@ -33,14 +33,8 @@ export const navItems: NavItem[] = [
     id: "biznest-form",
     label: "Business Setup",
     icon: Building2,
-    href: "/biznest/form",
+    href: "/biznest/startingform",
   },
-  /* {
-    id: "packages",
-    label: "Packages",
-    icon: Gift,
-    href: "/packages",
-  }, */
   {
     id: "maps",
     label: "Maps",
@@ -52,29 +46,12 @@ export const navItems: NavItem[] = [
         label: "View Map",
         href: "/maps/view",
       },
-     /*  {
-        id: "maps-ai",
-        label: "Map with AI",
-        href: "/maps/ai",
-      }, */
     ],
   },
- /*  {
-    id: "maintenance",
-    label: "Maintenance",
-    icon: Tool,
-    href: "/maintenance",
-  },
-  {
-    id: "3dmodels",
-    label: "3dModels",
-    icon: Box3d,
-    href: "/models",
-  }, */
   {
     id: "users",
-    label: "Users",
     icon: Users,
+    label: "Users",
     href: "/user",
   },
   {
@@ -102,29 +79,46 @@ export const navItems: NavItem[] = [
   },
 ]
 
-export default function NavItems({ activeTab, onTabClick, className = "", padding = "px-2" }: NavItemsProps) {
+export default function NavItems({ activeTab: _activeTab, onTabClick, className = "", padding = "px-2" }: NavItemsProps) {
   const [expandedItems, setExpandedItems] = React.useState<string[]>([]);
   const navigate = useNavigate();
+  const location = useLocation();
   const theme = useTheme();
-  // Use Zustand hook to get role
   const role = useUserAuth().role;
+
+  // Determine active tab from location
+  const getActiveTabFromLocation = React.useCallback(() => {
+    // Try to match current pathname to navItems or their children
+    for (const item of navItems) {
+      if (item.href !== "#" && location.pathname.startsWith(item.href)) {
+        return item.id;
+      }
+      if (item.children) {
+        for (const child of item.children) {
+          if (child.href !== "#" && location.pathname.startsWith(child.href)) {
+            return child.id;
+          }
+        }
+      }
+    }
+    return "";
+  }, [location.pathname]);
+
+  const activeTab = _activeTab || getActiveTabFromLocation();
 
   // Filter navItems based on role
   const filteredNavItems = React.useMemo(() => {
     if (role === "LGU") {
-      // LGU: show Dashboard, Users, Settings
       return navItems.filter(item => ["dashboard", "users", "settings", "maps"].includes(item.id));
     } else if (role === "BusinessOwner") {
-      // BusinessOwner: show Business Setup, Maps, Settings
-      return navItems.filter(item => ["biznest-form",  "settings"].includes(item.id));
+      return navItems.filter(item => ["biznest-form", "settings", "startingform"].includes(item.id));
     }
-    // Default: show nothing
     return [];
   }, [role]);
 
   const toggleExpand = (itemId: string) => {
-    setExpandedItems(prev => 
-      prev.includes(itemId) 
+    setExpandedItems(prev =>
+      prev.includes(itemId)
         ? prev.filter(id => id !== itemId)
         : [...prev, itemId]
     );
@@ -133,20 +127,20 @@ export default function NavItems({ activeTab, onTabClick, className = "", paddin
   const isExpanded = (itemId: string) => expandedItems.includes(itemId);
   const isChildActive = (item: NavItem) => {
     if (!item.children) return false;
-    return item.children.some(child => activeTab === child.id);
+    return activeTab === item.id || item.children.some(child => activeTab === child.id);
   };
 
   const handleItemClick = (item: NavItem) => {
     if (item.children) {
       toggleExpand(item.id);
     } else {
-      onTabClick(item.id);
+      if (onTabClick) onTabClick(item.id);
       navigate(item.href);
     }
   };
 
   const handleChildClick = (child: { id: string; href: string }) => {
-    onTabClick(child.id);
+    if (onTabClick) onTabClick(child.id);
     navigate(child.href);
   };
 
@@ -154,7 +148,7 @@ export default function NavItems({ activeTab, onTabClick, className = "", paddin
     <nav className={`flex flex-col ${padding} ${className}`}>
       {filteredNavItems.map((item) => (
         <div key={item.id} className="mb-1">
-          <div 
+          <div
             className="flex items-center justify-between px-4 py-3 rounded-lg cursor-pointer transition-colors"
             style={{
               backgroundColor: (activeTab === item.id || isChildActive(item)) ? theme.colors.primary : 'transparent',
@@ -183,7 +177,7 @@ export default function NavItems({ activeTab, onTabClick, className = "", paddin
                         <span>{child.label}</span>
                       </div>
                     ) : (
-                      <div 
+                      <div
                         key={child.id}
                         className="flex items-center gap-3 px-4 py-2 rounded-lg cursor-pointer transition-colors my-1"
                         style={{
@@ -199,7 +193,7 @@ export default function NavItems({ activeTab, onTabClick, className = "", paddin
                 </>
               ) : (
                 item.children.map((child) => (
-                  <div 
+                  <div
                     key={child.id}
                     className="flex items-center gap-3 px-4 py-2 rounded-lg cursor-pointer transition-colors my-1"
                     style={{
@@ -217,7 +211,7 @@ export default function NavItems({ activeTab, onTabClick, className = "", paddin
         </div>
       ))}
     </nav>
-  )
+  );
 }
 
 // Export the function to get current active item

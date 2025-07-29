@@ -7,8 +7,8 @@ export default function BiznestForm() {
   
   return (
     <DefaultLayout>
-      <div className="min-h-screen" style={{ backgroundColor: theme.colors.background }}>
-        <div className="container mx-auto py-2 px-4 sm:px-6 lg:px-8">
+      <div className="min-h-screen " style={{ backgroundColor: theme.colors.background }}>
+        <div className="container py-2 px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-2">
             <h1 
               className="text-3xl font-bold tracking-tight mb-1"
@@ -20,10 +20,12 @@ export default function BiznestForm() {
               Complete your business information to get started with Biznest
             </p>
           </div>
+            <ChatButton />
           <BusinessStepper />
+          
         </div>
         {/* Add ChatButton floating on this page */}
-        <ChatButton />
+      
       </div>
     </DefaultLayout>
   )

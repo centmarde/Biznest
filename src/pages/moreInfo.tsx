@@ -27,7 +27,7 @@ const ThemedMoreInfo = () => {
         </div>
       </div>
       
-      <div className="flex-2 flex items-center justify-center md:flex-2 flex-1">
+      <div className="flex-2 flex items-center justify-center md:flex-2">
         <MoreInfoForm />
       </div>
     </div>

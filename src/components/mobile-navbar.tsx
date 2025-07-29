@@ -10,8 +10,10 @@ import { navItems as desktopNavItems } from "@/components/navbar/navitems";
 
 const navItems = [
   { id: "dashboard", label: "Dashboard", icon: Home, href: "/home" },
+
   { id: "user", label: "Users", icon: Users, href: "/user" },
   { id: "biznest-form", label: "Business", icon: Building2, href: "/biznest/form" },
+
   { id: "maps", label: "Maps", icon: MapPinned, href: "/maps/view" },
   {
     id: "settings",
@@ -30,7 +32,7 @@ function getFilteredNavItems(role: string | null) {
   if (role === "LGU") {
     return navItems.filter(item => ["dashboard", "user", "settings", "maps"].includes(item.id));
   } else if (role === "BusinessOwner") {
-    return navItems.filter(item => ["biznest-form",  "settings"].includes(item.id));
+    return navItems.filter(item => ["biznest-form",  "settings", "startingform"].includes(item.id));
   }
   return [];
 }
@@ -59,7 +61,7 @@ export default function MobileNavbar({ activeTab, onTabClick }: MobileNavbarProp
 
   return (
     <nav
-      className="fixed bottom-0 left-0 right-0 z-50 flex justify-around items-center h-16 bg-white border-t"
+      className="fixed bottom-0 left-0 right-0 z-50 flex justify-around items-center h-16 bg-white border-t gap-2"
       style={{
         backgroundColor: theme.colors.background,
         borderTop: `1px solid ${theme.colors.tertiary}`,

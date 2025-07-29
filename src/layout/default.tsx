@@ -21,7 +21,8 @@ const LayoutContainer = styled.div<LayoutProps>`
 
 const ContentArea = styled.main<LayoutProps>`
   flex: 1;
-  padding: ${props => props.isMobile ? "calc(60px + 1rem) 1rem 1rem 1rem" : "1.5rem"};
+  padding: ${props => props.isMobile ? "calc(60px + 1rem) 1rem calc(64px + 1rem) 1rem" : "1.5rem"};
+  /* On mobile, add bottom padding to prevent MobileNavbar overlap (navbar height is 64px) */
   overflow-y: auto;
   min-width: 0; /* Prevent flex item from overflowing */
 `;
