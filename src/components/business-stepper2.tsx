@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useLocation } from "react-router-dom"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -8,33 +8,26 @@ import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Checkbox } from "@/components/ui/checkbox"
-import { Check, MapPin, Building, Users, Target, Phone } from "lucide-react"
+import { Check, Building, Users, Target, Phone } from "lucide-react"
 import { useTheme } from "@/theme/theme"
 
 interface FormData {
-  // Step 1: Location
-  address: string
-  city: string
-  state: string
-  zipCode: string
-  country: string
-
-  // Step 2: Business Description
+  // Step 1: Business Description
   businessName: string
   businessDescription: string
   industry: string
 
-  // Step 3: Business Size
+  // Step 2: Business Size
   employeeCount: string
   revenueRange: string
   businessAge: string
 
-  // Step 4: Business Type & Target Market
+  // Step 3: Business Type & Target Market
   businessType: string
   targetMarket: string[]
   primaryGoal: string
 
-  // Step 5: Contact & Goals
+  // Step 4: Contact & Goals
   contactName: string
   email: string
   phone: string
@@ -45,30 +38,24 @@ interface FormData {
 const steps = [
   {
     id: 1,
-    title: "Business Location",
-    description: "Where will your business be located?",
-    icon: MapPin,
-  },
-  {
-    id: 2,
     title: "Business Description",
     description: "Tell us about your business",
     icon: Building,
   },
   {
-    id: 3,
+    id: 2,
     title: "Business Size",
     description: "What's the size of your business?",
     icon: Users,
   },
   {
-    id: 4,
+    id: 3,
     title: "Business Type & Market",
     description: "Define your business model",
     icon: Target,
   },
   {
-    id: 5,
+    id: 4,
     title: "Contact & Goals",
     description: "Final details and objectives",
     icon: Phone,
@@ -78,13 +65,9 @@ const steps = [
 export default function BusinessStepper() {
   const theme = useTheme()
   const navigate = useNavigate()
+  const location = useLocation()
   const [currentStep, setCurrentStep] = useState(1)
   const [formData, setFormData] = useState<FormData>({
-    address: "",
-    city: "",
-    state: "",
-    zipCode: "",
-    country: "",
     businessName: "",
     businessDescription: "",
     industry: "",
@@ -106,7 +89,7 @@ export default function BusinessStepper() {
   }
 
   const handleNext = () => {
-    if (currentStep < 5) {
+    if (currentStep < 4) {
       setCurrentStep(currentStep + 1)
     }
   }
@@ -120,7 +103,23 @@ export default function BusinessStepper() {
   const handleSubmit = () => {
     console.log("Form submitted:", formData)
     // Handle form submission here
-    navigate("/biznest/lot-analysis-result");
+    
+    // Get the 'from' query parameter to determine where to navigate
+    const searchParams = new URLSearchParams(location.search)
+    const fromForm = searchParams.get('from')
+    
+    switch (fromForm) {
+      case 'business-idea':
+        navigate("/biznest/business-idea-result");
+        break;
+      case 'expansion':
+        navigate("/biznest/expansion-result");
+        break;
+      case 'lot-analysis':
+      default:
+        navigate("/biznest/lot-analysis-result");
+        break;
+    }
   }
 
   const handleTargetMarketChange = (market: string, checked: boolean) => {
@@ -137,97 +136,6 @@ export default function BusinessStepper() {
   const renderStepContent = () => {
     switch (currentStep) {
       case 1:
-        return (
-          <div className="space-y-4 pb-4">
-            <div className="space-y-2">
-              <Label htmlFor="address" style={{ color: theme.colors.primary }}>Street Address</Label>
-              <Input
-                id="address"
-                value={formData.address}
-                onChange={(e) => updateFormData("address", e.target.value)}
-                placeholder="123 Main Street"
-                style={{
-                  backgroundColor: theme.colors.background,
-                  borderColor: theme.colors.tertiary,
-                  color: theme.colors.text
-                }}
-              />
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="city" style={{ color: theme.colors.primary }}>City</Label>
-                <Input
-                  id="city"
-                  value={formData.city}
-                  onChange={(e) => updateFormData("city", e.target.value)}
-                  placeholder="New York"
-                  style={{
-                    backgroundColor: theme.colors.background,
-                    borderColor: theme.colors.tertiary,
-                    color: theme.colors.text
-                  }}
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="state" style={{ color: theme.colors.primary }}>State/Province</Label>
-                <Input
-                  id="state"
-                  value={formData.state}
-                  onChange={(e) => updateFormData("state", e.target.value)}
-                  placeholder="NY"
-                  style={{
-                    backgroundColor: theme.colors.background,
-                    borderColor: theme.colors.tertiary,
-                    color: theme.colors.text
-                  }}
-                />
-              </div>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="zipCode" style={{ color: theme.colors.primary }}>ZIP/Postal Code</Label>
-                <Input
-                  id="zipCode"
-                  value={formData.zipCode}
-                  onChange={(e) => updateFormData("zipCode", e.target.value)}
-                  placeholder="10001"
-                  style={{
-                    backgroundColor: theme.colors.background,
-                    borderColor: theme.colors.tertiary,
-                    color: theme.colors.text
-                  }}
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="country" style={{ color: theme.colors.primary }}>Country</Label>
-                <Select value={formData.country} onValueChange={(value) => updateFormData("country", value)}>
-                  <SelectTrigger style={{
-                    backgroundColor: theme.colors.background,
-                    borderColor: theme.colors.tertiary,
-                    color: theme.colors.text
-                  }}>
-                    <SelectValue placeholder="Select country" />
-                  </SelectTrigger>
-                  <SelectContent style={{
-                    backgroundColor: theme.colors.background,
-                    borderColor: theme.colors.tertiary,
-                    color: theme.colors.text
-                  }}>
-                    <SelectItem value="us">United States</SelectItem>
-                    <SelectItem value="ca">Canada</SelectItem>
-                    <SelectItem value="uk">United Kingdom</SelectItem>
-                    <SelectItem value="au">Australia</SelectItem>
-                    <SelectItem value="de">Germany</SelectItem>
-                    <SelectItem value="fr">France</SelectItem>
-                    <SelectItem value="other">Other</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-          </div>
-        )
-
-      case 2:
         return (
           <div className="space-y-4 pb-4">
             <div className="space-y-2">
@@ -290,7 +198,7 @@ export default function BusinessStepper() {
           </div>
         )
 
-      case 3:
+      case 2:
         return (
           <div className="space-y-6 pb-4">
             <div className="space-y-3">
@@ -376,7 +284,7 @@ export default function BusinessStepper() {
           </div>
         )
 
-      case 4:
+      case 3:
         return (
           <div className="space-y-6 pb-4">
             <div className="space-y-3">
@@ -455,7 +363,7 @@ export default function BusinessStepper() {
           </div>
         )
 
-      case 5:
+      case 4:
         return (
           <div className="space-y-4 pb-4">
             <div className="space-y-2">
@@ -642,7 +550,7 @@ export default function BusinessStepper() {
           Previous
         </Button>
 
-        {currentStep === 5 ? (
+        {currentStep === 4 ? (
           <Button 
             onClick={handleSubmit}
             style={{

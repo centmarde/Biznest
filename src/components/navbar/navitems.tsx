@@ -81,17 +81,17 @@ export const navItems: NavItem[] = [
       {
         id: "settings-account",
         label: "Account",
-        href: "#",
+        href: "/account",
       },
       {
         id: "settings-security",
         label: "Security",
-        href: "#", 
+        href: "/settings", 
       },
       {
         id: "settings-theme",
         label: "Theme",
-        href: "#",
+        href: "/settings",
       },
     ],
   },
