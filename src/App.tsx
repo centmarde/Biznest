@@ -96,7 +96,7 @@ function App() {
           <Route
             path="/settings"
             element={
-              role === "LGU" ? (
+              role === "LGU" || role === "BusinessOwner" ? (
                 <SettingsPage />
               ) : (
                 <Navigate to="/not-found" replace />
