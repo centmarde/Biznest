@@ -12,7 +12,7 @@ const ExpansionForm: React.FC = () => {
   const navigate = useNavigate();
 
   const handleSubmit = () => {
-    navigate("/biznest/expansion-result");
+    navigate("/biznest/form?from=expansion");
   };
 
   return (
@@ -42,7 +42,7 @@ const ExpansionForm: React.FC = () => {
             <Input id="targetArea" placeholder="e.g., Northside, City Center" />
           </div>
           <Button onClick={handleSubmit} style={{ backgroundColor: theme.colors.primary, color: theme.isDark ? theme.colors.text : theme.colors.background }}>
-            Find New Location
+            Next
           </Button>
         </div>
       </div>

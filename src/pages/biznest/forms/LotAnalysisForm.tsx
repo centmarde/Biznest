@@ -12,7 +12,7 @@ const LotAnalysisForm: React.FC = () => {
   const navigate = useNavigate();
 
   const handleSubmit = () => {
-    navigate("/biznest/form");
+    navigate("/biznest/form?from=lot-analysis");
   };
 
   return (
