@@ -13,6 +13,12 @@ import MaintenanceCards from "./pages/maintenance";
 import ModelsPage from "./pages/models";
 import BiznestForm from "./pages/biznest/form";
 import BiznestStartingForm from "./pages/biznest/starting-form";
+import LotAnalysisForm from "./pages/biznest/forms/LotAnalysisForm";
+import BusinessIdeaForm from "./pages/biznest/forms/BusinessIdeaForm";
+import ExpansionForm from "./pages/biznest/forms/ExpansionForm";
+import LotAnalysisResult from "./pages/biznest/forms/LotAnalysisResult";
+import BusinessIdeaResult from "./pages/biznest/forms/BusinessIdeaResult";
+import ExpansionResult from "./pages/biznest/forms/ExpansionResult";
 import UserPage from "./pages/user";
 import SettingsPage from "./pages/settings";
 import AccountPage from "./pages/account";
@@ -100,6 +106,66 @@ function App() {
             element={
               role === "BusinessOwner" ? (
                 <BiznestForm />
+              ) : (
+                <Navigate to="/not-found" replace />
+              )
+            }
+          />
+          <Route
+            path="/biznest/forms/lot-analysis"
+            element={
+              role === "BusinessOwner" ? (
+                <LotAnalysisForm />
+              ) : (
+                <Navigate to="/not-found" replace />
+              )
+            }
+          />
+          <Route
+            path="/biznest/forms/business-idea"
+            element={
+              role === "BusinessOwner" ? (
+                <BusinessIdeaForm />
+              ) : (
+                <Navigate to="/not-found" replace />
+              )
+            }
+          />
+          <Route
+            path="/biznest/forms/expansion"
+            element={
+              role === "BusinessOwner" ? (
+                <ExpansionForm />
+              ) : (
+                <Navigate to="/not-found" replace />
+              )
+            }
+          />
+          <Route
+            path="/biznest/lot-analysis-result"
+            element={
+              role === "BusinessOwner" ? (
+                <LotAnalysisResult />
+              ) : (
+                <Navigate to="/not-found" replace />
+              )
+            }
+          />
+          <Route
+            path="/biznest/business-idea-result"
+            element={
+              role === "BusinessOwner" ? (
+                <BusinessIdeaResult />
+              ) : (
+                <Navigate to="/not-found" replace />
+              )
+            }
+          />
+          <Route
+            path="/biznest/expansion-result"
+            element={
+              role === "BusinessOwner" ? (
+                <ExpansionResult />
               ) : (
                 <Navigate to="/not-found" replace />
               )

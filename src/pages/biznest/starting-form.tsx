@@ -21,6 +21,8 @@ const StartingFrom: React.FC = () => {
       description: "Let us help you identify the best business for your location.",
       cta: "Select this option",
       icon: "🏡",
+      path: "/biznest/forms/lot-analysis",
+      accentColor: theme.colors.primary,
     },
     {
       title: "I want to start a business but don’t own land",
@@ -28,6 +30,8 @@ const StartingFrom: React.FC = () => {
         "We'll guide you to the ideal location to bring your business idea to life.",
       cta: "Select this option",
       icon: "🚀",
+      path: "/biznest/forms/business-idea",
+      accentColor: theme.colors.secondary,
     },
     {
       title: "I have a business but don’t know where to set it up",
@@ -35,35 +39,38 @@ const StartingFrom: React.FC = () => {
         "We’ll help you find the best place to expand or relocate your business.",
       cta: "Select this option",
       icon: "📍",
+      path: "/biznest/forms/expansion",
+      accentColor: "#FFC107", // A distinct accent color
     },
   ];
 
   return (
     <DefaultLayout>
       <div
-        className="min-h-screen flex flex-col items-center p-4 pt-10"
+        className="min-h-screen flex flex-col items-center p-4 pt-16"
         style={{ backgroundColor: theme.colors.background }}
       >
-        <div className="text-center mb-12">
+        <div className="text-center mb-16">
           <h1
-            className="text-3xl md:text-4xl font-bold tracking-tight mb-3"
+            className="text-4xl md:text-5xl font-bold tracking-tight mb-4"
             style={{ color: theme.colors.primary }}
           >
             What describes your current business situation?
           </h1>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl w-full">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 max-w-7xl w-full">
           {scenarios.map((scenario, index) => (
             <Card
               key={index}
-              className="flex flex-col transform hover:scale-105 transition-transform duration-300 ease-in-out"
+              className="flex flex-col transform hover:scale-105 transition-transform duration-300 ease-in-out shadow-lg"
               style={{
                 backgroundColor: theme.colors.background,
                 borderColor: theme.colors.tertiary,
+                borderTop: `5px solid ${scenario.accentColor}`,
               }}
             >
               <CardHeader className="flex-grow p-8">
-                <div className="text-6xl mb-5">{scenario.icon}</div>
+                <div className="text-6xl mb-5" style={{ color: scenario.accentColor }}>{scenario.icon}</div>
                 <CardTitle
                   className="text-2xl font-semibold mb-2"
                   style={{ color: theme.colors.primary }}
@@ -79,10 +86,10 @@ const StartingFrom: React.FC = () => {
               </CardHeader>
               <CardContent className="p-8 pt-0">
                 <Button
-                  onClick={() => navigate("/biznest/form")}
+                  onClick={() => navigate(scenario.path)}
                   className="w-full mt-4 py-3 text-lg"
                   style={{
-                    backgroundColor: theme.colors.primary,
+                    backgroundColor: scenario.accentColor,
                     color: theme.isDark ? theme.colors.text : theme.colors.background,
                   }}
                 >
