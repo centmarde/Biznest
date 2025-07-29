@@ -8,6 +8,7 @@ import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 
 // Fix for default marker icon
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 delete (L.Icon.Default.prototype as any)._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon-2x.png',
@@ -36,7 +37,7 @@ const LotAnalysisResult: React.FC = () => {
     <DefaultLayout>
       <div className="container mx-auto p-4 pt-10" style={{ color: theme.colors.text }}>
         <h1 className="text-3xl md:text-4xl font-bold mb-4" style={{ color: theme.colors.primary }}>
-          Lot Analysis Results
+          Lot Results
         </h1>
         <p className="mb-10 text-lg" style={{ color: theme.colors.mutedText }}>
           Based on your lot's details, here are the most promising business opportunities.

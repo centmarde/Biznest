@@ -21,7 +21,8 @@ import MapAITabs from "./map_ai/tabs_ai";
 const MapAIPage: React.FC = () => {
   const theme = useTheme();
   const { colors } = theme;
-  const mapRef = useRef<any>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const mapRef = useRef<any>(null); // Google Maps instance - external library type
 
   // Map configuration
   const [location, setLocation] = useState({ lat: 8.947538, lng: 125.540623 });
@@ -38,7 +39,8 @@ const MapAIPage: React.FC = () => {
   const [heritagePolygons, setHeritagePolygons] = useState<
     Array<{
       paths: Array<{ lat: number; lng: number }>;
-      options?: any;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      options?: any; // Google Maps polygon options - external library type
       id?: number;
       name?: string;
     }>
@@ -49,7 +51,8 @@ const MapAIPage: React.FC = () => {
   const [combinedPolygons, setCombinedPolygons] = useState<
     Array<{
       paths: Array<{ lat: number; lng: number }>;
-      options?: any;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      options?: any; // Google Maps polygon options - external library type
       id?: number;
       name?: string;
       type?: string;
@@ -62,7 +65,8 @@ const MapAIPage: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [helpDialogOpen, setHelpDialogOpen] = useState<boolean>(false);
   const [drawingEnabled, setDrawingEnabled] = useState<boolean>(false);
-  const [drawingManager, setDrawingManager] = useState<any>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [drawingManager, setDrawingManager] = useState<any>(null); // Google Maps Drawing Manager - external library type
 
   // Coordinates input state
   const [coordinates, setCoordinates] = useState<
@@ -82,7 +86,8 @@ const MapAIPage: React.FC = () => {
         ]);
         const allPolygons = [...heritagePoly, ...floodPoly];
         setCombinedPolygons(allPolygons);
-      } catch (error) {
+      } catch {
+        // Fallback: load data anyway if there's an error
         const [heritagePoly, floodPoly] = await Promise.all([
           fetchHeritagePolygons(axios, setHeritagePolygons),
           fetchFloodPolygons(axios, () => {}),
@@ -112,13 +117,19 @@ const MapAIPage: React.FC = () => {
   // Sync drawn polygon to coordinates input
   const handlePolygonCompleteWithInput = (
     polygon: { paths: Array<{ lat: number; lng: number }> },
-    heritagePolygonsArg: any,
-    setHeritagePolygonsArg: any,
-    combinedPolygonsArg: any,
-    setCombinedPolygonsArg: any,
-    colorsArg: any,
-    setDrawingEnabledArg: any,
-    drawingManagerArg: any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    heritagePolygonsArg: any[], // Array of heritage polygons
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    setHeritagePolygonsArg: (polygons: any[]) => void, // Heritage polygons setter
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    combinedPolygonsArg: any[], // Array of combined polygons
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    setCombinedPolygonsArg: (polygons: any[]) => void, // Combined polygons setter
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    colorsArg: any, // Theme colors object
+    setDrawingEnabledArg: (enabled: boolean) => void, // Drawing enabled setter
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    drawingManagerArg: any // Google Maps Drawing Manager - external library type
   ) => {
     // Update coordinates input with drawn polygon
     if (polygon?.paths?.length) {

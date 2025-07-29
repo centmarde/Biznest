@@ -138,7 +138,7 @@ export default function UserPage() {
   const StatCard = ({ title, value, icon: Icon, change }: { 
     title: string; 
     value: string | number; 
-    icon: any; 
+    icon: React.ComponentType<{ className?: string; style?: React.CSSProperties }>;
     change?: string;
   }) => (
     <Card style={{ backgroundColor: theme.colors.background, color: theme.colors.text }}>

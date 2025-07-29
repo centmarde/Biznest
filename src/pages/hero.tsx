@@ -38,7 +38,6 @@ const ThemedHero = () => {
       }, randomInterval);
     };
     startCarousel();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [backgroundImages.length]);
 
   const handleSwitchToRegister = () => setShowLogin(false);

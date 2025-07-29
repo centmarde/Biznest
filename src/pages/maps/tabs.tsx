@@ -44,20 +44,19 @@ const MapTabs: React.FC<MapTabsProps> = ({
     setIsHelpDialogOpen(true);
   };
 
+  const isMobile = useIsMobile();
+
   return (
     <>
       <div className="flex mb-4 justify-between">
         <div className="flex gap-4"></div>
-        {(() => {
-          const isMobile = useIsMobile();
-          return (
-            <div
-              className={
-                isMobile
-                  ? 'flex flex-wrap gap-1 justify-end w-full'
-                  : 'flex gap-2'
-              }
-            >
+        <div
+          className={
+            isMobile
+              ? 'flex flex-wrap gap-1 justify-end w-full'
+              : 'flex gap-2'
+          }
+        >
               <button
                 className={
                   isMobile
@@ -131,8 +130,6 @@ const MapTabs: React.FC<MapTabsProps> = ({
                 {isMobile ? 'Help' : 'Help'}
               </button>
             </div>
-          );
-        })()}
       </div>
 
       <AddBiznestDialog 

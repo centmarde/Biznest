@@ -3,13 +3,15 @@ import { Search } from 'lucide-react';
 
 interface MapSearchBoxProps {
   onLocationSelect?: (location: { lat: number; lng: number; address: string }) => void;
-  map?: any; // Google Maps instance
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  map?: any; // Google Maps instance - external library type
   isVisible?: boolean;
 }
 
 declare global {
   interface Window {
-    google: any;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    google: any; // Google Maps API - external library
   }
 }
 
@@ -19,7 +21,8 @@ const MapSearchBox: React.FC<MapSearchBoxProps> = ({
   isVisible = true
 }) => {
   const searchInputRef = useRef<HTMLInputElement>(null);
-  const autocompleteRef = useRef<any>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const autocompleteRef = useRef<any>(null); // Google Places Autocomplete - external library
 
   useEffect(() => {
     if (!searchInputRef.current || !map || !window.google) return;
