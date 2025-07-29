@@ -27,21 +27,23 @@ async function fetchChatConfig() {
 export function formatAIResponse(text: string): string {
   return text
     // Add line breaks before and after *** (bold + italic)
-    .replace(/\*\*\*/g, '<br/>***')
+    .replace(/\*\*\*/g, '***')
     .replace(/\*\*\*([^*]+)\*\*\*/g, '<br/><strong><em>$1</em></strong><br/>')
     // Add line breaks before and after ** (bold)
-    .replace(/\*\*/g, '<br/>**')
-    .replace(/\*\*([^*]+)\*\*/g, '<br/><strong>$1</strong><br/>')
+    
+    .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
     // Clean up multiple consecutive line breaks
     .replace(/(<br\/>){3,}/g, '<br/><br/>')
     // Remove leading line breaks
     .replace(/^(<br\/>)+/, '')
+    // Join numbered list lines (e.g., '1.\nText' => '1.Text')
+    .replace(/(\d+)\.\n([^\n])/g, '$1.$2')
     // Convert regular line breaks to HTML
     .replace(/\n/g, '<br/>');
 }
 
 function formatResponse(content: string): string {
-  return content.replace(/\n/g, "<br>");
+  return content.replace(/\n/g, " ");
 }
 
 export function Response() {

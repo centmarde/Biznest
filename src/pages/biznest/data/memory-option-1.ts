@@ -18,20 +18,12 @@ export function logMemoryState() {
     
   });
   console.log("[Zustand] BusinessStepperStore:", {
-    address: businessStepper.address,
-    city: businessStepper.city,
-    state: businessStepper.state,
-    zipCode: businessStepper.zipCode,
-    country: businessStepper.country,
-    businessName: businessStepper.businessName,
-    businessDescription: businessStepper.businessDescription,
-    industry: businessStepper.industry,
-    employeeCount: businessStepper.employeeCount,
-    revenueRange: businessStepper.revenueRange,
-    businessAge: businessStepper.businessAge,
-    businessType: businessStepper.businessType,
-    targetMarket: businessStepper.targetMarket,
-    primaryGoal: businessStepper.primaryGoal,
+    
+    lotFeatures: businessStepper.lotFeatures,
+    lotFeaturesOther: businessStepper.lotFeaturesOther,
+    nearbyBusinesses: businessStepper.nearbyBusinesses,
+    crowdDensity: businessStepper.crowdDensity,
+    areaDevelopment: businessStepper.areaDevelopment,
     contactName: businessStepper.contactName,
     email: businessStepper.email,
     phone: businessStepper.phone,
@@ -74,44 +66,27 @@ export const useLotAnalysisStore = create<LotAnalysisInputs>((set) => ({
   setInputs: (inputs) => set(inputs),
 }));
 
-export type BusinessStepperInputs = {
-  address: string;
-  city: string;
-  state: string;
-  zipCode: string;
-  country: string;
-  businessName: string;
-  businessDescription: string;
-  industry: string;
-  employeeCount: string;
-  revenueRange: string;
-  businessAge: string;
-  businessType: string;
-  targetMarket: string[];
-  primaryGoal: string;
+export interface BusinessStepperInputs {
+  lotFeatures: string[];
+  lotFeaturesOther: string;
+  nearbyBusinesses: string;
+  crowdDensity: string;
+  areaDevelopment: string;
   contactName: string;
   email: string;
   phone: string;
   website: string;
   additionalGoals: string;
   setInputs: (inputs: Partial<BusinessStepperInputs>) => void;
-};
+}
 
 export const useBusinessStepperStore = create<BusinessStepperInputs>((set) => ({
-  address: "",
-  city: "",
-  state: "",
-  zipCode: "",
-  country: "",
-  businessName: "",
-  businessDescription: "",
-  industry: "",
-  employeeCount: "",
-  revenueRange: "",
-  businessAge: "",
-  businessType: "",
-  targetMarket: [],
-  primaryGoal: "",
+
+  lotFeatures: [],
+  lotFeaturesOther: "",
+  nearbyBusinesses: "",
+  crowdDensity: "",
+  areaDevelopment: "",
   contactName: "",
   email: "",
   phone: "",
