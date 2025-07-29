@@ -6,6 +6,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsive
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
+import {BusinessLotAnalysisResults as BusinessLotAnalysisResults} from "@/pages/biznest/components/FinalLotResult"
 // Zustand stores and logMemoryState import
 import { logMemoryState} from "../data/memory-option-1";
 
@@ -43,6 +44,7 @@ const LotAnalysisResult: React.FC = () => {
 
   return (
     <DefaultLayout>
+      <BusinessLotAnalysisResults />
       <div className="container mx-auto p-4 pt-10" style={{ color: theme.colors.text }}>
         <h1 className="text-3xl md:text-4xl font-bold mb-4" style={{ color: theme.colors.primary }}>
           Lot Results
