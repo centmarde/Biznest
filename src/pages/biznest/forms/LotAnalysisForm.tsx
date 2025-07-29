@@ -12,7 +12,7 @@ const LotAnalysisForm: React.FC = () => {
   const navigate = useNavigate();
 
   const handleSubmit = () => {
-    navigate("/biznest/lot-analysis-result");
+    navigate("/biznest/form");
   };
 
   return (
@@ -42,7 +42,7 @@ const LotAnalysisForm: React.FC = () => {
             <Textarea id="notes" placeholder="Any other relevant details about your lot" />
           </div>
           <Button onClick={handleSubmit} style={{ backgroundColor: theme.colors.primary, color: theme.isDark ? theme.colors.text : theme.colors.background }}>
-            Analyze Lot
+            Next
           </Button>
         </div>
       </div>

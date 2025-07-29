@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -76,6 +77,7 @@ const steps = [
 
 export default function BusinessStepper() {
   const theme = useTheme()
+  const navigate = useNavigate()
   const [currentStep, setCurrentStep] = useState(1)
   const [formData, setFormData] = useState<FormData>({
     address: "",
@@ -118,7 +120,7 @@ export default function BusinessStepper() {
   const handleSubmit = () => {
     console.log("Form submitted:", formData)
     // Handle form submission here
-    alert("Business setup completed successfully!")
+    navigate("/biznest/lot-analysis-result");
   }
 
   const handleTargetMarketChange = (market: string, checked: boolean) => {
