@@ -38,6 +38,7 @@
     "cmdk": "^1.1.1",
     "groq-sdk": "^0.27.0",
     "input-otp": "^1.4.2",
+    "leaflet": "^1.9.4",
     "lucide-react": "^0.503.0",
     "motion": "^12.7.4",
     "perfect-scrollbar": "^1.5.6",
