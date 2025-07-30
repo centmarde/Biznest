@@ -8,6 +8,7 @@ import DefaultLayout from "@/layout/default"
 import ChatButton from "@/components/AIrelated/ChatButton"
 import { Suspense } from "react"
 import { ZoningCrud } from "@/components/home/zoning-crud"
+import { PermitRenewalStats } from "@/components/home/permit-renewal-stats"
 
 export default function DashboardPage() {
   return (
@@ -16,6 +17,7 @@ export default function DashboardPage() {
         <div className="flex-1">
           <DashboardShell>
             <div className="flex flex-col gap-6">
+              <PermitRenewalStats />
               <OverviewCards />
               <ZoningCrud />
               <div className="grid grid-cols-1 gap-6 md:grid-cols-2">

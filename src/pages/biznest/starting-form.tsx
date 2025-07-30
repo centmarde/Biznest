@@ -48,6 +48,14 @@ const StartingFrom: React.FC = () => {
       path: "/biznest/forms/expansion",
       accentColor: "#FFC107", // A distinct accent color
     },
+    {
+      title: "I have a lot and I want it for lease",
+      description: "List your lot for lease and connect with potential business owners.",
+      cta: "Select this option",
+      icon: "📝",
+      path: "/biznest/forms/lot-for-lease",
+      accentColor: "#28a745", // A green accent color
+    }
   ];
 
   return (
@@ -64,7 +72,7 @@ const StartingFrom: React.FC = () => {
             What describes your current business situation?
           </h1>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 max-w-7xl w-full">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 max-w-7xl w-full">
           {scenarios.map((scenario, index) => (
             <Card
               key={index}
