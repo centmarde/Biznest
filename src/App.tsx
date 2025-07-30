@@ -26,6 +26,7 @@ import NotFound from "./pages/not_found";
 import { useUserAuth } from "./auth/userAuth";
 import OldBusinessStatistics from "./pages/old_stats/statistics";
 import NewBusinessStatistics from "./pages/new_stats/statistics";
+import LotForLeaseForm from "./pages/biznest/forms/lot-for-lease";
 
 
 function App() {
@@ -128,6 +129,16 @@ function App() {
             element={
               role === "LGU" ? (
                 <OldBusinessStatistics />
+              ) : (
+                <Navigate to="/not-found" replace />
+              )
+            }
+          />
+          <Route
+            path="/biznest/forms/lot-for-lease"
+            element={
+              role === "BusinessOwner" ? (
+                <LotForLeaseForm />
               ) : (
                 <Navigate to="/not-found" replace />
               )
