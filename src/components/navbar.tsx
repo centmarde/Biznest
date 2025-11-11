@@ -53,7 +53,23 @@ export function Navbar() {
         >
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+              <Button
+                variant="ghost"
+                className="relative h-8 w-8 rounded-full"
+                style={{
+                  backgroundColor: "transparent",
+                  color: theme?.colors?.text || "#000",
+                  border: "none",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = `${
+                    theme?.colors?.tertiary || "#eee"
+                  }40`;
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = "transparent";
+                }}
+              >
                 <Avatar className="h-8 w-8">
                   <AvatarImage
                     src="/placeholder.svg?height=32&width=32"
