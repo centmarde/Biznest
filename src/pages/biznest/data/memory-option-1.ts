@@ -9,12 +9,18 @@ export type UserChoice = {
 };
 export function logMemoryState() {
   const lotAnalysis = useLotAnalysisStore.getState();
+  const businessIdea = useBusinessIdeaStore.getState();
   const businessStepper = useBusinessStepperStore.getState();
   console.log("[Zustand] LotAnalysisStore:", {
     location: lotAnalysis.location,
     lotSize: lotAnalysis.lotSize,
     capital: lotAnalysis.capital,
     operatingHours: lotAnalysis.operatingHours,
+  });
+  console.log("[Zustand] BusinessIdeaStore:", {
+    businessType: businessIdea.businessType,
+    capital: businessIdea.capital,
+    operatingHours: businessIdea.operatingHours,
   });
   console.log("[Zustand] BusinessStepperStore:", {
     lotFeatures: businessStepper.lotFeatures,
@@ -56,6 +62,20 @@ export type LotAnalysisInputs = {
 export const useLotAnalysisStore = create<LotAnalysisInputs>((set) => ({
   location: "",
   lotSize: "",
+  capital: "",
+  operatingHours: "",
+  setInputs: (inputs) => set(inputs),
+}));
+
+export type BusinessIdeaInputs = {
+  businessType: string;
+  capital: string;
+  operatingHours: string;
+  setInputs: (inputs: Partial<BusinessIdeaInputs>) => void;
+};
+
+export const useBusinessIdeaStore = create<BusinessIdeaInputs>((set) => ({
+  businessType: "",
   capital: "",
   operatingHours: "",
   setInputs: (inputs) => set(inputs),
