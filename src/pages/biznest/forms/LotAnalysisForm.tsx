@@ -102,7 +102,7 @@ const LotAnalysisForm: React.FC = () => {
             onClick={handleSubmit}
             style={{
               backgroundColor: theme.colors.primary,
-              color: theme.isDark ? theme.colors.text : theme.colors.background,
+              color: theme.isDark ? theme.colors.background : theme.colors.text,
             }}
           >
             Next
