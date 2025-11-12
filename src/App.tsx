@@ -17,10 +17,12 @@ import LotAnalysisForm from "./pages/biznest/forms/LotAnalysisForm";
 import BusinessIdeaForm from "./pages/biznest/forms/BusinessIdeaForm";
 import ExpansionForm from "./pages/biznest/forms/ExpansionForm";
 import SpaceSearchForm from "./pages/biznest/forms/SpaceSearchForm";
+import SupplierMatchForm from "./pages/biznest/forms/SupplierMatchForm";
 import LotAnalysisResult from "./pages/biznest/forms/LotAnalysisResult";
 import BusinessIdeaResult from "./pages/biznest/forms/BusinessIdeaResult";
 import ExpansionResult from "./pages/biznest/forms/ExpansionResult";
 import SpaceSearchResult from "./pages/biznest/forms/SpaceSearchResult";
+import SupplierMatchResult from "./pages/biznest/forms/SupplierMatchResult";
 import UserPage from "./pages/user";
 import SettingsPage from "./pages/settings";
 import AccountPage from "./pages/account";
@@ -186,6 +188,16 @@ function App() {
             }
           />
           <Route
+            path="/biznest/forms/supplier-match"
+            element={
+              role === "BusinessOwner" ? (
+                <SupplierMatchForm />
+              ) : (
+                <Navigate to="/not-found" replace />
+              )
+            }
+          />
+          <Route
             path="/biznest/lot-analysis-result"
             element={
               role === "BusinessOwner" ? (
@@ -220,6 +232,16 @@ function App() {
             element={
               role === "BusinessOwner" ? (
                 <SpaceSearchResult />
+              ) : (
+                <Navigate to="/not-found" replace />
+              )
+            }
+          />
+          <Route
+            path="/biznest/supplier-match-result"
+            element={
+              role === "BusinessOwner" ? (
+                <SupplierMatchResult />
               ) : (
                 <Navigate to="/not-found" replace />
               )

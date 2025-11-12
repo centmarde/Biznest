@@ -11,6 +11,7 @@ export function logMemoryState() {
   const lotAnalysis = useLotAnalysisStore.getState();
   const businessIdea = useBusinessIdeaStore.getState();
   const spaceSearch = useSpaceSearchStore.getState();
+  const supplierMatch = useSupplierMatchStore.getState();
   const businessStepper = useBusinessStepperStore.getState();
   console.log("[Zustand] LotAnalysisStore:", {
     location: lotAnalysis.location,
@@ -26,6 +27,10 @@ export function logMemoryState() {
   console.log("[Zustand] SpaceSearchStore:", {
     address: spaceSearch.address,
     size: spaceSearch.size,
+  });
+  console.log("[Zustand] SupplierMatchStore:", {
+    businessType: supplierMatch.businessType,
+    address: supplierMatch.address,
   });
   console.log("[Zustand] BusinessStepperStore:", {
     lotFeatures: businessStepper.lotFeatures,
@@ -95,6 +100,18 @@ export type SpaceSearchInputs = {
 export const useSpaceSearchStore = create<SpaceSearchInputs>((set) => ({
   address: "",
   size: "",
+  setInputs: (inputs) => set(inputs),
+}));
+
+export type SupplierMatchInputs = {
+  businessType: string;
+  address: string;
+  setInputs: (inputs: Partial<SupplierMatchInputs>) => void;
+};
+
+export const useSupplierMatchStore = create<SupplierMatchInputs>((set) => ({
+  businessType: "",
+  address: "",
   setInputs: (inputs) => set(inputs),
 }));
 
