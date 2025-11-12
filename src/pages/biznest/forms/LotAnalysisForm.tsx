@@ -6,44 +6,21 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useTheme } from "@/theme/theme";
 import DefaultLayout from "@/layout/default";
-import { Textarea } from "@/components/ui/textarea";
-import { create } from "zustand";
 
-// Zustand store for LotAnalysisForm inputs
 type LotAnalysisInputs = {
   location: string;
   lotSize: string;
-  zoningInfo: string;
   capital: string;
   operatingHours: string;
-  notes: string;
-  setInputs: (inputs: Partial<LotAnalysisInputs>) => void;
 };
-
-export const useLotAnalysisStore = create<LotAnalysisInputs>((set) => ({
-  location: "",
-  lotSize: "",
-  zoningInfo: "",
-  capital: "",
-  operatingHours: "",
-  notes: "",
-  setInputs: (inputs) => set(inputs),
-}));
 
 const LotAnalysisForm: React.FC = () => {
   const theme = useTheme();
   const navigate = useNavigate();
   // Use global Zustand store from memory-option-1.ts
 
-  const {
-    location,
-    lotSize,
-    zoningInfo,
-    capital,
-    operatingHours,
-    notes,
-    setInputs,
-  } = useGlobalLotAnalysisStore();
+  const { location, lotSize, capital, operatingHours, setInputs } =
+    useGlobalLotAnalysisStore();
 
   const handleChange =
     (field: keyof LotAnalysisInputs) =>
@@ -55,21 +32,17 @@ const LotAnalysisForm: React.FC = () => {
     console.log("Lot Analysis Inputs:", {
       location,
       lotSize,
-      zoningInfo,
       capital,
       operatingHours,
-      notes,
     });
     // Save to global Zustand store
     setInputs({
       location,
       lotSize,
-      zoningInfo,
       capital,
       operatingHours,
-      notes,
     });
-    navigate("/biznest/form?from=lot-analysis");
+    navigate("/biznest/lot-analysis-result");
   };
 
   return (
@@ -90,7 +63,7 @@ const LotAnalysisForm: React.FC = () => {
         </p>
         <div className="space-y-6">
           <div>
-            <Label htmlFor="location">Location/Address</Label>
+            <Label htmlFor="location">Address</Label>
             <Input
               id="location"
               placeholder="e.g., 123 Main St, Anytown"
@@ -105,15 +78,6 @@ const LotAnalysisForm: React.FC = () => {
               placeholder="e.g., 500 sqm"
               value={lotSize}
               onChange={handleChange("lotSize")}
-            />
-          </div>
-          <div>
-            <Label htmlFor="zoningInfo">Zoning Information (if known)</Label>
-            <Input
-              id="zoningInfo"
-              placeholder="e.g., Commercial, Residential"
-              value={zoningInfo}
-              onChange={handleChange("zoningInfo")}
             />
           </div>
           <div>
@@ -132,15 +96,6 @@ const LotAnalysisForm: React.FC = () => {
               placeholder="e.g., 9am - 5pm"
               value={operatingHours}
               onChange={handleChange("operatingHours")}
-            />
-          </div>
-          <div>
-            <Label htmlFor="notes">Additional Notes</Label>
-            <Textarea
-              id="notes"
-              placeholder="Any other relevant details about your lot"
-              value={notes}
-              onChange={handleChange("notes")}
             />
           </div>
           <Button

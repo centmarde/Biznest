@@ -13,8 +13,8 @@ export function logMemoryState() {
   console.log("[Zustand] LotAnalysisStore:", {
     location: lotAnalysis.location,
     lotSize: lotAnalysis.lotSize,
-    zoningInfo: lotAnalysis.zoningInfo,
-    notes: lotAnalysis.notes,
+    capital: lotAnalysis.capital,
+    operatingHours: lotAnalysis.operatingHours,
   });
   console.log("[Zustand] BusinessStepperStore:", {
     lotFeatures: businessStepper.lotFeatures,
@@ -48,18 +48,14 @@ export const useUserChoiceStore = create<UserChoiceStore>((set, get) => ({
 export type LotAnalysisInputs = {
   location: string;
   lotSize: string;
-  zoningInfo: string;
   capital: string;
   operatingHours: string;
-  notes: string;
   setInputs: (inputs: Partial<LotAnalysisInputs>) => void;
 };
 
 export const useLotAnalysisStore = create<LotAnalysisInputs>((set) => ({
   location: "",
   lotSize: "",
-  zoningInfo: "",
-  notes: "",
   capital: "",
   operatingHours: "",
   setInputs: (inputs) => set(inputs),
