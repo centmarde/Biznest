@@ -37,14 +37,20 @@ export function MainSidebar({ isMobile = false, ...props }: MainSidebarProps) {
   // Update active tab based on current route
   React.useEffect(() => {
     const path = location.pathname;
-    if (path.includes("/maps")) {
+
+    // Check for specific child routes first, then parent routes
+    if (path === "/maps/view" || path.startsWith("/maps/view")) {
+      setActiveTab("maps-view");
+    } else if (path.includes("/maps")) {
       setActiveTab("maps");
+    } else if (path === "/account" || path.startsWith("/account")) {
+      setActiveTab("settings-account");
+    } else if (path === "/settings" || path.startsWith("/settings")) {
+      setActiveTab("settings-security");
     } else if (path.includes("/user")) {
       setActiveTab("users");
-    } else if (path.includes("/settings") || path.includes("/account")) {
-      setActiveTab("settings");
     } else if (path.includes("/biznest")) {
-      setActiveTab("business-setup");
+      setActiveTab("biznest-form");
     } else if (path === "/home" || path === "/") {
       setActiveTab("dashboard");
     }
