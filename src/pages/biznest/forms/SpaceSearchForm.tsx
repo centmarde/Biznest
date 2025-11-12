@@ -55,7 +55,9 @@ const SpaceSearchForm: React.FC = () => {
         </p>
         <div className="space-y-6">
           <div>
-            <Label htmlFor="address">Preferred Address/Area</Label>
+            <Label htmlFor="address" className="mb-2">
+              Preferred Address/Area
+            </Label>
             <Input
               id="address"
               placeholder="e.g., IT Park, Cebu City or nearby areas"
@@ -64,7 +66,9 @@ const SpaceSearchForm: React.FC = () => {
             />
           </div>
           <div>
-            <Label htmlFor="size">Required Space Size (in square meters)</Label>
+            <Label htmlFor="size" className="mb-2">
+              Required Space Size (in square meters)
+            </Label>
             <Input
               id="size"
               placeholder="e.g., 150 sqm"

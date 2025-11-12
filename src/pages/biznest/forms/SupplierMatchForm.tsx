@@ -55,7 +55,9 @@ const SupplierMatchForm: React.FC = () => {
         </p>
         <div className="space-y-6">
           <div>
-            <Label htmlFor="businessType">Business Type</Label>
+            <Label htmlFor="businessType" className="mb-2">
+              Business Type
+            </Label>
             <Input
               id="businessType"
               placeholder="e.g., Restaurant, Retail Store, Manufacturing"
@@ -64,7 +66,9 @@ const SupplierMatchForm: React.FC = () => {
             />
           </div>
           <div>
-            <Label htmlFor="address">Your Business Address</Label>
+            <Label htmlFor="address" className="mb-2">
+              Your Business Address
+            </Label>
             <Input
               id="address"
               placeholder="e.g., IT Park, Cebu City"

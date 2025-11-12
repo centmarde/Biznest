@@ -169,7 +169,7 @@ Please provide:
 
         {/* Search Criteria Summary */}
         <Card
-          className="mb-8"
+          className="mb-8 pb-4"
           style={{
             backgroundColor: theme.colors.background,
             borderColor: theme.colors.tertiary,
@@ -226,7 +226,7 @@ Please provide:
 
         {/* AI Analysis Section */}
         <Card
-          className="mb-8"
+          className="mb-8 pb-4"
           style={{
             backgroundColor: theme.colors.background,
             borderColor: theme.colors.tertiary,
@@ -281,6 +281,7 @@ Please provide:
                   borderColor: theme.colors.tertiary,
                   borderLeft: `4px solid ${theme.colors.primary}`,
                 }}
+                className="pb-4"
               >
                 <CardHeader>
                   <div className="flex items-start justify-between">

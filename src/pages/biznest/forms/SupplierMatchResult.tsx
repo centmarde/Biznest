@@ -551,6 +551,7 @@ Please provide:
                               fontSize: "0.95rem",
                               color: theme.colors.primary,
                             }}
+                            className="mb-4"
                           >
                             <a
                               href={`https://${supplier.website}`}

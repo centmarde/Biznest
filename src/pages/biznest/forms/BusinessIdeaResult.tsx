@@ -113,7 +113,7 @@ Please provide:
 
         {/* Business Summary Card */}
         <Card
-          className="mb-8"
+          className="mb-8 pb-4"
           style={{
             backgroundColor: theme.colors.background,
             borderColor: theme.colors.tertiary,
@@ -189,7 +189,7 @@ Please provide:
 
         {/* AI Analysis Section */}
         <Card
-          className="mb-8"
+          className="mb-8 pb-4"
           style={{
             backgroundColor: theme.colors.background,
             borderColor: theme.colors.tertiary,
@@ -242,6 +242,7 @@ Please provide:
                   backgroundColor: theme.colors.background,
                   borderColor: theme.colors.tertiary,
                 }}
+                className="pb-8"
               >
                 <CardHeader>
                   <CardTitle

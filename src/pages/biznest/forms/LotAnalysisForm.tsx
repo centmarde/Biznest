@@ -63,7 +63,9 @@ const LotAnalysisForm: React.FC = () => {
         </p>
         <div className="space-y-6">
           <div>
-            <Label htmlFor="location">Address</Label>
+            <Label htmlFor="location" className="mb-2">
+              Address
+            </Label>
             <Input
               id="location"
               placeholder="e.g., 123 Main St, Anytown"
@@ -72,7 +74,9 @@ const LotAnalysisForm: React.FC = () => {
             />
           </div>
           <div>
-            <Label htmlFor="lotSize">Lot Size (e.g., in square meters)</Label>
+            <Label htmlFor="lotSize" className="mb-2">
+              Lot Size (e.g., in square meters)
+            </Label>
             <Input
               id="lotSize"
               placeholder="e.g., 500 sqm"
@@ -81,7 +85,9 @@ const LotAnalysisForm: React.FC = () => {
             />
           </div>
           <div>
-            <Label htmlFor="capital">Capital</Label>
+            <Label htmlFor="capital" className="mb-2">
+              Capital
+            </Label>
             <Input
               id="capital"
               placeholder="e.g., 100000"
@@ -90,7 +96,9 @@ const LotAnalysisForm: React.FC = () => {
             />
           </div>
           <div>
-            <Label htmlFor="operatingHours">Operating Hours</Label>
+            <Label htmlFor="operatingHours" className="mb-2">
+              Operating Hours
+            </Label>
             <Input
               id="operatingHours"
               placeholder="e.g., 9am - 5pm"
