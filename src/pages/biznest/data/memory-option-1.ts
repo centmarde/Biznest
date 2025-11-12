@@ -10,6 +10,7 @@ export type UserChoice = {
 export function logMemoryState() {
   const lotAnalysis = useLotAnalysisStore.getState();
   const businessIdea = useBusinessIdeaStore.getState();
+  const spaceSearch = useSpaceSearchStore.getState();
   const businessStepper = useBusinessStepperStore.getState();
   console.log("[Zustand] LotAnalysisStore:", {
     location: lotAnalysis.location,
@@ -21,6 +22,10 @@ export function logMemoryState() {
     businessType: businessIdea.businessType,
     capital: businessIdea.capital,
     operatingHours: businessIdea.operatingHours,
+  });
+  console.log("[Zustand] SpaceSearchStore:", {
+    address: spaceSearch.address,
+    size: spaceSearch.size,
   });
   console.log("[Zustand] BusinessStepperStore:", {
     lotFeatures: businessStepper.lotFeatures,
@@ -78,6 +83,18 @@ export const useBusinessIdeaStore = create<BusinessIdeaInputs>((set) => ({
   businessType: "",
   capital: "",
   operatingHours: "",
+  setInputs: (inputs) => set(inputs),
+}));
+
+export type SpaceSearchInputs = {
+  address: string;
+  size: string;
+  setInputs: (inputs: Partial<SpaceSearchInputs>) => void;
+};
+
+export const useSpaceSearchStore = create<SpaceSearchInputs>((set) => ({
+  address: "",
+  size: "",
   setInputs: (inputs) => set(inputs),
 }));
 
