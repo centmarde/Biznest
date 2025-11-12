@@ -81,7 +81,7 @@ const StartingFrom: React.FC = () => {
               className="flex flex-col transform hover:scale-105 transition-transform duration-300 ease-in-out shadow-lg"
               style={{
                 backgroundColor: theme.colors.background,
-                borderColor: theme.colors.tertiary,
+                borderColor: scenario.accentColor,
                 borderTop: `5px solid ${scenario.accentColor}`,
               }}
             >
@@ -126,12 +126,10 @@ const StartingFrom: React.FC = () => {
                     console.log("User choice:", getUserChoice());
                     navigate(scenario.path);
                   }}
-                  className="w-full mt-4 py-3 text-lg"
+                  className="w-full mt-4 py-3 text-lg font-light"
                   style={{
                     backgroundColor: scenario.accentColor,
-                    color: theme.isDark
-                      ? theme.colors.text
-                      : theme.colors.background,
+                    color: theme.isDark ? "#000000" : "#FFFFFF",
                   }}
                 >
                   {scenario.cta}
