@@ -1,10 +1,18 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import {  MapPinned, Home,  Settings, Users, ChevronDown, ChevronUp, Building2 } from "lucide-react"
-import { ThemeSwitcher } from "@/theme/ThemeSwitcher"
-import { useTheme } from "@/theme/theme"
-import { useNavigate, useLocation } from "react-router-dom"
+import * as React from "react";
+import {
+  MapPinned,
+  Home,
+  Settings,
+  Users,
+  ChevronDown,
+  ChevronUp,
+  Building2,
+} from "lucide-react";
+import { ThemeSwitcher } from "@/theme/ThemeSwitcher";
+import { useTheme } from "@/theme/theme";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useUserAuth } from "@/auth/userAuth";
 
 interface NavItemsProps {
@@ -68,7 +76,7 @@ export const navItems: NavItem[] = [
       {
         id: "settings-security",
         label: "Security",
-        href: "/settings", 
+        href: "/settings",
       },
       {
         id: "settings-theme",
@@ -77,9 +85,14 @@ export const navItems: NavItem[] = [
       },
     ],
   },
-]
+];
 
-export default function NavItems({ activeTab: _activeTab, onTabClick, className = "", padding = "px-2" }: NavItemsProps) {
+export default function NavItems({
+  activeTab: _activeTab,
+  onTabClick,
+  className = "",
+  padding = "px-2",
+}: NavItemsProps) {
   const [expandedItems, setExpandedItems] = React.useState<string[]>([]);
   const navigate = useNavigate();
   const location = useLocation();
@@ -106,20 +119,38 @@ export default function NavItems({ activeTab: _activeTab, onTabClick, className 
 
   const activeTab = _activeTab || getActiveTabFromLocation();
 
+  // Auto-expand parent items when their children are active
+  React.useEffect(() => {
+    for (const item of navItems) {
+      if (item.children) {
+        const hasActiveChild = item.children.some(
+          (child) => activeTab === child.id
+        );
+        if (hasActiveChild && !expandedItems.includes(item.id)) {
+          setExpandedItems((prev) => [...prev, item.id]);
+        }
+      }
+    }
+  }, [activeTab, expandedItems]);
+
   // Filter navItems based on role
   const filteredNavItems = React.useMemo(() => {
     if (role === "LGU") {
-      return navItems.filter(item => ["dashboard", "users", "settings", "maps"].includes(item.id));
+      return navItems.filter((item) =>
+        ["dashboard", "users", "settings", "maps"].includes(item.id)
+      );
     } else if (role === "BusinessOwner") {
-      return navItems.filter(item => ["biznest-form", "settings", "startingform"].includes(item.id));
+      return navItems.filter((item) =>
+        ["biznest-form", "settings", "startingform"].includes(item.id)
+      );
     }
     return [];
   }, [role]);
 
   const toggleExpand = (itemId: string) => {
-    setExpandedItems(prev =>
+    setExpandedItems((prev) =>
       prev.includes(itemId)
-        ? prev.filter(id => id !== itemId)
+        ? prev.filter((id) => id !== itemId)
         : [...prev, itemId]
     );
   };
@@ -127,7 +158,10 @@ export default function NavItems({ activeTab: _activeTab, onTabClick, className 
   const isExpanded = (itemId: string) => expandedItems.includes(itemId);
   const isChildActive = (item: NavItem) => {
     if (!item.children) return false;
-    return activeTab === item.id || item.children.some(child => activeTab === child.id);
+    return (
+      activeTab === item.id ||
+      item.children.some((child) => activeTab === child.id)
+    );
   };
 
   const handleItemClick = (item: NavItem) => {
@@ -151,8 +185,14 @@ export default function NavItems({ activeTab: _activeTab, onTabClick, className 
           <div
             className="flex items-center justify-between px-4 py-3 rounded-lg cursor-pointer transition-colors"
             style={{
-              backgroundColor: (activeTab === item.id || isChildActive(item)) ? theme.colors.primary : 'transparent',
-              color: (activeTab === item.id || isChildActive(item)) ? theme.colors.background : theme.colors.text
+              backgroundColor:
+                activeTab === item.id || isChildActive(item)
+                  ? theme.colors.primary
+                  : "transparent",
+              color:
+                activeTab === item.id || isChildActive(item)
+                  ? theme.colors.background
+                  : theme.colors.text,
             }}
             onClick={() => handleItemClick(item)}
           >
@@ -160,19 +200,28 @@ export default function NavItems({ activeTab: _activeTab, onTabClick, className 
               <item.icon className="h-5 w-5" />
               <span>{item.label}</span>
             </div>
-            {item.children && (
-              isExpanded(item.id) ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />
-            )}
+            {item.children &&
+              (isExpanded(item.id) ? (
+                <ChevronUp className="h-4 w-4" />
+              ) : (
+                <ChevronDown className="h-4 w-4" />
+              ))}
           </div>
 
           {/* Settings children: inject ThemeSwitcher for Theme */}
           {item.children && isExpanded(item.id) && (
-            <div className="ml-4 pl-4 mt-1" style={{ borderLeft: `1px solid ${theme.colors.tertiary}` }}>
+            <div
+              className="ml-4 pl-4 mt-1"
+              style={{ borderLeft: `1px solid ${theme.colors.tertiary}` }}
+            >
               {item.id === "settings" ? (
                 <>
-                  {item.children.map((child) => (
+                  {item.children.map((child) =>
                     child.id === "settings-theme" ? (
-                      <div key={child.id} className="flex items-center gap-3 px-4 py-2 my-1">
+                      <div
+                        key={child.id}
+                        className="flex items-center gap-3 px-4 py-2 my-1"
+                      >
                         <ThemeSwitcher />
                         <span>{child.label}</span>
                       </div>
@@ -181,15 +230,21 @@ export default function NavItems({ activeTab: _activeTab, onTabClick, className 
                         key={child.id}
                         className="flex items-center gap-3 px-4 py-2 rounded-lg cursor-pointer transition-colors my-1"
                         style={{
-                          backgroundColor: activeTab === child.id ? theme.colors.primary : 'transparent',
-                          color: activeTab === child.id ? theme.colors.background : theme.colors.text
+                          backgroundColor:
+                            activeTab === child.id
+                              ? theme.colors.primary
+                              : "transparent",
+                          color:
+                            activeTab === child.id
+                              ? theme.colors.background
+                              : theme.colors.text,
                         }}
                         onClick={() => handleChildClick(child)}
                       >
                         <span>{child.label}</span>
                       </div>
                     )
-                  ))}
+                  )}
                 </>
               ) : (
                 item.children.map((child) => (
@@ -197,8 +252,14 @@ export default function NavItems({ activeTab: _activeTab, onTabClick, className 
                     key={child.id}
                     className="flex items-center gap-3 px-4 py-2 rounded-lg cursor-pointer transition-colors my-1"
                     style={{
-                      backgroundColor: activeTab === child.id ? theme.colors.primary : 'transparent',
-                      color: activeTab === child.id ? theme.colors.background : theme.colors.text
+                      backgroundColor:
+                        activeTab === child.id
+                          ? theme.colors.primary
+                          : "transparent",
+                      color:
+                        activeTab === child.id
+                          ? theme.colors.background
+                          : theme.colors.text,
                     }}
                     onClick={() => handleChildClick(child)}
                   >
@@ -216,5 +277,5 @@ export default function NavItems({ activeTab: _activeTab, onTabClick, className 
 
 // Export the function to get current active item
 export function getActiveItem(activeTab: string) {
-  return navItems.find(item => item.id === activeTab);
+  return navItems.find((item) => item.id === activeTab);
 }

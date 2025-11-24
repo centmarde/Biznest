@@ -18,44 +18,46 @@ const StartingFrom: React.FC = () => {
   const theme = useTheme();
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [userInput, setUserInput] = useState<string>("");
-  const saveUserChoice = useUserChoiceStore(state => state.saveUserChoice);
-  const getUserChoice = useUserChoiceStore(state => state.getUserChoice);
+  const saveUserChoice = useUserChoiceStore((state) => state.saveUserChoice);
+  const getUserChoice = useUserChoiceStore((state) => state.getUserChoice);
 
   const scenarios = [
     {
-      title: "I have a lot but don’t know what business to build",
-      description: "Let us help you identify the best business for your location.",
+      title: "I have a lot",
+      description:
+        "You own land and want to explore the best business opportunities for your location.",
       cta: "Select this option",
       icon: "🏡",
       path: "/biznest/forms/lot-analysis",
       accentColor: theme.colors.primary,
     },
     {
-      title: "I want to start a business but don’t own land",
+      title: "I have a business, but no lot",
       description:
-        "We'll guide you to the ideal location to bring your business idea to life.",
+        "You have a business idea or existing business but need to find the ideal location to set up or expand.",
       cta: "Select this option",
       icon: "🚀",
       path: "/biznest/forms/business-idea",
       accentColor: theme.colors.secondary,
     },
     {
-      title: "I have a business but don’t know where to set it up",
+      title: "I need space rental/lot for sale",
       description:
-        "We’ll help you find the best place to expand or relocate your business.",
+        "You're looking for available lots or rental spaces that match your business requirements.",
       cta: "Select this option",
       icon: "📍",
-      path: "/biznest/forms/expansion",
-      accentColor: "#FFC107", // A distinct accent color
+      path: "/biznest/forms/space-search",
+      accentColor: "#FFC107",
     },
     {
-      title: "I have a lot and I want it for lease",
-      description: "List your lot for lease and connect with potential business owners.",
+      title: "I need supplier for my business",
+      description:
+        "Connect with verified suppliers and business partners to support your operations.",
       cta: "Select this option",
-      icon: "📝",
-      path: "/biznest/forms/lot-for-lease",
-      accentColor: "#28a745", // A green accent color
-    }
+      icon: "🤝",
+      path: "/biznest/forms/supplier-match",
+      accentColor: "#28a745",
+    },
   ];
 
   return (
@@ -79,12 +81,17 @@ const StartingFrom: React.FC = () => {
               className="flex flex-col transform hover:scale-105 transition-transform duration-300 ease-in-out shadow-lg"
               style={{
                 backgroundColor: theme.colors.background,
-                borderColor: theme.colors.tertiary,
+                borderColor: scenario.accentColor,
                 borderTop: `5px solid ${scenario.accentColor}`,
               }}
             >
               <CardHeader className="flex-grow p-8">
-                <div className="text-6xl mb-5" style={{ color: scenario.accentColor }}>{scenario.icon}</div>
+                <div
+                  className="text-6xl mb-5"
+                  style={{ color: scenario.accentColor }}
+                >
+                  {scenario.icon}
+                </div>
                 <CardTitle
                   className="text-2xl font-semibold mb-2"
                   style={{ color: theme.colors.primary }}
@@ -99,14 +106,13 @@ const StartingFrom: React.FC = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent className="p-8 pt-0">
-                {/* Optional user input field for additional info */}
                 {selectedIndex === index && (
                   <input
                     type="text"
                     className="w-full mb-2 p-2 border rounded"
                     placeholder="Add details (optional)"
                     value={userInput}
-                    onChange={e => setUserInput(e.target.value)}
+                    onChange={(e) => setUserInput(e.target.value)}
                   />
                 )}
                 <Button
@@ -120,10 +126,10 @@ const StartingFrom: React.FC = () => {
                     console.log("User choice:", getUserChoice());
                     navigate(scenario.path);
                   }}
-                  className="w-full mt-4 py-3 text-lg"
+                  className="w-full mt-4 py-3 text-lg font-light"
                   style={{
                     backgroundColor: scenario.accentColor,
-                    color: theme.isDark ? theme.colors.text : theme.colors.background,
+                    color: theme.isDark ? "#000000" : "#FFFFFF",
                   }}
                 >
                   {scenario.cta}

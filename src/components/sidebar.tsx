@@ -1,38 +1,61 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { Bell, LogOut, Menu, X } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { useTheme } from "@/theme/theme"
-import Logo from "@/components/ui/logo"
-import NotificationsComponent from "@/components/navbar/notifications"
-import NavItems, { getActiveItem } from "@/components/navbar/navitems"
-import { useNavigate } from "react-router-dom"
-import PerfectScrollbar from 'perfect-scrollbar'
-import 'perfect-scrollbar/css/perfect-scrollbar.css'
+import * as React from "react";
+import { Bell, LogOut, Menu, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useTheme } from "@/theme/theme";
+import Logo from "@/components/ui/logo";
+import NotificationsComponent from "@/components/navbar/notifications";
+import NavItems, { getActiveItem } from "@/components/navbar/navitems";
+import { useNavigate, useLocation } from "react-router-dom";
+import PerfectScrollbar from "perfect-scrollbar";
+import "perfect-scrollbar/css/perfect-scrollbar.css";
 
 interface MainSidebarProps extends React.ComponentPropsWithoutRef<"div"> {
   isMobile?: boolean;
 }
 
 export function MainSidebar({ isMobile = false, ...props }: MainSidebarProps) {
-  const [activeTab, setActiveTab] = React.useState("dashboard")
-  const [notificationCount, setNotificationCount] = React.useState(3)
-  const [showNotifications, setShowNotifications] = React.useState(false)
-  const navigate = useNavigate()
-  const theme = useTheme()
-  
+  const location = useLocation();
+  const [activeTab, setActiveTab] = React.useState("dashboard");
+  const [notificationCount, setNotificationCount] = React.useState(3);
+  const [showNotifications, setShowNotifications] = React.useState(false);
+  const navigate = useNavigate();
+  const theme = useTheme();
+
   // Mobile drawer state
-  const [drawerOpen, setDrawerOpen] = React.useState(false)
-  
+  const [drawerOpen, setDrawerOpen] = React.useState(false);
+
   // Create refs for scroll containers
   const desktopScrollRef = React.useRef<HTMLDivElement>(null);
   const mobileScrollRef = React.useRef<HTMLDivElement>(null);
-  
+
   // Store PerfectScrollbar instances
   const psInstanceRef = React.useRef<PerfectScrollbar | null>(null);
   const mobilePsInstanceRef = React.useRef<PerfectScrollbar | null>(null);
-  
+
+  // Update active tab based on current route
+  React.useEffect(() => {
+    const path = location.pathname;
+
+    // Check for specific child routes first, then parent routes
+    if (path === "/maps/view" || path.startsWith("/maps/view")) {
+      setActiveTab("maps-view");
+    } else if (path.includes("/maps")) {
+      setActiveTab("maps");
+    } else if (path === "/account" || path.startsWith("/account")) {
+      setActiveTab("settings-account");
+    } else if (path === "/settings" || path.startsWith("/settings")) {
+      setActiveTab("settings-security");
+    } else if (path.includes("/user")) {
+      setActiveTab("users");
+    } else if (path.includes("/biznest")) {
+      setActiveTab("biznest-form");
+    } else if (path === "/home" || path === "/") {
+      setActiveTab("dashboard");
+    }
+  }, [location]);
+
   // Initialize perfect scrollbar after component mounts
   React.useEffect(() => {
     // Clean up previous instances
@@ -40,12 +63,12 @@ export function MainSidebar({ isMobile = false, ...props }: MainSidebarProps) {
       psInstanceRef.current.destroy();
       psInstanceRef.current = null;
     }
-    
+
     if (mobilePsInstanceRef.current) {
       mobilePsInstanceRef.current.destroy();
       mobilePsInstanceRef.current = null;
     }
-    
+
     // Small timeout to ensure DOM is fully rendered
     setTimeout(() => {
       // Initialize desktop scrollbar
@@ -53,27 +76,30 @@ export function MainSidebar({ isMobile = false, ...props }: MainSidebarProps) {
         psInstanceRef.current = new PerfectScrollbar(desktopScrollRef.current, {
           wheelSpeed: 2,
           wheelPropagation: false,
-          minScrollbarLength: 20
+          minScrollbarLength: 20,
         });
       }
-      
+
       // Initialize mobile drawer scrollbar
       if (mobileScrollRef.current && isMobile && drawerOpen) {
-        mobilePsInstanceRef.current = new PerfectScrollbar(mobileScrollRef.current, {
-          wheelSpeed: 2,
-          wheelPropagation: false,
-          minScrollbarLength: 20
-        });
+        mobilePsInstanceRef.current = new PerfectScrollbar(
+          mobileScrollRef.current,
+          {
+            wheelSpeed: 2,
+            wheelPropagation: false,
+            minScrollbarLength: 20,
+          }
+        );
       }
     }, 100);
-    
+
     // Cleanup function
     return () => {
       if (psInstanceRef.current) {
         psInstanceRef.current.destroy();
         psInstanceRef.current = null;
       }
-      
+
       if (mobilePsInstanceRef.current) {
         mobilePsInstanceRef.current.destroy();
         mobilePsInstanceRef.current = null;
@@ -82,19 +108,19 @@ export function MainSidebar({ isMobile = false, ...props }: MainSidebarProps) {
   }, [isMobile, drawerOpen]); // Re-initialize when isMobile or drawerOpen changes
 
   const handleTabClick = (tab: string) => {
-    setActiveTab(tab)
-    if (isMobile) setDrawerOpen(false)
-  }
+    setActiveTab(tab);
+    if (isMobile) setDrawerOpen(false);
+  };
 
   const handleNotificationClick = () => {
-    setShowNotifications(!showNotifications)
-    setNotificationCount(0)
-  }
+    setShowNotifications(!showNotifications);
+    setNotificationCount(0);
+  };
 
   const handleLogoutClick = () => {
-  /*   navigate("/exit") */
-    navigate("/")
-  }
+    /*   navigate("/exit") */
+    navigate("/");
+  };
 
   // Get the current active item
   const activeItem = getActiveItem(activeTab);
@@ -103,34 +129,41 @@ export function MainSidebar({ isMobile = false, ...props }: MainSidebarProps) {
     return (
       <>
         {/* Mobile header with burger menu */}
-        <div 
+        <div
           className="fixed top-0 left-0 right-0 z-20 flex items-center justify-between p-3"
-          style={{ 
-            backgroundColor: theme.colors.background, 
-            borderBottom: `1px solid ${theme.colors.tertiary}`
+          style={{
+            backgroundColor: theme.colors.background,
+            borderBottom: `1px solid ${theme.colors.tertiary}`,
           }}
           {...props}
         >
           {/* Burger menu button */}
-          <Button variant="ghost" size="icon" onClick={() => setDrawerOpen(!drawerOpen)}>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setDrawerOpen(!drawerOpen)}
+          >
             <Menu className="h-5 w-5" />
           </Button>
-          
+
           {/* Page title instead of breadcrumbs */}
-          <h2 className="text-base font-medium" style={{ color: theme.colors.text }}>
-            {activeItem?.label || 'Dashboard'}
+          <h2
+            className="text-base font-medium"
+            style={{ color: theme.colors.text }}
+          >
+            {activeItem?.label || "Dashboard"}
           </h2>
-          
+
           {/* Notification button */}
           <Button variant="ghost" size="icon" onClick={handleNotificationClick}>
             <div className="relative">
               <Bell className="h-5 w-5" />
               {notificationCount > 0 && (
-                <span 
+                <span
                   className="absolute -top-1 -right-1 rounded-full px-1.5 py-0.5 text-xs font-bold"
                   style={{
                     backgroundColor: theme.colors.primary,
-                    color: theme.colors.background
+                    color: theme.colors.background,
                   }}
                 >
                   {notificationCount}
@@ -139,31 +172,41 @@ export function MainSidebar({ isMobile = false, ...props }: MainSidebarProps) {
             </div>
           </Button>
         </div>
-
         {/* Mobile drawer overlay */}
         {drawerOpen && (
-          <div 
+          <div
             className="fixed inset-0 backdrop-blur-sm z-30"
-            style={{ backgroundColor: theme.colors.background + '30' }}
+            style={{ backgroundColor: theme.colors.background + "30" }}
             onClick={() => setDrawerOpen(false)}
           />
         )}
-        
         {/* Mobile sidebar drawer */}
-        <div 
-          className={`fixed top-0 left-0 bottom-0 w-[260px] z-40 transform transition-transform duration-300 ease-in-out ${drawerOpen ? 'translate-x-0' : '-translate-x-full'}`}
+        <div
+          className={`fixed top-0 left-0 bottom-0 w-[260px] z-40 transform transition-transform duration-300 ease-in-out ${
+            drawerOpen ? "translate-x-0" : "-translate-x-full"
+          }`}
           style={{ backgroundColor: theme.colors.background }}
         >
-          <div className="flex justify-between items-center p-4" style={{ borderBottom: `1px solid ${theme.colors.tertiary}` }}>
+          <div
+            className="flex justify-between items-center p-4"
+            style={{ borderBottom: `1px solid ${theme.colors.tertiary}` }}
+          >
             <Logo size="small" />
-            <Button variant="ghost" size="icon" onClick={() => setDrawerOpen(false)}>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setDrawerOpen(false)}
+            >
               <X className="h-5 w-5" />
             </Button>
           </div>
-          
-          <div ref={mobileScrollRef} className="overflow-y-auto h-[calc(100%-60px)] position-relative">
-            <NavItems 
-              activeTab={activeTab} 
+
+          <div
+            ref={mobileScrollRef}
+            className="overflow-y-auto h-[calc(100%-60px)] position-relative"
+          >
+            <NavItems
+              activeTab={activeTab}
               onTabClick={(id) => {
                 handleTabClick(id);
                 setDrawerOpen(false);
@@ -171,73 +214,91 @@ export function MainSidebar({ isMobile = false, ...props }: MainSidebarProps) {
               padding="p-2"
             />
           </div>
-          
-          <div className="absolute bottom-0 w-full p-4" style={{ borderTop: `1px solid ${theme.colors.tertiary}` }}>
-            <Button variant="outline" className="w-full justify-start gap-2" onClick={handleLogoutClick}>
+
+          <div
+            className="absolute bottom-0 w-full p-4"
+            style={{ borderTop: `1px solid ${theme.colors.tertiary}` }}
+          >
+            <Button
+              variant="outline"
+              className="w-full justify-start gap-2"
+              onClick={handleLogoutClick}
+            >
               <LogOut className="h-4 w-4" />
               <span>Logout</span>
             </Button>
           </div>
         </div>
-        
         {/* Notifications dropdown for mobile */}
         {showNotifications && (
-          <div className="fixed top-14 right-2 z-50 shadow-lg rounded-lg overflow-hidden border" style={{ borderColor: theme.colors.tertiary }}>
-            <NotificationsComponent onClose={() => setShowNotifications(false)} />
+          <div
+            className="fixed top-14 right-2 z-50 shadow-lg rounded-lg overflow-hidden border"
+            style={{ borderColor: theme.colors.tertiary }}
+          >
+            <NotificationsComponent
+              onClose={() => setShowNotifications(false)}
+            />
           </div>
         )}
-        
         {/* Content area padding to account for fixed header and tabs */}
         <div className="pt-[104px]" /> {/* 56px for header + 48px for tabs */}
       </>
     );
   }
-  
+
   return (
-    <div 
-      className="flex flex-col h-screen w-[280px] overflow-hidden" 
-      style={{ 
-        backgroundColor: theme.colors.background, 
+    <div
+      className="flex flex-col h-screen w-[280px] overflow-hidden"
+      style={{
+        backgroundColor: theme.colors.background,
         borderRight: `1px solid ${theme.colors.tertiary}`,
-        zIndex: 20
+        zIndex: 20,
       }}
       {...props}
     >
-      <div className="p-4 flex justify-center" style={{ color: theme.colors.primary }}>
+      <div
+        className="p-4 flex justify-center"
+        style={{ color: theme.colors.primary }}
+      >
         <Logo />
       </div>
-      <div ref={desktopScrollRef} className="flex-1 overflow-y-auto overflow-x-hidden">
-        <NavItems 
-          activeTab={activeTab} 
-          onTabClick={handleTabClick} 
-        />
-        
+      <div
+        ref={desktopScrollRef}
+        className="flex-1 overflow-y-auto overflow-x-hidden"
+      >
+        <NavItems activeTab={activeTab} onTabClick={handleTabClick} />
+
         {/* Notifications section below tabs */}
         <div className="mt-4 px-2">
           <NotificationsComponent />
         </div>
       </div>
-      
-       {/* Logout button at bottom */}
-      <div className="p-4" style={{ borderTop: `1px solid ${theme.colors.tertiary}` }}>
-        <Button 
-          variant="outline" 
-          className="w-full justify-start gap-2" 
+
+      {/* Logout button at bottom */}
+      <div
+        className="p-4"
+        style={{ borderTop: `1px solid ${theme.colors.tertiary}` }}
+      >
+        <Button
+          variant="outline"
+          className="w-full justify-start gap-2"
           onClick={handleLogoutClick}
           style={{
             borderColor: theme.colors.tertiary,
             color: theme.colors.text,
-            backgroundColor: 'transparent'
+            backgroundColor: "transparent",
           }}
         >
           <LogOut className="h-4 w-4" />
           <span>Logout</span>
         </Button>
       </div>
-      <div className="absolute top-0 bottom-0 left-0 w-1" style={{ backgroundColor: theme.colors.secondary }}></div>
+      <div
+        className="absolute top-0 bottom-0 left-0 w-1"
+        style={{ backgroundColor: theme.colors.secondary }}
+      ></div>
     </div>
-  )
+  );
 }
 
 export default MainSidebar;
-

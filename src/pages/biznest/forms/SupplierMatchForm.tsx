@@ -1,5 +1,5 @@
 import React from "react";
-import { useBusinessIdeaStore } from "@/pages/biznest/data/memory-option-1";
+import { useSupplierMatchStore } from "@/pages/biznest/data/memory-option-1";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -7,38 +7,34 @@ import { Label } from "@/components/ui/label";
 import { useTheme } from "@/theme/theme";
 import DefaultLayout from "@/layout/default";
 
-type BusinessIdeaInputs = {
+type SupplierMatchInputs = {
   businessType: string;
-  capital: string;
-  operatingHours: string;
+  address: string;
 };
 
-const BusinessIdeaForm: React.FC = () => {
+const SupplierMatchForm: React.FC = () => {
   const theme = useTheme();
   const navigate = useNavigate();
 
-  const { businessType, capital, operatingHours, setInputs } =
-    useBusinessIdeaStore();
+  const { businessType, address, setInputs } = useSupplierMatchStore();
 
   const handleChange =
-    (field: keyof BusinessIdeaInputs) =>
+    (field: keyof SupplierMatchInputs) =>
     (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       setInputs({ [field]: e.target.value });
     };
 
   const handleSubmit = () => {
-    console.log("Business Idea Inputs:", {
+    console.log("Supplier Match Inputs:", {
       businessType,
-      capital,
-      operatingHours,
+      address,
     });
     // Save to global Zustand store
     setInputs({
       businessType,
-      capital,
-      operatingHours,
+      address,
     });
-    navigate("/biznest/business-idea-result");
+    navigate("/biznest/supplier-match-result");
   };
 
   return (
@@ -51,11 +47,11 @@ const BusinessIdeaForm: React.FC = () => {
           className="text-3xl font-bold mb-6"
           style={{ color: theme.colors.primary }}
         >
-          Find the Perfect Location
+          Find Suppliers for Your Business
         </h1>
         <p className="mb-8" style={{ color: theme.colors.mutedText }}>
-          Tell us about your business, and we'll help you find the ideal
-          location.
+          Tell us about your business type and location, and we'll connect you
+          with verified suppliers.
         </p>
         <div className="space-y-6">
           <div>
@@ -64,31 +60,20 @@ const BusinessIdeaForm: React.FC = () => {
             </Label>
             <Input
               id="businessType"
-              placeholder="e.g., Coffee Shop, Retail Store, Restaurant"
+              placeholder="e.g., Restaurant, Retail Store, Manufacturing"
               value={businessType}
               onChange={handleChange("businessType")}
             />
           </div>
           <div>
-            <Label htmlFor="capital" className="mb-2">
-              Capital
+            <Label htmlFor="address" className="mb-2">
+              Your Business Address
             </Label>
             <Input
-              id="capital"
-              placeholder="e.g., 100000"
-              value={capital}
-              onChange={handleChange("capital")}
-            />
-          </div>
-          <div>
-            <Label htmlFor="operatingHours" className="mb-2">
-              Operating Hours
-            </Label>
-            <Input
-              id="operatingHours"
-              placeholder="e.g., 9am - 5pm"
-              value={operatingHours}
-              onChange={handleChange("operatingHours")}
+              id="address"
+              placeholder="e.g., IT Park, Cebu City"
+              value={address}
+              onChange={handleChange("address")}
             />
           </div>
           <Button
@@ -98,7 +83,7 @@ const BusinessIdeaForm: React.FC = () => {
               color: theme.isDark ? theme.colors.background : theme.colors.text,
             }}
           >
-            Find Locations
+            Find Suppliers
           </Button>
         </div>
       </div>
@@ -106,4 +91,4 @@ const BusinessIdeaForm: React.FC = () => {
   );
 };
 
-export default BusinessIdeaForm;
+export default SupplierMatchForm;
