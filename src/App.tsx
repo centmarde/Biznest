@@ -16,9 +16,13 @@ import BiznestStartingForm from "./pages/biznest/starting-form";
 import LotAnalysisForm from "./pages/biznest/forms/LotAnalysisForm";
 import BusinessIdeaForm from "./pages/biznest/forms/BusinessIdeaForm";
 import ExpansionForm from "./pages/biznest/forms/ExpansionForm";
+import SpaceSearchForm from "./pages/biznest/forms/SpaceSearchForm";
+import SupplierMatchForm from "./pages/biznest/forms/SupplierMatchForm";
 import LotAnalysisResult from "./pages/biznest/forms/LotAnalysisResult";
 import BusinessIdeaResult from "./pages/biznest/forms/BusinessIdeaResult";
 import ExpansionResult from "./pages/biznest/forms/ExpansionResult";
+import SpaceSearchResult from "./pages/biznest/forms/SpaceSearchResult";
+import SupplierMatchResult from "./pages/biznest/forms/SupplierMatchResult";
 import UserPage from "./pages/user";
 import SettingsPage from "./pages/settings";
 import AccountPage from "./pages/account";
@@ -27,7 +31,6 @@ import { useUserAuth } from "./auth/userAuth";
 import OldBusinessStatistics from "./pages/old_stats/statistics";
 import NewBusinessStatistics from "./pages/new_stats/statistics";
 import LotForLeaseForm from "./pages/biznest/forms/lot-for-lease";
-
 
 function App() {
   const { role } = useUserAuth();
@@ -51,17 +54,17 @@ function App() {
           <Route
             path="/user"
             element={
-              role === "LGU" ? <UserPage /> : <Navigate to="/not-found" replace />
+              role === "LGU" ? (
+                <UserPage />
+              ) : (
+                <Navigate to="/not-found" replace />
+              )
             }
           />
           <Route
             path="/maps/view"
             element={
-              role === "LGU" ? (
-                <Map />
-              ) : (
-                <Navigate to="/not-found" replace />
-              )
+              role === "LGU" ? <Map /> : <Navigate to="/not-found" replace />
             }
           />
           <Route
@@ -94,7 +97,7 @@ function App() {
               )
             }
           />
-            <Route
+          <Route
             path="/biznest/startingform"
             element={
               role === "BusinessOwner" ? (
@@ -175,6 +178,26 @@ function App() {
             }
           />
           <Route
+            path="/biznest/forms/space-search"
+            element={
+              role === "BusinessOwner" ? (
+                <SpaceSearchForm />
+              ) : (
+                <Navigate to="/not-found" replace />
+              )
+            }
+          />
+          <Route
+            path="/biznest/forms/supplier-match"
+            element={
+              role === "BusinessOwner" ? (
+                <SupplierMatchForm />
+              ) : (
+                <Navigate to="/not-found" replace />
+              )
+            }
+          />
+          <Route
             path="/biznest/lot-analysis-result"
             element={
               role === "BusinessOwner" ? (
@@ -199,6 +222,26 @@ function App() {
             element={
               role === "BusinessOwner" ? (
                 <ExpansionResult />
+              ) : (
+                <Navigate to="/not-found" replace />
+              )
+            }
+          />
+          <Route
+            path="/biznest/space-search-result"
+            element={
+              role === "BusinessOwner" ? (
+                <SpaceSearchResult />
+              ) : (
+                <Navigate to="/not-found" replace />
+              )
+            }
+          />
+          <Route
+            path="/biznest/supplier-match-result"
+            element={
+              role === "BusinessOwner" ? (
+                <SupplierMatchResult />
               ) : (
                 <Navigate to="/not-found" replace />
               )

@@ -1,17 +1,23 @@
-"use client"
+"use client";
 
-import type React from "react"
-import { useState } from "react"
-import { useUserAuth } from "@/auth/userAuth"
-import { useNavigate } from "react-router-dom"
-import { Github, Facebook, Instagram } from "lucide-react"
-import { ThemeProvider, useTheme } from "@/theme/theme"
+import type React from "react";
+import { useState } from "react";
+import { useUserAuth } from "@/auth/userAuth";
+import { useNavigate } from "react-router-dom";
+import { Github, Facebook, Instagram } from "lucide-react";
+import { ThemeProvider, useTheme } from "@/theme/theme";
 
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Separator } from "@/components/ui/separator"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader } from "@/components/ui/card"
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+} from "@/components/ui/card";
 
 interface LoginProps {
   onSwitchToRegister?: () => void;
@@ -25,7 +31,11 @@ const WelcomeGreeting = ({ children }: { children: React.ReactNode }) => {
   return (
     <h2
       className="font-semibold mb-2 text-xl sm:text-xl md:text-2xl lg:text-2xl"
-      style={{ ...theme.components.text.heading, fontSize: 'clamp(1rem, 4vw, 1.25rem)', marginBottom: 8 }}
+      style={{
+        ...theme.components.text.heading,
+        fontSize: "clamp(1rem, 4vw, 1.25rem)",
+        marginBottom: 8,
+      }}
     >
       {children}
     </h2>
@@ -39,8 +49,8 @@ const LoginContent = ({ onSwitchToRegister, setIsPageLoading }: LoginProps) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   // Default to 'BusinessOwner' if no selection
-  const role = useUserAuth(state => state.role) || "BusinessOwner";
-  const setRole = useUserAuth(state => state.setRole);
+  const role = useUserAuth((state) => state.role) || "BusinessOwner";
+  const setRole = useUserAuth((state) => state.setRole);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -59,17 +69,19 @@ const LoginContent = ({ onSwitchToRegister, setIsPageLoading }: LoginProps) => {
         }
       }, 3000);
     }
-  }
+  };
 
   return (
-    
     <div className="flex items-center justify-center  w-full max-w-[90%] mx-auto">
       <div className="flex flex-col w-full items-center">
-        <WelcomeGreeting>
-          Welcome! We're glad you're here 👋🏻
-        </WelcomeGreeting>
-        <Card className="w-full max-w-[100%] rounded-lg shadow-md text-sm" style={theme.components.card}>
+        <Card
+          className="w-full max-w-[100%] rounded-lg shadow-md text-sm"
+          style={theme.components.card}
+        >
           <CardHeader className="space-y-1 text-center">
+            <WelcomeGreeting>
+              Welcome! We're glad you're here 👋🏻
+            </WelcomeGreeting>
             <CardDescription style={theme.components.text.small}>
               Sign in to access the City Planner system
             </CardDescription>
@@ -77,7 +89,9 @@ const LoginContent = ({ onSwitchToRegister, setIsPageLoading }: LoginProps) => {
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="email" style={theme.components.text.body}>Email</Label>
+                <Label htmlFor="email" style={theme.components.text.body}>
+                  Email
+                </Label>
                 <Input
                   id="email"
                   type="email"
@@ -88,7 +102,9 @@ const LoginContent = ({ onSwitchToRegister, setIsPageLoading }: LoginProps) => {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="password" style={theme.components.text.body}>Password</Label>
+                <Label htmlFor="password" style={theme.components.text.body}>
+                  Password
+                </Label>
                 <Input
                   id="password"
                   type="password"
@@ -97,17 +113,26 @@ const LoginContent = ({ onSwitchToRegister, setIsPageLoading }: LoginProps) => {
                   style={theme.components.input.base}
                 />
                 <div className="flex justify-end mt-1">
-                  <a href="/forgot-password" className="text-sm hover:underline transition-colors duration-300" style={{ color: theme.colors.secondary, ...theme.components.text.small }}>
+                  <a
+                    href="/forgot-password"
+                    className="text-sm hover:underline transition-colors duration-300"
+                    style={{
+                      color: theme.colors.secondary,
+                      ...theme.components.text.small,
+                    }}
+                  >
                     Forgot password?
                   </a>
                 </div>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="role" style={theme.components.text.body}>Role</Label>
+                <Label htmlFor="role" style={theme.components.text.body}>
+                  Role
+                </Label>
                 <select
                   id="role"
                   value={role}
-                  onChange={e => setRole(e.target.value)}
+                  onChange={(e) => setRole(e.target.value)}
                   className="w-full rounded-md border px-3 py-2 text-sm"
                   style={{ ...theme.components.input.base, minHeight: 40 }}
                 >
@@ -115,8 +140,8 @@ const LoginContent = ({ onSwitchToRegister, setIsPageLoading }: LoginProps) => {
                   <option value="BusinessOwner">Business Owner</option>
                 </select>
               </div>
-              <Button 
-                type="submit" 
+              <Button
+                type="submit"
                 className="w-full rounded-md py-2.5 px-5 font-bold transition-colors duration-300"
                 style={theme.components.button.primary.base}
               >
@@ -129,51 +154,68 @@ const LoginContent = ({ onSwitchToRegister, setIsPageLoading }: LoginProps) => {
                   <Separator className="w-full" />
                 </div>
                 <div className="relative flex justify-center text-xs uppercase">
-                  <span className="px-2" style={{ backgroundColor: theme.colors.background, ...theme.components.text.small }}>Or continue with</span>
+                  <span
+                    className="px-2"
+                    style={{
+                      backgroundColor: theme.colors.background,
+                      ...theme.components.text.small,
+                    }}
+                  >
+                    Or continue with
+                  </span>
                 </div>
               </div>
-              <div className="mt-6 flex justify-center gap-6">
-                <Button 
-                  type="button" 
+              <div className="mt-2 flex justify-center gap-6">
+                <Button
+                  type="button"
                   aria-label="Sign in with Facebook"
                   className="rounded-full w-10 h-10 p-0 flex items-center justify-center hover:transform hover:-translate-y-0.5 transition-all duration-300"
-                  style={{ 
-                    backgroundColor: 'transparent', 
-                    border: `1px solid ${theme.colors.tertiary}` 
+                  style={{
+                    backgroundColor: "transparent",
+                    border: `1px solid ${theme.colors.tertiary}`,
                   }}
                 >
-                  <Facebook className="h-5 w-5" style={{ color: theme.colors.primary }} />
+                  <Facebook
+                    className="h-5 w-5"
+                    style={{ color: theme.colors.primary }}
+                  />
                 </Button>
-                <Button 
-                  type="button" 
+                <Button
+                  type="button"
                   aria-label="Sign in with Instagram"
                   className="rounded-full w-10 h-10 p-0 flex items-center justify-center hover:transform hover:-translate-y-0.5 transition-all duration-300"
-                  style={{ 
-                    backgroundColor: 'transparent', 
-                    border: `1px solid ${theme.colors.tertiary}` 
+                  style={{
+                    backgroundColor: "transparent",
+                    border: `1px solid ${theme.colors.tertiary}`,
                   }}
                 >
-                  <Instagram className="h-5 w-5" style={{ color: theme.colors.primary }} />
+                  <Instagram
+                    className="h-5 w-5"
+                    style={{ color: theme.colors.primary }}
+                  />
                 </Button>
-                <Button 
-                  type="button" 
+                <Button
+                  type="button"
                   aria-label="Sign in with GitHub"
                   className="rounded-full w-10 h-10 p-0 flex items-center justify-center hover:transform hover:-translate-y-0.5 transition-all duration-300"
-                  style={{ 
-                    backgroundColor: 'transparent', 
-                    border: `1px solid ${theme.colors.tertiary}` 
+                  style={{
+                    backgroundColor: "transparent",
+                    border: `1px solid ${theme.colors.tertiary}`,
                   }}
                 >
-                  <Github className="h-5 w-5" style={{ color: theme.colors.primary }} />
+                  <Github
+                    className="h-5 w-5"
+                    style={{ color: theme.colors.primary }}
+                  />
                 </Button>
               </div>
             </div>
           </CardContent>
-          <CardFooter className="flex justify-center">
+          <CardFooter className="mt-2 flex justify-center">
             <p className="text-sm" style={theme.components.text.small}>
               Don&apos;t have an account?{" "}
-              <a 
-                onClick={onSwitchToRegister} 
+              <a
+                onClick={onSwitchToRegister}
                 className="font-medium hover:underline transition-colors duration-300 cursor-pointer"
                 style={{ color: theme.colors.secondary }}
               >
@@ -187,10 +229,16 @@ const LoginContent = ({ onSwitchToRegister, setIsPageLoading }: LoginProps) => {
   );
 };
 
-export default function LoginPage({ onSwitchToRegister, setIsPageLoading }: LoginProps) {
+export default function LoginPage({
+  onSwitchToRegister,
+  setIsPageLoading,
+}: LoginProps) {
   return (
     <ThemeProvider>
-      <LoginContent onSwitchToRegister={onSwitchToRegister} setIsPageLoading={setIsPageLoading} />
+      <LoginContent
+        onSwitchToRegister={onSwitchToRegister}
+        setIsPageLoading={setIsPageLoading}
+      />
     </ThemeProvider>
-  )
+  );
 }

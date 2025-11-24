@@ -9,16 +9,30 @@ export type UserChoice = {
 };
 export function logMemoryState() {
   const lotAnalysis = useLotAnalysisStore.getState();
+  const businessIdea = useBusinessIdeaStore.getState();
+  const spaceSearch = useSpaceSearchStore.getState();
+  const supplierMatch = useSupplierMatchStore.getState();
   const businessStepper = useBusinessStepperStore.getState();
   console.log("[Zustand] LotAnalysisStore:", {
     location: lotAnalysis.location,
     lotSize: lotAnalysis.lotSize,
-    zoningInfo: lotAnalysis.zoningInfo,
-    notes: lotAnalysis.notes,
-    
+    capital: lotAnalysis.capital,
+    operatingHours: lotAnalysis.operatingHours,
+  });
+  console.log("[Zustand] BusinessIdeaStore:", {
+    businessType: businessIdea.businessType,
+    capital: businessIdea.capital,
+    operatingHours: businessIdea.operatingHours,
+  });
+  console.log("[Zustand] SpaceSearchStore:", {
+    address: spaceSearch.address,
+    size: spaceSearch.size,
+  });
+  console.log("[Zustand] SupplierMatchStore:", {
+    businessType: supplierMatch.businessType,
+    address: supplierMatch.address,
   });
   console.log("[Zustand] BusinessStepperStore:", {
-    
     lotFeatures: businessStepper.lotFeatures,
     lotFeaturesOther: businessStepper.lotFeaturesOther,
     nearbyBusinesses: businessStepper.nearbyBusinesses,
@@ -32,9 +46,6 @@ export function logMemoryState() {
   });
 }
 
-
-
-
 type UserChoiceStore = {
   userChoice: UserChoice | null;
   saveUserChoice: (choice: UserChoice) => void;
@@ -44,7 +55,7 @@ type UserChoiceStore = {
 export const useUserChoiceStore = create<UserChoiceStore>((set, get) => ({
   userChoice: null,
   saveUserChoice: (choice: UserChoice) => {
-    console.log('[Zustand] UserChoiceStore:', choice);
+    console.log("[Zustand] UserChoiceStore:", choice);
     set({ userChoice: choice });
   },
   getUserChoice: () => get().userChoice,
@@ -53,16 +64,54 @@ export const useUserChoiceStore = create<UserChoiceStore>((set, get) => ({
 export type LotAnalysisInputs = {
   location: string;
   lotSize: string;
-  zoningInfo: string;
-  notes: string;
+  capital: string;
+  operatingHours: string;
   setInputs: (inputs: Partial<LotAnalysisInputs>) => void;
 };
 
 export const useLotAnalysisStore = create<LotAnalysisInputs>((set) => ({
   location: "",
   lotSize: "",
-  zoningInfo: "",
-  notes: "",
+  capital: "",
+  operatingHours: "",
+  setInputs: (inputs) => set(inputs),
+}));
+
+export type BusinessIdeaInputs = {
+  businessType: string;
+  capital: string;
+  operatingHours: string;
+  setInputs: (inputs: Partial<BusinessIdeaInputs>) => void;
+};
+
+export const useBusinessIdeaStore = create<BusinessIdeaInputs>((set) => ({
+  businessType: "",
+  capital: "",
+  operatingHours: "",
+  setInputs: (inputs) => set(inputs),
+}));
+
+export type SpaceSearchInputs = {
+  address: string;
+  size: string;
+  setInputs: (inputs: Partial<SpaceSearchInputs>) => void;
+};
+
+export const useSpaceSearchStore = create<SpaceSearchInputs>((set) => ({
+  address: "",
+  size: "",
+  setInputs: (inputs) => set(inputs),
+}));
+
+export type SupplierMatchInputs = {
+  businessType: string;
+  address: string;
+  setInputs: (inputs: Partial<SupplierMatchInputs>) => void;
+};
+
+export const useSupplierMatchStore = create<SupplierMatchInputs>((set) => ({
+  businessType: "",
+  address: "",
   setInputs: (inputs) => set(inputs),
 }));
 
@@ -81,7 +130,6 @@ export interface BusinessStepperInputs {
 }
 
 export const useBusinessStepperStore = create<BusinessStepperInputs>((set) => ({
-
   lotFeatures: [],
   lotFeaturesOther: "",
   nearbyBusinesses: "",
