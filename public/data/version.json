@@ -1,0 +1,10 @@
+{
+    "version": "1.0.0",
+    "versionName": "MVP release",
+    "description": "Initial release of the MVP version",
+    "changelog": [
+        "implement geolocation feature on business owners view",
+        "Bug fix for issue gmap",
+        "Performance improvements"
+    ]
+}
