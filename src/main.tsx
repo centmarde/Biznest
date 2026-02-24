@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import Loader from './components/loader'
 import { ThemeProvider, useTheme } from './theme/theme'
+import { Inspector } from 'react-dev-inspector'
 
 // Lazy load the App component
 const App = lazy(() => import('./App.tsx'))
@@ -34,8 +35,10 @@ function ThemedApp() {
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <ThemeProvider>
-      <ThemedApp />
-    </ThemeProvider>
+    <Inspector keys={['alt', 'g']}>
+      <ThemeProvider>
+        <ThemedApp />
+      </ThemeProvider>
+    </Inspector>
   </StrictMode>,
 )
