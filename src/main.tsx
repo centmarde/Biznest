@@ -35,7 +35,7 @@ function ThemedApp() {
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <Inspector keys={['alt', 'f']}>
+    <Inspector keys={['alt', 'g']}>
       <ThemeProvider>
         <ThemedApp />
       </ThemeProvider>
