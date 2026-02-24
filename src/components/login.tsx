@@ -4,7 +4,7 @@ import type React from "react";
 import { useState } from "react";
 import { useUserAuth } from "@/auth/userAuth";
 import { useNavigate } from "react-router-dom";
-import { Github, Facebook, Instagram } from "lucide-react";
+import { Github, Facebook, Instagram, Eye, EyeOff } from "lucide-react";
 import { ThemeProvider, useTheme } from "@/theme/theme";
 
 import { Button } from "@/components/ui/button";
@@ -48,6 +48,7 @@ const LoginContent = ({ onSwitchToRegister, setIsPageLoading }: LoginProps) => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   // Default to 'BusinessOwner' if no selection
   const role = useUserAuth((state) => state.role) || "BusinessOwner";
   const setRole = useUserAuth((state) => state.setRole);
@@ -105,13 +106,28 @@ const LoginContent = ({ onSwitchToRegister, setIsPageLoading }: LoginProps) => {
                 <Label htmlFor="password" style={theme.components.text.body}>
                   Password
                 </Label>
-                <Input
-                  id="password"
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  style={theme.components.input.base}
-                />
+                <div className="relative">
+                  <Input
+                    id="password"
+                    type={showPassword ? "text" : "password"}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    style={theme.components.input.base}
+                  />
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    className="absolute right-0 top-0 h-full px-3"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? (
+                      <EyeOff className="h-4 w-4" />
+                    ) : (
+                      <Eye className="h-4 w-4" />
+                    )}
+                  </Button>
+                </div>
                 <div className="flex justify-end mt-1">
                   <a
                     href="/forgot-password"
