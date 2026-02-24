@@ -66,6 +66,8 @@ export type LotAnalysisInputs = {
   lotSize: string;
   capital: string;
   operatingHours: string;
+  locationData?: { lat: number; lng: number; address: string } | null;
+  polygonCoordinates?: Array<{ lat: number; lng: number }>;
   setInputs: (inputs: Partial<LotAnalysisInputs>) => void;
 };
 
@@ -74,6 +76,8 @@ export const useLotAnalysisStore = create<LotAnalysisInputs>((set) => ({
   lotSize: "",
   capital: "",
   operatingHours: "",
+  locationData: null,
+  polygonCoordinates: [],
   setInputs: (inputs) => set(inputs),
 }));
 

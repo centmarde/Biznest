@@ -5,6 +5,7 @@ import {useTheme } from '@/theme/theme'
 import Logo from '../components/ui/logo'
 import Loader from '../components/loader'
 import { useIsMobile } from '@/utils/mobile'
+import VersionsWidget from './biznest/components/VersionsWidget'
 
 
 // We'll create a component that uses the theme
@@ -14,6 +15,7 @@ const ThemedHero = () => {
   const [showLogin, setShowLogin] = useState(true);
   const [isPageLoading, setIsPageLoading] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(1);
+  const [showWelcomeDialog, setShowWelcomeDialog] = useState(false);
 
   // Array of available background images
   const backgroundImages = [
@@ -39,6 +41,16 @@ const ThemedHero = () => {
     };
     startCarousel();
   }, [backgroundImages.length]);
+
+  // Show welcome dialog on component mount
+  useEffect(() => {
+    // Show welcome dialog after a brief delay to ensure smooth loading
+    const timer = setTimeout(() => {
+      setShowWelcomeDialog(true);
+    }, 1000);
+    
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleSwitchToRegister = () => setShowLogin(false);
   const handleSwitchToLogin = () => setShowLogin(true);
@@ -134,6 +146,12 @@ const ThemedHero = () => {
           )}
         </div>
       </div>
+      
+      {/* Welcome Dialog with Version Information */}
+      <VersionsWidget 
+        open={showWelcomeDialog} 
+        onOpenChange={setShowWelcomeDialog} 
+      />
     </div>
   );
 }

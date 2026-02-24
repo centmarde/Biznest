@@ -1,22 +1,53 @@
 import { useEffect, useState } from "react";
 import { useLotAnalysisStore } from "../data/memory-option-1";
-import { Response, formatAIResponse } from "../lib/analyze";
+import { Response, formatAIResponse, analyzeLotWithLocation, LotAnalysisData } from "../lib/analyze";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useTheme } from "@/theme/theme";
-import { Building2, Brain } from "lucide-react";
+import { Building2, Brain, MapPin, DollarSign, Clock } from "lucide-react";
 
 // AIResponseContainer component to fetch and display AI response
 function AIResponseContainer() {
   const [response, setResponse] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
+
+  
   useEffect(() => {
     async function fetchAIAnalysis() {
       const lotAnalysis = useLotAnalysisStore.getState();
-      const prompt = `Analyze this commercial lot and provide:
-1. Recommended Business Types (based on location, lot size, capital, and operating hours)
-2. Points of Interest (POI) nearby
-3. Zoning information and regulations
+      
+      try {
+        // Prepare enhanced analysis data
+        const locationData = lotAnalysis.locationData ? {
+          lat: lotAnalysis.locationData.lat,
+          lng: lotAnalysis.locationData.lng,
+          address: lotAnalysis.locationData.address,
+          accuracy: 'medium' as const,
+          source: 'manual' as const,
+          timestamp: new Date()
+        } : null;
+        
+        const analysisData: LotAnalysisData = {
+          location: locationData,
+          polygonCoordinates: lotAnalysis.polygonCoordinates,
+          lotSize: lotAnalysis.lotSize,
+          capital: lotAnalysis.capital,
+          operatingHours: lotAnalysis.operatingHours,
+        };
+        
+        // Use enhanced location-based analysis
+        console.log("Using enhanced location-based analysis with data:", analysisData);
+        const aiText = await analyzeLotWithLocation(analysisData);
+        setResponse(formatAIResponse(aiText));
+        
+      } catch (error) {
+        console.error("Enhanced analysis failed, falling back to basic:", error);
+        
+        // Fallback to basic analysis with Butuan context
+        const prompt = `Analyze this commercial lot in Butuan City, Philippines and provide detailed business recommendations:
+
+LOCATION: Butuan City - Regional center of Caraga Region with 372,910 population
+ECONOMIC PROFILE: Trade and commerce hub, government center, agricultural trading, emerging tourism
 
 Lot Details:
 - Address: ${lotAnalysis.location}
@@ -24,10 +55,28 @@ Lot Details:
 - Capital: ${lotAnalysis.capital}
 - Operating Hours: ${lotAnalysis.operatingHours}
 
-Please provide detailed recommendations for the best business to establish on this lot.`;
-      const { getResponse } = Response();
-      const aiText = await getResponse(prompt);
-      setResponse(formatAIResponse(aiText));
+NEARBY ESTABLISHMENTS (within city center):
+• Robinsons Place Butuan - Major shopping mall
+• Caraga State University - 15,000+ students
+• Father Saturnino Urios University - Private university
+• Butuan Medical Center - Major hospital
+• Butuan City Hall - Government center
+• BDO Unibank, Metrobank - Banking services
+• Butuan Grand Central Market - Public market
+• Max's Restaurant, Jollibee - Established food chains
+
+Please provide Butuan-specific analysis:
+1. Business Types suited for Butuan market
+2. Competition analysis with local establishments
+3. Investment potential considering local economy
+4. Risk factors specific to Mindanao/Caraga region
+5. Growth opportunities in regional context`;
+        
+        const { getResponse } = Response();
+        const aiText = await getResponse(prompt);
+        setResponse(formatAIResponse(aiText));
+      }
+      
       setLoading(false);
     }
     fetchAIAnalysis();
@@ -112,27 +161,44 @@ export function BusinessLotAnalysisResults() {
           </div>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
             <div>
-              <div style={{ color: theme.colors.secondary }}>Address</div>
+              <div className="flex items-center gap-1" style={{ color: theme.colors.secondary }}>
+                <MapPin className="w-4 h-4" />
+                Address
+              </div>
               <div style={{ fontWeight: "bold", color: theme.colors.primary }}>
                 {lotData.location || "N/A"}
               </div>
+              {lotData.locationData && (
+                <div className="text-xs mt-1" style={{ color: theme.colors.mutedText }}>
+                  {lotData.locationData.lat.toFixed(6)}, {lotData.locationData.lng.toFixed(6)}
+                </div>
+              )}
             </div>
             <div>
               <div style={{ color: theme.colors.secondary }}>Lot Size</div>
               <div style={{ fontWeight: "bold", color: theme.colors.primary }}>
                 {lotData.lotSize || "N/A"}
               </div>
+              {lotData.polygonCoordinates && lotData.polygonCoordinates.length > 0 && (
+                <div className="text-xs mt-1" style={{ color: theme.colors.mutedText }}>
+                  {lotData.polygonCoordinates.length} boundary points
+                </div>
+              )}
             </div>
             <div>
-              <div style={{ color: theme.colors.secondary }}>Capital</div>
+              <div className="flex items-center gap-1" style={{ color: theme.colors.secondary }}>
+                <DollarSign className="w-4 h-4" />
+                Capital
+              </div>
               <div style={{ fontWeight: "bold", color: theme.colors.primary }}>
                 {lotData.capital || "N/A"}
               </div>
             </div>
             <div>
-              <div style={{ color: theme.colors.secondary }}>
+              <div className="flex items-center gap-1" style={{ color: theme.colors.secondary }}>
+                <Clock className="w-4 h-4" />
                 Operating Hours
               </div>
               <div style={{ fontWeight: "bold", color: theme.colors.primary }}>
@@ -146,15 +212,23 @@ export function BusinessLotAnalysisResults() {
       {/* AI Analysis Only */}
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center space-x-2">
+          <CardTitle className="flex items-center space-x-2 flex-wrap">
             <Brain className="w-5 h-5 text-indigo-600" />
-            <span>AI Analysis: Recommended Business, POI & Zoning</span>
+            <span>AI Business Analysis with Location Intelligence</span>
             <Badge
               variant="outline"
               className="bg-indigo-50 text-indigo-700 border-indigo-200"
             >
-              Generated by AI
+              Enhanced AI Analysis
             </Badge>
+            {lotData.locationData && (
+              <Badge
+                variant="outline"
+                className="bg-green-50 text-green-700 border-green-200"
+              >
+                Location Data Available
+              </Badge>
+            )}
           </CardTitle>
         </CardHeader>
         <CardContent>
