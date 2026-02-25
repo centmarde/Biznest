@@ -1,6 +1,5 @@
 import React from 'react';
 import { useTheme } from '../../../theme/theme';
-import { useNavigate } from 'react-router-dom';
 
 
 interface AddZoningDialogProps {
@@ -19,13 +18,11 @@ const AddZoningDialog: React.FC<AddZoningDialogProps> = ({
 }) => {
   const theme = useTheme();
   const { components } = theme;
-  const navigate = useNavigate();
 
   const [zoningType, setZoningType] = React.useState('');
 
   const handleConfirm = () => {
     onConfirm();
-    navigate('/maps/ai');
   };
 
   if (!isOpen) return null;
