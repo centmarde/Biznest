@@ -63,8 +63,9 @@ const MapAIPage: React.FC = () => {
   const [heritageVisible /* , setHeritageVisible */] = useState<boolean>(true);
   const [floodVisible /* , setFloodVisible */] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
-  const [helpDialogOpen, setHelpDialogOpen] = useState<boolean>(false);
+  const [helpDialogOpen, setHelpDialogOpen] = useState<boolean>(true);
   const [drawingEnabled, setDrawingEnabled] = useState<boolean>(false);
+  const [userDrawnPolygonCount, setUserDrawnPolygonCount] = useState<number>(0);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [drawingManager, setDrawingManager] = useState<any>(null); // Google Maps Drawing Manager - external library type
 
@@ -135,6 +136,7 @@ const MapAIPage: React.FC = () => {
     if (polygon?.paths?.length) {
       setCoordinates(polygon.paths);
     }
+    setUserDrawnPolygonCount(prev => prev + 1);
     // Call original handler
     handlePolygonComplete(
       polygon,
@@ -156,6 +158,7 @@ const MapAIPage: React.FC = () => {
           <MapAITabs
             onHelp={handleHelp}
             drawingEnabled={drawingEnabled}
+            hasDrawnPolygon={userDrawnPolygonCount > 0}
             onStartDrawing={() =>
               startDrawing(setDrawingEnabled, drawingManager)
             }
@@ -172,6 +175,7 @@ const MapAIPage: React.FC = () => {
                       p.id !== heritagePolygons[heritagePolygons.length - 1].id
                   )
                 );
+                setUserDrawnPolygonCount(prev => Math.max(0, prev - 1));
               }
             }}
           />

@@ -3,6 +3,7 @@ import { useTheme } from '../../theme/theme';
 import { PlusSquare, HelpCircle } from 'lucide-react';
 import AddHeritageDialog from '../maps/dialogs/add_heritage';
 import HelpDialog from '../maps/dialogs/help_dialog';
+import AddZoningDialog from '../maps/dialogs/add_zoning';
 import AnalyzeDialog from './dialogs/analyze.tsx';
 
 interface MapAITabsProps {
@@ -12,6 +13,7 @@ interface MapAITabsProps {
   onStartDrawing?: () => void;
   onCancelDrawing?: () => void;
   onUndoDrawing?: () => void;
+  hasDrawnPolygon?: boolean;
 }
 
 const MapAITabs: React.FC<MapAITabsProps> = ({
@@ -21,11 +23,13 @@ const MapAITabs: React.FC<MapAITabsProps> = ({
   onStartDrawing,
   onCancelDrawing,
   onUndoDrawing,
+  hasDrawnPolygon = false,
 }) => {
   const theme = useTheme();
   const { colors } = theme;
   const [isHeritageDialogOpen, setIsHeritageDialogOpen] = useState(false);
   const [isHelpDialogOpen, setIsHelpDialogOpen] = useState(false);
+  const [isZoningDialogOpen, setIsZoningDialogOpen] = useState(false);
   const [isAnalyzeDialogOpen, setIsAnalyzeDialogOpen] = useState(false);
 
   const handleHelp = () => {
@@ -36,13 +40,7 @@ const MapAITabs: React.FC<MapAITabsProps> = ({
   };
 
   const handleAnalyze = () => {
-    setIsAnalyzeDialogOpen(true);
-  };
-
-  const handleAddToAnalytics = () => {
-    console.log('Added to analytics');
-    setIsAnalyzeDialogOpen(false);
-    // Additional logic for adding to analytics would go here
+    setIsZoningDialogOpen(true);
   };
 
   return (
@@ -107,27 +105,33 @@ const MapAITabs: React.FC<MapAITabsProps> = ({
         </div>
         {/* Other Controls (right) */}
         <div className="flex gap-2">
-          <button
-            className="px-4 py-2 rounded-md transition-all duration-200 flex items-center gap-2 hover:shadow-md"
-            style={{
-              backgroundColor: colors.secondary,
-              color: colors.background,
-              border: `1px solid ${colors.secondary}`,
-              fontWeight: '500'
-            }}
-            onClick={handleAnalyze}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = colors.primary;
-              e.currentTarget.style.borderColor = colors.primary;
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = colors.secondary;
-              e.currentTarget.style.borderColor = colors.secondary;
-            }}
-          >
-            <PlusSquare size={18} />
-            Analyze
-          </button>
+          <div title={!hasDrawnPolygon ? (!drawingEnabled ? 'Click Start Drawing first, then complete a polygon' : 'Please finish drawing a polygon first') : ''}>
+            <button
+              className="px-4 py-2 rounded-md transition-all duration-200 flex items-center gap-2 hover:shadow-md"
+              style={{
+                backgroundColor: hasDrawnPolygon ? colors.secondary : colors.tertiary,
+                color: colors.background,
+                border: `1px solid ${hasDrawnPolygon ? colors.secondary : colors.tertiary}`,
+                fontWeight: '500',
+                opacity: hasDrawnPolygon ? 1 : 0.4,
+                cursor: hasDrawnPolygon ? 'pointer' : 'not-allowed',
+              }}
+              onClick={hasDrawnPolygon ? handleAnalyze : undefined}
+              onMouseEnter={(e) => {
+                if (!hasDrawnPolygon) return;
+                e.currentTarget.style.backgroundColor = colors.primary;
+                e.currentTarget.style.borderColor = colors.primary;
+              }}
+              onMouseLeave={(e) => {
+                if (!hasDrawnPolygon) return;
+                e.currentTarget.style.backgroundColor = colors.secondary;
+                e.currentTarget.style.borderColor = colors.secondary;
+              }}
+            >
+              <PlusSquare size={18} />
+              Analyze
+            </button>
+          </div>
           <button
             className="px-4 py-2 rounded-md transition-all duration-200 flex items-center gap-2 hover:shadow-md"
             style={{
@@ -173,10 +177,19 @@ const MapAITabs: React.FC<MapAITabsProps> = ({
         onClose={() => setIsHelpDialogOpen(false)} 
       />
       
+      <AddZoningDialog
+        isOpen={isZoningDialogOpen}
+        onClose={() => setIsZoningDialogOpen(false)}
+        onConfirm={() => {
+          setIsZoningDialogOpen(false);
+          setIsAnalyzeDialogOpen(true);
+        }}
+        polygonId={1}
+      />
+
       <AnalyzeDialog
         isOpen={isAnalyzeDialogOpen}
         onClose={() => setIsAnalyzeDialogOpen(false)}
-        onAddToAnalytics={handleAddToAnalytics}
       />
     </>
   );

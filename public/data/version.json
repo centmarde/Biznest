@@ -1,5 +1,21 @@
 [
     {
+        "version": "1.0.3",
+        "versionName": "Map AI Zoning Flow Update",
+        "description": "Revamped map AI page with guided zoning analysis flow and improved drawing controls",
+        "changelog": [
+            "Removed Add Zoning dialog from the main map page — clicking Add Zoning now navigates directly to /maps/ai route",
+            "Removed Help dialog from the main map tabs for a cleaner UI",
+            "Map AI page now auto-opens the Help/Info dialog on mount to guide users",
+            "Analyze button on map AI tabs now triggers AddZoningDialog followed by AnalyzeDialog in a guided flow",
+            "Analyze button is hidden until Start Drawing is clicked, then disabled until a polygon is completed",
+            "Analyze button remains visible after drawing mode ends if a polygon has been drawn",
+            "AddZoningDialog no longer navigates away on confirm — control is passed back to parent callback",
+            "Suppressed explicit-any ESLint warnings in analyze.tsx for third-party map data handling",
+            "Added hasDrawnPolygon prop to MapAITabs to track polygon completion state from parent"
+        ]
+    },
+    {
         "version": "1.0.2",
         "versionName": "Business Idea Flow Update",
         "description": "Revamped business idea form with guided dialog flow and enhanced location results for Butuan City",

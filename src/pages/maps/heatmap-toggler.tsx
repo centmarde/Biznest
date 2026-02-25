@@ -1,5 +1,5 @@
 "use client"
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type React from "react"
 import { useState } from "react"
 import { useTheme } from "../../theme/theme"
