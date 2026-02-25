@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import DefaultLayout from "@/layout/default";
 import {
@@ -12,14 +12,10 @@ import { Button } from "@/components/ui/button";
 import { useTheme } from "@/theme/theme";
 import { useUserChoiceStore } from "./data/memory-option-1";
 import ChatButton from "@/components/AIrelated/ChatButton";
-import NoticeDialog from "./components/dialogs/NoticeDialog";
 
 const StartingFrom: React.FC = () => {
   const navigate = useNavigate();
   const theme = useTheme();
-  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
-  const [userInput, setUserInput] = useState<string>("");
-  const [isNoticeDialogOpen, setIsNoticeDialogOpen] = useState(false);
   const saveUserChoice = useUserChoiceStore((state) => state.saveUserChoice);
   const getUserChoice = useUserChoiceStore((state) => state.getUserChoice);
 
@@ -51,15 +47,6 @@ const StartingFrom: React.FC = () => {
       path: "/biznest/forms/space-search",
       accentColor: "#FFC107",
     },
-    {
-      title: "I need supplier for my business",
-      description:
-        "Connect with verified suppliers and business partners to support your operations.",
-      cta: "Select this option",
-      icon: "🤝",
-      path: "/biznest/forms/supplier-match",
-      accentColor: "#28a745",
-    },
   ];
 
   return (
@@ -76,7 +63,7 @@ const StartingFrom: React.FC = () => {
             What describes your current business situation?
           </h1>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 max-w-7xl w-full">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 max-w-6xl w-full justify-center">
           {scenarios.map((scenario, index) => (
             <Card
               key={index}
@@ -108,31 +95,16 @@ const StartingFrom: React.FC = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent className="p-8 pt-0">
-                {selectedIndex === index && (
-                  <input
-                    type="text"
-                    className="w-full mb-2 p-2 border rounded"
-                    placeholder="Add details (optional)"
-                    value={userInput}
-                    onChange={(e) => setUserInput(e.target.value)}
-                  />
-                )}
                 <Button
                   onClick={() => {
-                    setSelectedIndex(index);
-                    // For cards 2, 3, and 4 (indices 1, 2, 3), show notice dialog
-                    if (index === 1 || index === 2 || index === 3) {
-                      setIsNoticeDialogOpen(true);
-                    } else {
-                      // For the first card (index 0), proceed normally
-                      saveUserChoice({
-                        option: scenario.title,
-                        path: scenario.path,
-                        input: userInput,
-                      });
-                      console.log("User choice:", getUserChoice());
-                      navigate(scenario.path);
-                    }
+                    // All cards now proceed normally
+                    saveUserChoice({
+                      option: scenario.title,
+                      path: scenario.path,
+                      input: "",
+                    });
+                    console.log("User choice:", getUserChoice());
+                    navigate(scenario.path);
                   }}
                   className="w-full mt-4 py-3 text-lg font-light"
                   style={{
@@ -148,13 +120,6 @@ const StartingFrom: React.FC = () => {
         </div>
       </div>
       <ChatButton />
-      
-      <NoticeDialog
-        isOpen={isNoticeDialogOpen}
-        onClose={() => setIsNoticeDialogOpen(false)}
-        title="Feature Coming Soon"
-        description="This feature is not yet available. We're working hard to bring you this functionality. Please check back later!"
-      />
     </DefaultLayout>
   );
 };

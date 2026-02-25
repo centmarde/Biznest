@@ -1,0 +1,363 @@
+{
+  "businessSuggestions": [
+    {
+      "id": "retail-convenience",
+      "name": "Convenience Store",
+      "category": "Retail",
+      "description": "A 24/7 convenience store offering daily essentials, snacks, beverages, and basic household items.",
+      "image": "/images/1.jpg",
+      "investment": {
+        "initial": "₱500,000 - ₱1,500,000",
+        "monthly": "₱150,000 - ₱300,000"
+      },
+      "requirements": {
+        "lotSize": "100-300 sqm",
+        "zoning": ["Commercial", "Mixed-use"],
+        "proximity": ["Residential areas", "Schools", "Offices"]
+      },
+      "profitability": {
+        "roi": "15-25%",
+        "paybackPeriod": "2-4 years",
+        "monthlyRevenue": "₱200,000 - ₱500,000"
+      },
+      "advantages": [
+        "High foot traffic potential",
+        "Recurring customer base",
+        "Essential service demand",
+        "Scalable business model",
+        "Low skill requirement",
+        "Flexible inventory options"
+      ],
+      "considerations": [
+        "High competition from chains",
+        "Inventory management required",
+        "Long operating hours",
+        "Security concerns",
+        "Theft and shrinkage",
+        "Supplier relationship management"
+      ]
+    },
+    {
+      "id": "food-restaurant",
+      "name": "Fast Food Restaurant",
+      "category": "Food & Beverage",
+      "description": "Quick-service restaurant specializing in Filipino comfort food and popular dishes.",
+      "image": "/images/2.jpg",
+      "investment": {
+        "initial": "₱800,000 - ₱2,000,000",
+        "monthly": "₱200,000 - ₱400,000"
+      },
+      "requirements": {
+        "lotSize": "150-400 sqm",
+        "zoning": ["Commercial", "Mixed-use"],
+        "proximity": ["Business districts", "Schools", "Shopping centers"]
+      },
+      "profitability": {
+        "roi": "20-30%",
+        "paybackPeriod": "2.5-4 years",
+        "monthlyRevenue": "₱300,000 - ₱800,000"
+      },
+      "advantages": [
+        "High demand for quick meals",
+        "Good profit margins on food",
+        "Brand recognition opportunities",
+        "Multiple revenue streams",
+        "Delivery and takeout options",
+        "Catering opportunities"
+      ],
+      "considerations": [
+        "Food safety regulations",
+        "High staff turnover",
+        "Equipment maintenance costs",
+        "Seasonal demand variations",
+        "Raw material price fluctuations",
+        "Health permit requirements"
+      ]
+    },
+    {
+      "id": "service-laundry",
+      "name": "Laundromat Service",
+      "category": "Service",
+      "description": "Self-service and full-service laundromat with washing, drying, and folding services.",
+      "image": "/images/3.jpg",
+      "investment": {
+        "initial": "₱600,000 - ₱1,200,000",
+        "monthly": "₱80,000 - ₱150,000"
+      },
+      "requirements": {
+        "lotSize": "80-200 sqm",
+        "zoning": ["Commercial", "Mixed-use"],
+        "proximity": ["Residential areas", "Condominiums", "Dormitories"]
+      },
+      "profitability": {
+        "roi": "18-28%",
+        "paybackPeriod": "3-5 years",
+        "monthlyRevenue": "₱120,000 - ₱250,000"
+      },
+      "advantages": [
+        "Steady recurring income",
+        "Low labor requirements",
+        "Essential service demand",
+        "Automated operations",
+        "24/7 operation potential",
+        "Passive income opportunities"
+      ],
+      "considerations": [
+        "High utility costs",
+        "Equipment maintenance",
+        "Water shortage issues",
+        "Limited growth potential",
+        "Machine downtime risks",
+        "Vandalism and theft concerns"
+      ]
+    },
+    {
+      "id": "automotive-carwash",
+      "name": "Car Wash & Detailing",
+      "category": "Automotive",
+      "description": "Professional car wash and detailing services including interior and exterior cleaning.",
+      "image": "/images/4.jpg",
+      "investment": {
+        "initial": "₱400,000 - ₱1,000,000",
+        "monthly": "₱100,000 - ₱200,000"
+      },
+      "requirements": {
+        "lotSize": "200-500 sqm",
+        "zoning": ["Commercial", "Industrial"],
+        "proximity": ["Main roads", "Residential areas", "Office buildings"]
+      },
+      "profitability": {
+        "roi": "25-35%",
+        "paybackPeriod": "2-3 years",
+        "monthlyRevenue": "₱150,000 - ₱400,000"
+      },
+      "advantages": [
+        "High profit margins",
+        "Growing car ownership",
+        "Additional services potential",
+        "Quick service delivery",
+        "Premium service pricing",
+        "Corporate account opportunities"
+      ],
+      "considerations": [
+        "Water usage regulations",
+        "Environmental compliance",
+        "Weather dependent",
+        "Equipment wear and tear",
+        "Chemical handling requirements",
+        "Waste water treatment needs"
+      ]
+    },
+    {
+      "id": "health-pharmacy",
+      "name": "Community Pharmacy",
+      "category": "Healthcare",
+      "description": "Local pharmacy providing prescription medicines, health products, and basic medical supplies.",
+      "image": "/images/5.jpg",
+      "investment": {
+        "initial": "₱800,000 - ₱2,500,000",
+        "monthly": "₱200,000 - ₱400,000"
+      },
+      "requirements": {
+        "lotSize": "80-200 sqm",
+        "zoning": ["Commercial", "Mixed-use"],
+        "proximity": ["Hospitals", "Clinics", "Residential areas"]
+      },
+      "profitability": {
+        "roi": "20-30%",
+        "paybackPeriod": "3-5 years",
+        "monthlyRevenue": "₱300,000 - ₱600,000"
+      },
+      "advantages": [
+        "Essential healthcare service",
+        "Stable demand",
+        "Insurance partnerships",
+        "Professional reputation",
+        "Government contracts potential",
+        "Consultation services revenue"
+      ],
+      "considerations": [
+        "Strict licensing requirements",
+        "Inventory expiration",
+        "Professional pharmacist needed",
+        "Regulatory compliance",
+        "Drug storage requirements",
+        "FDA and DOH regulations"
+      ]
+    },
+    {
+      "id": "education-tutorial",
+      "name": "Tutorial Center",
+      "category": "Education",
+      "description": "Educational support center offering academic tutoring and test preparation services.",
+      "image": "/images/1.jpg",
+      "investment": {
+        "initial": "₱300,000 - ₱800,000",
+        "monthly": "₱100,000 - ₱250,000"
+      },
+      "requirements": {
+        "lotSize": "100-300 sqm",
+        "zoning": ["Commercial", "Mixed-use", "Residential"],
+        "proximity": ["Schools", "Universities", "Residential areas"]
+      },
+      "profitability": {
+        "roi": "25-40%",
+        "paybackPeriod": "1.5-3 years",
+        "monthlyRevenue": "₱150,000 - ₱400,000"
+      },
+      "advantages": [
+        "High demand for education",
+        "Recurring monthly income",
+        "Low overhead costs",
+        "Scalable business model",
+        "Online/hybrid options",
+        "Multiple subject offerings"
+      ],
+      "considerations": [
+        "Seasonal enrollment",
+        "Qualified teachers needed",
+        "Competition from online platforms",
+        "DepEd permit requirements",
+        "Student retention challenges",
+        "Parent expectations management"
+      ]
+    },
+    {
+      "id": "retail-minimart",
+      "name": "Mini Mart & Grocery",
+      "category": "Retail",
+      "description": "Small-scale grocery store offering fresh produce, packaged goods, and household essentials.",
+      "image": "/images/2.jpg",
+      "investment": {
+        "initial": "₱700,000 - ₱1,800,000",
+        "monthly": "₱180,000 - ₱350,000"
+      },
+      "requirements": {
+        "lotSize": "120-350 sqm",
+        "zoning": ["Commercial", "Mixed-use"],
+        "proximity": ["Residential areas", "Subdivisions", "Condominiums"]
+      },
+      "profitability": {
+        "roi": "18-28%",
+        "paybackPeriod": "2.5-4.5 years",
+        "monthlyRevenue": "₱250,000 - ₱600,000"
+      },
+      "advantages": [
+        "Essential daily needs service",
+        "Multiple product categories",
+        "Loyal customer base potential",
+        "Flexible pricing strategies",
+        "Credit system opportunities",
+        "Local supplier partnerships"
+      ],
+      "considerations": [
+        "Inventory management complexity",
+        "Perishable goods handling",
+        "Competition from supermarkets",
+        "Credit collection challenges",
+        "Supplier payment terms",
+        "Storage and refrigeration costs"
+      ]
+    },
+    {
+      "id": "food-bakery",
+      "name": "Bakery & Pastry Shop",
+      "category": "Food & Beverage",
+      "description": "Fresh bread, pastries, and baked goods production with retail and wholesale opportunities.",
+      "image": "/images/3.jpg",
+      "investment": {
+        "initial": "₱600,000 - ₱1,500,000",
+        "monthly": "₱120,000 - ₱280,000"
+      },
+      "requirements": {
+        "lotSize": "100-250 sqm",
+        "zoning": ["Commercial", "Mixed-use"],
+        "proximity": ["Residential areas", "Schools", "Offices"]
+      },
+      "profitability": {
+        "roi": "22-32%",
+        "paybackPeriod": "2-3.5 years",
+        "monthlyRevenue": "₱180,000 - ₱450,000"
+      },
+      "advantages": [
+        "High demand for fresh bread",
+        "Custom cake opportunities",
+        "Wholesale to restaurants",
+        "Cultural food preferences",
+        "Special occasion revenue",
+        "Daily consumption patterns"
+      ],
+      "considerations": [
+        "Early morning operations",
+        "Skilled baker requirements",
+        "Equipment maintenance costs",
+        "Ingredient price volatility",
+        "Food safety standards",
+        "Daily production planning"
+      ]
+    },
+    {
+      "id": "service-salon",
+      "name": "Beauty Salon & Spa",
+      "category": "Personal Care",
+      "description": "Full-service beauty salon offering hair, nail, facial, and massage services.",
+      "image": "/images/4.jpg",
+      "investment": {
+        "initial": "₱500,000 - ₱1,200,000",
+        "monthly": "₱100,000 - ₱250,000"
+      },
+      "requirements": {
+        "lotSize": "80-200 sqm",
+        "zoning": ["Commercial", "Mixed-use"],
+        "proximity": ["Shopping centers", "Business districts", "Residential areas"]
+      },
+      "profitability": {
+        "roi": "20-35%",
+        "paybackPeriod": "2-4 years",
+        "monthlyRevenue": "₱150,000 - ₱400,000"
+      },
+      "advantages": [
+        "High profit margins on services",
+        "Recurring customer appointments",
+        "Package deals potential",
+        "Wedding and event bookings",
+        "Product sales revenue",
+        "Skilled service premium pricing"
+      ],
+      "considerations": [
+        "Skilled staff requirements",
+        "Health and safety regulations",
+        "Equipment and product costs",
+        "Customer service expectations",
+        "Appointment scheduling challenges",
+        "Seasonal demand variations"
+      ]
+    }
+  ],
+  "selectionCriteria": {
+    "lotSize": {
+      "small": "50-150 sqm",
+      "medium": "150-400 sqm", 
+      "large": "400+ sqm"
+    },
+    "zoning": [
+      "Commercial",
+      "Mixed-use",
+      "Residential",
+      "Industrial"
+    ],
+    "budget": {
+      "low": "₱300,000 - ₱800,000",
+      "medium": "₱800,000 - ₱1,500,000",
+      "high": "₱1,500,000+"
+    },
+    "proximity": [
+      "Residential areas",
+      "Schools",
+      "Offices",
+      "Main roads",
+      "Shopping centers",
+      "Hospitals"
+    ]
+  }
+}

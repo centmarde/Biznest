@@ -1,10 +1,42 @@
-{
-    "version": "1.0.0",
-    "versionName": "MVP release",
-    "description": "Initial release of the MVP version",
-    "changelog": [
-        "implement geolocation feature on business owners view",
-        "Bug fix for issue gmap",
-        "Performance improvements"
-    ]
-}
+[
+    {
+        "version": "1.0.2",
+        "versionName": "Business Idea Flow Update",
+        "description": "Revamped business idea form with guided dialog flow and enhanced location results for Butuan City",
+        "changelog": [
+            "Refactored BusinessIdeaForm to use guided step-by-step dialog flow (BusinessTypeDialog, CapitalInputDialog, OperatingHoursDialog)",
+            "Created BusinessTypeDialog with 10 business categories, searchable examples, and autocomplete dropdown input",
+            "Created businessTypes.ts helper with 100+ business types, search and category lookup utilities",
+            "Fixed autocomplete dropdown selection issue in BusinessTypeDialog using onMouseDown event",
+            "Updated BusinessIdeaResult location suggestions from Cebu City to Butuan City, Agusan del Norte",
+            "Redesigned BusinessIdeaResult to show 3 ranked location cards (1 row, 3 columns) with 🥇🥈🥉 ranking badges",
+            "Added overview map for all Butuan City location suggestions",
+            "Updated VersionsWidget to support array-based version.json structure with version history section",
+            "Updated version.json to array format to support multiple version entries"
+        ]
+    },
+    {
+        "version": "1.0.1",
+        "versionName": "Business Intelligence Update",
+        "description": "Enhanced business suggestion system with AI-powered recommendations",
+        "changelog": [
+            "Implemented AI-powered business suggestion system with intelligent selection",
+            "Added comprehensive business recommendation dialog with auto-open functionality",
+            "Enhanced business analysis with scoring algorithm based on lot characteristics",
+            "Improved UI with 3-column responsive grid layout for business suggestions",
+            "Integrated theme system support for business recommendation components",
+            "Added robust fallback system for business data selection",
+            "Fixed TypeScript compilation errors across business suggestion components"
+        ]
+    },
+    {
+        "version": "1.0.0",
+        "versionName": "MVP release",
+        "description": "Initial release of the MVP version",
+        "changelog": [
+            "implement geolocation feature on business owners view",
+            "Bug fix for issue gmap",
+            "Performance improvements"
+        ]
+    }
+]
