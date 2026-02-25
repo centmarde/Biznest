@@ -1,9 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useIsMobile } from '../../utils/mobile';
 import { useTheme } from '../../theme/theme';
-import { PlusSquare, HelpCircle, BarChart2, Building2 } from 'lucide-react';
-import AddBiznestDialog from './dialogs/add_zoning';
-import HelpDialog from './dialogs/help_dialog';
+import { PlusSquare, BarChart2, Building2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 export type MapType = 'standard' | 'biznest' | 'flood';
@@ -22,12 +20,9 @@ interface MapTabsProps {
 const MapTabs: React.FC<MapTabsProps> = ({
  
   onAddBiznest,
-  onHelp,
 }) => {
   const theme = useTheme();
   const { colors } = theme;
-  const [isBiznestDialogOpen, setIsBiznestDialogOpen] = useState(false);
-  const [isHelpDialogOpen, setIsHelpDialogOpen] = useState(false);
   const navigate = useNavigate();
   
   
@@ -35,15 +30,7 @@ const MapTabs: React.FC<MapTabsProps> = ({
     if (onAddBiznest) {
       onAddBiznest();
     }
-    setIsBiznestDialogOpen(true);
-    // No longer opening help dialog here
-  };
-
-  const handleHelp = () => {
-    if (onHelp) {
-      onHelp();
-    }
-    setIsHelpDialogOpen(true);
+    navigate('/maps/ai');
   };
 
   const isMobile = useIsMobile();
@@ -115,39 +102,8 @@ const MapTabs: React.FC<MapTabsProps> = ({
                 <PlusSquare size={isMobile ? 14 : 18} />
                 {isMobile ? 'Add' : 'Add Zoning'}
               </button>
-
-              <button
-                className={
-                  isMobile
-                    ? 'px-2 py-1 rounded-md transition-all duration-200 flex items-center gap-1 text-xs'
-                    : 'px-4 py-2 rounded-md transition-all duration-200 flex items-center gap-2'
-                }
-                style={{
-                  color: colors.text,
-                  border: `1px solid ${colors.tertiary}`
-                }}
-                onClick={handleHelp}
-              >
-                <HelpCircle size={isMobile ? 14 : 18} />
-                {isMobile ? 'Help' : 'Help'}
-              </button>
             </div>
       </div>
-
-      <AddBiznestDialog 
-        isOpen={isBiznestDialogOpen} 
-        onClose={() => setIsBiznestDialogOpen(false)}
-        onConfirm={() => {
-          // Handle the confirmation logic
-          setIsBiznestDialogOpen(false);
-        }}
-        polygonId={1} // You may need to pass the actual polygon ID dynamically
-      />
-
-      <HelpDialog 
-        isOpen={isHelpDialogOpen} 
-        onClose={() => setIsHelpDialogOpen(false)} 
-      />
     </>
   );
 };

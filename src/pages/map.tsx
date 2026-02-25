@@ -3,7 +3,6 @@ import DefaultLayout from "../layout/default";
 import MapPreview from "./maps/map_preview";
 import MapTabs, { MapType } from "./maps/tabs";
 import HelpDialog from "./maps/dialogs/help_dialog";
-import AddBiznestDialog from "./maps/dialogs/add_zoning";
 import ChatButton from "@/components/AIrelated/ChatButton";
 import { ThemeProvider, useTheme } from "../theme/theme";
 import axios from "axios";
@@ -39,11 +38,6 @@ interface LocationData {
   lat: number;
   lng: number;
   address: string;
-}
-
-interface SelectedPolygon {
-  id: number;
-  paths: Array<{ lat: number; lng: number }>;
 }
 
 const MapPage: React.FC = () => {
@@ -82,10 +76,6 @@ const MapPage: React.FC = () => {
 
   // Dialog states
   const [helpDialogOpen, setHelpDialogOpen] = useState<boolean>(false);
-  const [addBiznestDialogOpen, setAddBiznestDialogOpen] =
-    useState<boolean>(false);
-  const [selectedPolygon, setSelectedPolygon] =
-    useState<SelectedPolygon | null>(null);
 
   // API functions
   const fetchStandardPolygons = async () => {
@@ -260,29 +250,11 @@ const MapPage: React.FC = () => {
   };
 
   const handleAddBiznest = () => {
-    console.log("Add Biznest button clicked");
-
-    if (userPolygons.length === 0) {
-      setHelpDialogOpen(true);
-      return;
-    }
-
-    const latestPolygon = userPolygons[userPolygons.length - 1];
-    setSelectedPolygon({
-      id: userPolygons.length,
-      paths: latestPolygon.paths,
-    });
-    setAddBiznestDialogOpen(true);
+    navigate('/maps/ai');
   };
 
   const handleHelp = () => {
     setHelpDialogOpen(true);
-  };
-
-  const handleAddBiznestConfirm = () => {
-    console.log("Biznest site confirmed for polygon:", selectedPolygon);
-    setAddBiznestDialogOpen(false);
-    setSelectedPolygon(null);
   };
 
   const handleLocationSelect = (locationData: LocationData) => {
@@ -419,14 +391,6 @@ const MapPage: React.FC = () => {
           <HelpDialog
             isOpen={helpDialogOpen}
             onClose={() => setHelpDialogOpen(false)}
-          />
-
-          <AddBiznestDialog
-            isOpen={addBiznestDialogOpen}
-            onClose={() => setAddBiznestDialogOpen(false)}
-            onConfirm={handleAddBiznestConfirm}
-            polygonId={selectedPolygon?.id || 0}
-            polygonPaths={selectedPolygon?.paths}
           />
         </div>
 
