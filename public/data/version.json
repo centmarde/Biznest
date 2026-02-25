@@ -1,10 +1,26 @@
-{
-    "version": "1.0.0",
-    "versionName": "MVP release",
-    "description": "Initial release of the MVP version",
-    "changelog": [
-        "implement geolocation feature on business owners view",
-        "Bug fix for issue gmap",
-        "Performance improvements"
-    ]
-}
+[
+    {
+        "version": "1.0.1",
+        "versionName": "Business Intelligence Update",
+        "description": "Enhanced business suggestion system with AI-powered recommendations",
+        "changelog": [
+            "Implemented AI-powered business suggestion system with intelligent selection",
+            "Added comprehensive business recommendation dialog with auto-open functionality",
+            "Enhanced business analysis with scoring algorithm based on lot characteristics",
+            "Improved UI with 3-column responsive grid layout for business suggestions",
+            "Integrated theme system support for business recommendation components",
+            "Added robust fallback system for business data selection",
+            "Fixed TypeScript compilation errors across business suggestion components"
+        ]
+    },
+    {
+        "version": "1.0.0",
+        "versionName": "MVP release",
+        "description": "Initial release of the MVP version",
+        "changelog": [
+            "implement geolocation feature on business owners view",
+            "Bug fix for issue gmap",
+            "Performance improvements"
+        ]
+    }
+]
