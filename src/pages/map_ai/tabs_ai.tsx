@@ -105,35 +105,33 @@ const MapAITabs: React.FC<MapAITabsProps> = ({
         </div>
         {/* Other Controls (right) */}
         <div className="flex gap-2">
-          {(drawingEnabled || hasDrawnPolygon) && (
-            <div title={!hasDrawnPolygon ? 'Please finish drawing a polygon first' : ''}>
-              <button
-                className="px-4 py-2 rounded-md transition-all duration-200 flex items-center gap-2 hover:shadow-md"
-                style={{
-                  backgroundColor: hasDrawnPolygon ? colors.secondary : colors.tertiary,
-                  color: colors.background,
-                  border: `1px solid ${hasDrawnPolygon ? colors.secondary : colors.tertiary}`,
-                  fontWeight: '500',
-                  opacity: hasDrawnPolygon ? 1 : 0.5,
-                  cursor: hasDrawnPolygon ? 'pointer' : 'not-allowed',
-                }}
-                onClick={hasDrawnPolygon ? handleAnalyze : undefined}
-                onMouseEnter={(e) => {
-                  if (!hasDrawnPolygon) return;
-                  e.currentTarget.style.backgroundColor = colors.primary;
-                  e.currentTarget.style.borderColor = colors.primary;
-                }}
-                onMouseLeave={(e) => {
-                  if (!hasDrawnPolygon) return;
-                  e.currentTarget.style.backgroundColor = colors.secondary;
-                  e.currentTarget.style.borderColor = colors.secondary;
-                }}
-              >
-                <PlusSquare size={18} />
-                Analyze
-              </button>
-            </div>
-          )}
+          <div title={!hasDrawnPolygon ? (!drawingEnabled ? 'Click Start Drawing first, then complete a polygon' : 'Please finish drawing a polygon first') : ''}>
+            <button
+              className="px-4 py-2 rounded-md transition-all duration-200 flex items-center gap-2 hover:shadow-md"
+              style={{
+                backgroundColor: hasDrawnPolygon ? colors.secondary : colors.tertiary,
+                color: colors.background,
+                border: `1px solid ${hasDrawnPolygon ? colors.secondary : colors.tertiary}`,
+                fontWeight: '500',
+                opacity: hasDrawnPolygon ? 1 : 0.4,
+                cursor: hasDrawnPolygon ? 'pointer' : 'not-allowed',
+              }}
+              onClick={hasDrawnPolygon ? handleAnalyze : undefined}
+              onMouseEnter={(e) => {
+                if (!hasDrawnPolygon) return;
+                e.currentTarget.style.backgroundColor = colors.primary;
+                e.currentTarget.style.borderColor = colors.primary;
+              }}
+              onMouseLeave={(e) => {
+                if (!hasDrawnPolygon) return;
+                e.currentTarget.style.backgroundColor = colors.secondary;
+                e.currentTarget.style.borderColor = colors.secondary;
+              }}
+            >
+              <PlusSquare size={18} />
+              Analyze
+            </button>
+          </div>
           <button
             className="px-4 py-2 rounded-md transition-all duration-200 flex items-center gap-2 hover:shadow-md"
             style={{
