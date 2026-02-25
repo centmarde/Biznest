@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import DefaultLayout from "@/layout/default";
 import { useTheme } from "@/theme/theme";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
@@ -26,36 +27,48 @@ L.Icon.Default.mergeOptions({
 const suggestedLocations = [
   {
     id: 1,
-    address: "2847 Commerce Boulevard, IT Park, Cebu City",
-    position: [10.332, 123.905] as [number, number],
+    rank: 1,
+    rankLabel: "Best Pick",
+    rankColor: "#F59E0B",
+    rankBadge: "🥇",
+    address: "J.C. Aquino Avenue, Butuan City, Agusan del Norte",
+    position: [8.9470, 125.5406] as [number, number],
     spaceType: "For Rent",
-    price: "₱50,000/month",
+    price: "₱25,000/month",
     size: "150 sqm",
     feedback:
-      "High foot traffic area with many offices nearby. Great visibility and accessibility.",
-    poi: "Near restaurants, banks, and transportation hubs",
+      "Prime commercial area with high foot traffic. Located near government offices, banks, and major shopping centers.",
+    poi: "Near Butuan City Hall, banks, Gaisano Grand Mall, and transportation terminals",
   },
   {
     id: 2,
-    address: "123 Main Street, Mabolo, Cebu City",
-    position: [10.316, 123.918] as [number, number],
+    rank: 2,
+    rankLabel: "2nd Choice",
+    rankColor: "#9CA3AF",
+    rankBadge: "🥈",
+    address: "Montilla Boulevard, Butuan City, Agusan del Norte",
+    position: [8.9494, 125.5447] as [number, number],
     spaceType: "For Sale",
-    price: "₱8,500,000",
+    price: "₱4,500,000",
     size: "200 sqm",
     feedback:
-      "Residential area with growing commercial presence. Good for neighborhood businesses.",
-    poi: "Close to schools, hospitals, and residential communities",
+      "Growing commercial district with mixed residential and business establishments. Great for community-focused businesses.",
+    poi: "Close to schools, hospitals, residential subdivisions, and public market",
   },
   {
     id: 3,
-    address: "456 Coastal Road, Talisay City",
-    position: [10.25, 123.84] as [number, number],
+    rank: 3,
+    rankLabel: "3rd Choice",
+    rankColor: "#B45309",
+    rankBadge: "🥉",
+    address: "Langihan Road, Butuan City, Agusan del Norte",
+    position: [8.9350, 125.5280] as [number, number],
     spaceType: "For Rent",
-    price: "₱35,000/month",
+    price: "₱18,000/month",
     size: "120 sqm",
     feedback:
-      "Developing area with new infrastructure. Lower rent with high growth potential.",
-    poi: "Near shopping centers, public market, and main highway",
+      "Emerging commercial area with lower rental costs. Good for startups and businesses targeting local communities.",
+    poi: "Near Butuan National High School, barangay halls, and residential areas",
   },
 ];
 
@@ -69,17 +82,18 @@ const BusinessIdeaResult: React.FC = () => {
     logMemoryState();
 
     async function fetchAIAnalysis() {
-      const prompt = `Based on this business information, suggest ideal locations:
+      const prompt = `Based on this business information, suggest ideal locations in Butuan City, Agusan del Norte, Philippines:
       
 Business Type: ${businessData.businessType}
 Capital: ${businessData.capital}
 Operating Hours: ${businessData.operatingHours}
 
-Please provide:
-1. Recommended locations/areas
-2. Reasons why each location suits this business
-3. Points of Interest (POI) that benefit this business type
-4. Space requirements and pricing expectations`;
+Please provide analysis specifically for Butuan City:
+1. Recommended locations/areas in Butuan City
+2. Reasons why each location suits this business in the local Butuan context
+3. Points of Interest (POI) that benefit this business type in Butuan
+4. Space requirements and pricing expectations for Butuan City market
+5. Local business considerations and opportunities in Agusan del Norte region`;
 
       const { getResponse } = Response();
       const aiText = await getResponse(prompt);
@@ -186,10 +200,170 @@ Please provide:
             </div>
           </CardContent>
         </Card>
+          {/* Location Cards - 1 row, 3 columns with ranking */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+          {suggestedLocations.map((location) => (
+            <Card
+              key={location.id}
+              className="flex flex-col overflow-hidden"
+              style={{
+                backgroundColor: theme.colors.background,
+                borderColor: location.rank === 1 ? location.rankColor : theme.colors.tertiary,
+                borderWidth: location.rank === 1 ? "2px" : "1px",
+              }}
+            >
+              {/* Rank Header */}
+              <div
+                className="flex items-center justify-between px-4 py-3"
+                style={{ backgroundColor: `${location.rankColor}20` }}
+              >
+                <div className="flex items-center gap-2">
+                  <span className="text-2xl">{location.rankBadge}</span>
+                  <span
+                    className="font-bold text-sm"
+                    style={{ color: location.rankColor }}
+                  >
+                    {location.rankLabel}
+                  </span>
+                </div>
+                <Badge
+                  style={{
+                    backgroundColor: `${location.rankColor}20`,
+                    color: location.rankColor,
+                    borderColor: location.rankColor,
+                    border: "1px solid"
+                  }}
+                >
+                  #{location.rank}
+                </Badge>
+              </div>
+
+              <CardHeader className="pb-2">
+                <CardTitle
+                  className="flex items-start gap-2 text-sm leading-tight"
+                  style={{ color: theme.colors.primary }}
+                >
+                  <MapPin className="w-4 h-4 mt-0.5 flex-shrink-0" />
+                  <span>{location.address}</span>
+                </CardTitle>
+              </CardHeader>
+
+              <CardContent className="flex flex-col gap-4 flex-1">
+                {/* Details Grid */}
+                <div className="grid grid-cols-3 gap-2 text-center">
+                  <div
+                    className="rounded-lg p-2"
+                    style={{ backgroundColor: `${theme.colors.primary}10` }}
+                  >
+                    <p className="text-xs mb-1" style={{ color: theme.colors.mutedText }}>Type</p>
+                    <p className="text-xs font-semibold" style={{ color: theme.colors.text }}>
+                      {location.spaceType}
+                    </p>
+                  </div>
+                  <div
+                    className="rounded-lg p-2"
+                    style={{ backgroundColor: `${theme.colors.primary}10` }}
+                  >
+                    <p className="text-xs mb-1" style={{ color: theme.colors.mutedText }}>Price</p>
+                    <p className="text-xs font-semibold" style={{ color: theme.colors.primary }}>
+                      {location.price}
+                    </p>
+                  </div>
+                  <div
+                    className="rounded-lg p-2"
+                    style={{ backgroundColor: `${theme.colors.primary}10` }}
+                  >
+                    <p className="text-xs mb-1" style={{ color: theme.colors.mutedText }}>Size</p>
+                    <p className="text-xs font-semibold" style={{ color: theme.colors.text }}>
+                      {location.size}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Feedback */}
+                <div>
+                  <p
+                    className="text-xs font-semibold mb-1"
+                    style={{ color: theme.colors.primary }}
+                  >
+                    Why this location?
+                  </p>
+                  <p className="text-xs leading-relaxed" style={{ color: theme.colors.text }}>
+                    {location.feedback}
+                  </p>
+                </div>
+
+                {/* POI */}
+                <div>
+                  <p
+                    className="text-xs font-semibold mb-1"
+                    style={{ color: theme.colors.primary }}
+                  >
+                    Points of Interest
+                  </p>
+                  <p className="text-xs leading-relaxed" style={{ color: theme.colors.mutedText }}>
+                    {location.poi}
+                  </p>
+                </div>
+
+                {/* Mini Map */}
+                <div className="rounded-lg overflow-hidden" style={{ height: "160px" }}>
+                  <MapContainer
+                    center={location.position}
+                    zoom={15}
+                    style={{ height: "100%", width: "100%" }}
+                  >
+                    <TileLayer
+                      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                      attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                    />
+                    <Marker position={location.position}>
+                      <Popup>{location.address}</Popup>
+                    </Marker>
+                  </MapContainer>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+            {/* Overview Map */}
+        <Card
+          style={{
+            backgroundColor: theme.colors.background,
+            borderColor: theme.colors.tertiary,
+          }}
+        >
+          <CardHeader>
+            <CardTitle style={{ color: theme.colors.primary }}>
+              All Locations Overview — Butuan City
+            </CardTitle>
+          </CardHeader>
+          <CardContent style={{ height: "400px" }}>
+            <MapContainer
+              center={[8.9470, 125.5406]}
+              zoom={13}
+              style={{ height: "100%", width: "100%", borderRadius: "8px" }}
+            >
+              <TileLayer
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              />
+              {suggestedLocations.map((loc) => (
+                <Marker key={loc.id} position={loc.position}>
+                  <Popup>
+                    <strong>{loc.rankBadge} {loc.rankLabel}</strong><br />
+                    {loc.address}<br />
+                    {loc.spaceType}: {loc.price}
+                  </Popup>
+                </Marker>
+              ))}
+            </MapContainer>
+          </CardContent>
+        </Card>
 
         {/* AI Analysis Section */}
         <Card
-          className="mb-8 pb-4"
+          className="my-8 pb-4"
           style={{
             backgroundColor: theme.colors.background,
             borderColor: theme.colors.tertiary,
@@ -232,192 +406,9 @@ Please provide:
           </CardContent>
         </Card>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Location Cards */}
-          <div className="lg:col-span-2 space-y-6">
-            {suggestedLocations.map((location) => (
-              <Card
-                key={location.id}
-                style={{
-                  backgroundColor: theme.colors.background,
-                  borderColor: theme.colors.tertiary,
-                }}
-                className="pb-8"
-              >
-                <CardHeader>
-                  <CardTitle
-                    className="flex items-center space-x-2"
-                    style={{ color: theme.colors.primary }}
-                  >
-                    <MapPin className="w-5 h-5" />
-                    <span>{location.address}</span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <div
-                        style={{
-                          fontSize: "0.875rem",
-                          color: theme.colors.mutedText,
-                          marginBottom: "4px",
-                        }}
-                      >
-                        Type
-                      </div>
-                      <div
-                        style={{ fontWeight: "600", color: theme.colors.text }}
-                      >
-                        {location.spaceType}
-                      </div>
-                    </div>
-                    <div>
-                      <div
-                        style={{
-                          fontSize: "0.875rem",
-                          color: theme.colors.mutedText,
-                          marginBottom: "4px",
-                        }}
-                      >
-                        Price
-                      </div>
-                      <div
-                        style={{
-                          fontWeight: "600",
-                          color: theme.colors.primary,
-                        }}
-                      >
-                        {location.price}
-                      </div>
-                    </div>
-                    <div>
-                      <div
-                        style={{
-                          fontSize: "0.875rem",
-                          color: theme.colors.mutedText,
-                          marginBottom: "4px",
-                        }}
-                      >
-                        Size
-                      </div>
-                      <div
-                        style={{ fontWeight: "600", color: theme.colors.text }}
-                      >
-                        {location.size}
-                      </div>
-                    </div>
-                  </div>
+      
 
-                  <div>
-                    <div
-                      style={{
-                        fontSize: "0.875rem",
-                        fontWeight: "600",
-                        color: theme.colors.primary,
-                        marginBottom: "8px",
-                      }}
-                    >
-                      Feedback & Reason
-                    </div>
-                    <p
-                      style={{
-                        fontSize: "0.95rem",
-                        color: theme.colors.text,
-                        marginBottom: "12px",
-                      }}
-                    >
-                      {location.feedback}
-                    </p>
-                  </div>
-
-                  <div>
-                    <div
-                      style={{
-                        fontSize: "0.875rem",
-                        fontWeight: "600",
-                        color: theme.colors.primary,
-                        marginBottom: "8px",
-                      }}
-                    >
-                      Points of Interest (POI)
-                    </div>
-                    <p
-                      style={{ fontSize: "0.95rem", color: theme.colors.text }}
-                    >
-                      {location.poi}
-                    </p>
-                  </div>
-
-                  {/* Mini Map for each location */}
-                  <div
-                    style={{
-                      height: "200px",
-                      width: "100%",
-                      marginTop: "16px",
-                    }}
-                  >
-                    <MapContainer
-                      center={location.position}
-                      zoom={15}
-                      style={{
-                        height: "100%",
-                        width: "100%",
-                        borderRadius: "8px",
-                      }}
-                    >
-                      <TileLayer
-                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                      />
-                      <Marker position={location.position}>
-                        <Popup>{location.address}</Popup>
-                      </Marker>
-                    </MapContainer>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-
-          {/* Overview Map */}
-          <div>
-            <Card
-              style={{
-                backgroundColor: theme.colors.background,
-                borderColor: theme.colors.tertiary,
-                position: "sticky",
-                top: "20px",
-              }}
-            >
-              <CardHeader>
-                <CardTitle style={{ color: theme.colors.primary }}>
-                  All Locations Overview
-                </CardTitle>
-              </CardHeader>
-              <CardContent style={{ height: "600px" }}>
-                <MapContainer
-                  center={[10.3157, 123.8854]}
-                  zoom={12}
-                  style={{ height: "100%", width: "100%", borderRadius: "8px" }}
-                >
-                  <TileLayer
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                  />
-                  {suggestedLocations.map((loc) => (
-                    <Marker key={loc.id} position={loc.position}>
-                      <Popup>
-                        <strong>{loc.address}</strong>
-                        <br />
-                        {loc.spaceType}: {loc.price}
-                      </Popup>
-                    </Marker>
-                  ))}
-                </MapContainer>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
+    
       </div>
     </DefaultLayout>
   );

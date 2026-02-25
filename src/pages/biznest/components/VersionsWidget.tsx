@@ -15,6 +15,8 @@ interface VersionLog {
   changelog: string[];
 }
 
+type VersionData = VersionLog[];
+
 interface VersionsWidgetProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -23,6 +25,7 @@ interface VersionsWidgetProps {
 const VersionsWidget: React.FC<VersionsWidgetProps> = ({ open, onOpenChange }) => {
   const theme = useTheme();
   const [versionLog, setVersionLog] = useState<VersionLog | null>(null);
+  const [allVersions, setAllVersions] = useState<VersionData>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -34,8 +37,13 @@ const VersionsWidget: React.FC<VersionsWidgetProps> = ({ open, onOpenChange }) =
       setError(null);
       
       try {
-        const response = await axios.get<VersionLog>('/data/version.json');
-        setVersionLog(response.data);
+        const response = await axios.get<VersionData>('/data/version.json');
+        const versions = response.data;
+        setAllVersions(versions);
+        // Set the latest version (first in array) as the current version
+        if (versions && versions.length > 0) {
+          setVersionLog(versions[0]);
+        }
       } catch (err) {
         console.error('Failed to fetch version data:', err);
         setError('Failed to load version information');
@@ -204,6 +212,57 @@ const VersionsWidget: React.FC<VersionsWidgetProps> = ({ open, onOpenChange }) =
                 </div>
               </CardContent>
             </Card>
+
+            {/* Version History */}
+            {allVersions.length > 1 && (
+              <Card style={theme.components.card}>
+                <CardHeader className="pb-3">
+                  <CardTitle 
+                    className="text-lg"
+                    style={{ 
+                      ...theme.components.text.heading,
+                      fontSize: '1.125rem'
+                    }}
+                  >
+                    Version History
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="pt-0">
+                  <div className="space-y-3">
+                    {allVersions.slice(1).map((version, index) => (
+                      <div key={index} className="flex items-center justify-between py-2 border-l-2 pl-4" style={{ borderLeftColor: theme.colors.tertiary }}>
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <Badge 
+                              variant="outline"
+                              style={{
+                                borderColor: theme.colors.secondary,
+                                color: theme.colors.mutedText,
+                                backgroundColor: 'transparent'
+                              }}
+                            >
+                              v{version.version}
+                            </Badge>
+                            <span 
+                              className="text-sm font-medium"
+                              style={{ color: theme.colors.text }}
+                            >
+                              {version.versionName}
+                            </span>
+                          </div>
+                          <p 
+                            className="text-xs mt-1"
+                            style={{ color: theme.colors.mutedText }}
+                          >
+                            {version.description}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
 
             <Separator style={{ backgroundColor: theme.colors.tertiary }} />
 

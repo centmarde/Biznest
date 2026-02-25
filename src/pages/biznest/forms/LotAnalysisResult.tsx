@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import DefaultLayout from "@/layout/default";
 import { useTheme } from "@/theme/theme";
 import { BusinessLotAnalysisResults as BusinessLotAnalysisResults } from "@/pages/biznest/components/FinalLotResult";
+import LotAnalysisSuggestion from "@/pages/biznest/components/LotAnalysisSuggestion";
 // Zustand stores and logMemoryState import
 import { logMemoryState } from "../data/memory-option-1";
 
@@ -30,6 +31,12 @@ const LotAnalysisResult: React.FC = () => {
           including business suggestions, POI, and zoning information.
         </p>
 
+        {/* AI Business Suggestions Section */}
+        <div className="mb-12">
+          <LotAnalysisSuggestion autoOpenDialog={true} />
+        </div>
+
+        {/* Existing Analysis Results */}
         <BusinessLotAnalysisResults />
       </div>
     </DefaultLayout>
