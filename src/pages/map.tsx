@@ -8,17 +8,6 @@ import { ThemeProvider, useTheme } from "../theme/theme";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import HeatmapToggler from "./maps/heatmap-toggler";
-import OriginDensityIndicator from "./maps/origin";
-import {
-  Home,
-  ShoppingBag,
-  Hospital,
-  Utensils,
-  Monitor,
-  Factory,
-  Truck,
-  Banknote,
-} from "lucide-react";
 // Types
 interface Marker {
   lat: number;
@@ -311,48 +300,43 @@ const MapPage: React.FC = () => {
                   />
                 </div>
 
-                {/* List all category origins below MapPreview */}
-                <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 mt-5 px-2 md:px-0">
-                  <OriginDensityIndicator
-                    id="retail"
-                    title="🛍️ Retail & Consumer Goods"
-                    icon={ShoppingBag}
-                  />
-                  <OriginDensityIndicator
-                    id="food_beverage"
-                    title="🍽️ Food & Beverage"
-                    icon={Utensils}
-                  />
-                  <OriginDensityIndicator
-                    id="tech_industry"
-                    title="💻 Technology & IT Services"
-                    icon={Monitor}
-                  />
-                  <OriginDensityIndicator
-                    id="manufacturing"
-                    title="🏭 Manufacturing & Industrial"
-                    icon={Factory}
-                  />
-                  <OriginDensityIndicator
-                    id="real_estate"
-                    title="🏘️ Real Estate & Property"
-                    icon={Home}
-                  />
-                  <OriginDensityIndicator
-                    id="logistics"
-                    title="🚚 Logistics & Warehousing"
-                    icon={Truck}
-                  />
-                  <OriginDensityIndicator
-                    id="finance"
-                    title="💰 Finance & Insurance"
-                    icon={Banknote}
-                  />
-                  <OriginDensityIndicator
-                    id="healthcare"
-                    title="🏥 Healthcare & Wellness"
-                    icon={Hospital}
-                  />
+                {/* Category Origins Section */}
+                <div className="mt-5 px-2 md:px-0">
+                  <h3 className="text-sm font-semibold text-gray-700 mb-3 text-center">Origins:</h3>
+                  <div className="grid grid-cols-4 gap-3">
+                    <div className="flex items-center gap-1 cursor-pointer hover:scale-105 transition-transform justify-center">
+                      <div className="w-4 h-4 bg-blue-500 rounded-full" />
+                      <span className="text-xs text-gray-600">Retail</span>
+                    </div>
+                    <div className="flex items-center gap-1 cursor-pointer hover:scale-105 transition-transform justify-center">
+                      <div className="w-4 h-4 bg-orange-500 rounded-full" />
+                      <span className="text-xs text-gray-600">Food & Beverage</span>
+                    </div>
+                    <div className="flex items-center gap-1 cursor-pointer hover:scale-105 transition-transform justify-center">
+                      <div className="w-4 h-4 bg-purple-500 rounded-full" />
+                      <span className="text-xs text-gray-600">Technology</span>
+                    </div>
+                    <div className="flex items-center gap-1 cursor-pointer hover:scale-105 transition-transform justify-center">
+                      <div className="w-4 h-4 bg-gray-600 rounded-full" />
+                      <span className="text-xs text-gray-600">Manufacturing</span>
+                    </div>
+                    <div className="flex items-center gap-1 cursor-pointer hover:scale-105 transition-transform justify-center">
+                      <div className="w-4 h-4 bg-green-500 rounded-full" />
+                      <span className="text-xs text-gray-600">Real Estate</span>
+                    </div>
+                    <div className="flex items-center gap-1 cursor-pointer hover:scale-105 transition-transform justify-center">
+                      <div className="w-4 h-4 bg-yellow-500 rounded-full" />
+                      <span className="text-xs text-gray-600">Logistics</span>
+                    </div>
+                    <div className="flex items-center gap-1 cursor-pointer hover:scale-105 transition-transform justify-center">
+                      <div className="w-4 h-4 bg-emerald-500 rounded-full" />
+                      <span className="text-xs text-gray-600">Finance</span>
+                    </div>
+                    <div className="flex items-center gap-1 cursor-pointer hover:scale-105 transition-transform justify-center">
+                      <div className="w-4 h-4 bg-red-500 rounded-full" />
+                      <span className="text-xs text-gray-600">Healthcare</span>
+                    </div>
+                  </div>
                 </div>
 
                 {/* Loading Overlay */}
