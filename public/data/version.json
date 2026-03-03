@@ -1,5 +1,21 @@
 [
     {
+        "version": "1.0.4",
+        "versionName": "Map Interface Optimization Update",
+        "description": "Streamlined map interface with simplified category origins and enhanced heatmap layer selection",
+        "changelog": [
+            "Simplified category origins display from multi-row grid to compact 2-row, 4-column layout with 'Origins:' header",
+            "Replaced complex icon-text combinations with simple colored circles and concise labels in origins section",
+            "Streamlined heatmap layer categories from 7 complex categories to 4 core zoning types: Residential, Commercial, Industrial, Mixed Use",
+            "Removed expandable subcategories and 'Update' buttons from heatmap toggler for cleaner UI",
+            "Implemented confirmation dialog for heatmap layer selection with blur backdrop effect instead of dark overlay",
+            "Added dual-action zone selection: users can choose between 'Add Zone' (permanent) or 'View as Filter' (temporary)",
+            "Enhanced dialog UX with visual selection indicators, dynamic button text, and clear action descriptions",
+            "Removed unused Lucide React icon imports and cleaned up component dependencies",
+            "Updated heatmap selection flow to require user confirmation before applying zone changes"
+        ]
+    },
+    {
         "version": "1.0.3",
         "versionName": "Map AI Zoning Flow Update",
         "description": "Revamped map AI page with guided zoning analysis flow and improved drawing controls",
