@@ -177,9 +177,33 @@ const MapPreview: React.FC<MapPreviewProps> = ({
         drawingManager, 
         'polygoncomplete', 
         (polygon: any) => {
+          // Extract coordinates from Google Maps polygon object
+          const path = polygon.getPath();
+          const coordinates: Array<{ lat: number; lng: number }> = [];
+          
+          // Convert Google Maps LatLng objects to plain objects
+          for (let i = 0; i < path.getLength(); i++) {
+            const latLng = path.getAt(i);
+            coordinates.push({
+              lat: latLng.lat(),
+              lng: latLng.lng()
+            });
+          }
+          
+          // Create formatted polygon data
+          const polygonData = {
+            paths: coordinates,
+            options: {
+              fillColor: "#FFD600",
+              fillOpacity: 0.5,
+              strokeColor: "#FFD600",
+              strokeWeight: 2,
+            }
+          };
+          
           // Call the callback if provided
           if (onPolygonComplete) {
-            onPolygonComplete(polygon);
+            onPolygonComplete(polygonData);
           }
           
           // Reset drawing mode
