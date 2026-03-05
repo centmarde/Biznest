@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
-import CoordinatesInput from "./map_ai/coordinates";
 import DefaultLayout from "../layout/default";
 import MapPreview from "./maps/map_preview";
 import HelpDialog from "./maps/dialogs/help_dialog";
+import DebugCoordinatesDialog from "./map_ai/dialogs/debug-coordinates-dialog";
 import ChatButton from "@/components/AIrelated/ChatButton";
 import { ThemeProvider, useTheme } from "../theme/theme";
 import axios from "axios";
@@ -64,17 +64,14 @@ const MapAIPage: React.FC = () => {
   const [floodVisible /* , setFloodVisible */] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
   const [helpDialogOpen, setHelpDialogOpen] = useState<boolean>(true);
+  const [debugDialogOpen, setDebugDialogOpen] = useState<boolean>(false);
+  const [lastDrawnPolygon, setLastDrawnPolygon] = useState<Array<{ lat: number; lng: number }>>([]);
   const [drawingEnabled, setDrawingEnabled] = useState<boolean>(false);
   const [userDrawnPolygonCount, setUserDrawnPolygonCount] = useState<number>(0);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [drawingManager, setDrawingManager] = useState<any>(null); // Google Maps Drawing Manager - external library type
 
-  // Coordinates input state
-  const [coordinates, setCoordinates] = useState<
-    Array<{ lat: number; lng: number }>
-  >([{ lat: 8.947538, lng: 125.540623 }]);
 
-  // ...existing code...
 
   // Initial data fetch on component mount
   useEffect(() => {
@@ -132,11 +129,17 @@ const MapAIPage: React.FC = () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     drawingManagerArg: any // Google Maps Drawing Manager - external library type
   ) => {
-    // Update coordinates input with drawn polygon
+    // Show debug dialog with drawn polygon coordinates
     if (polygon?.paths?.length) {
-      setCoordinates(polygon.paths);
+      // Update polygon count
+      const newCount = userDrawnPolygonCount + 1;
+      setUserDrawnPolygonCount(newCount);
+      
+      // Set polygon data and open dialog
+      setLastDrawnPolygon(polygon.paths);
+      setDebugDialogOpen(true);
     }
-    setUserDrawnPolygonCount(prev => prev + 1);
+    
     // Call original handler
     handlePolygonComplete(
       polygon,
@@ -180,10 +183,10 @@ const MapAIPage: React.FC = () => {
             }}
           />
 
-          {/* Responsive 2-Column Grid Layout (copied from map.tsx) */}
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-6 mb-8">
-            {/* Map Column (8/12 on md+, full on mobile) */}
-            <div className="md:col-span-8 col-span-1 w-full">
+          {/* Full Width Map Layout */}
+          <div className="w-full mb-8">
+            {/* Map Column (full width) */}
+            <div className="w-full">
               <div className="relative">
                 <div
                   className="rounded-lg overflow-hidden shadow"
@@ -251,20 +254,19 @@ const MapAIPage: React.FC = () => {
                 )}
               </div>
             </div>
-            {/* Sidebar Column (4/12 on md+, full on mobile) */}
-            <div className="md:col-span-4 col-span-1 w-full">
-              {/* Coordinates Input */}
-              <CoordinatesInput
-                coordinates={coordinates}
-                onChange={setCoordinates}
-              />
-            </div>
+          
           </div>
 
           {/* Dialogs */}
           <HelpDialog
             isOpen={helpDialogOpen}
             onClose={() => setHelpDialogOpen(false)}
+          />
+          <DebugCoordinatesDialog
+            isOpen={debugDialogOpen}
+            onClose={() => setDebugDialogOpen(false)}
+            coordinates={lastDrawnPolygon}
+            polygonName={`AI Polygon ${userDrawnPolygonCount}`}
           />
         </div>
         <ChatButton />
